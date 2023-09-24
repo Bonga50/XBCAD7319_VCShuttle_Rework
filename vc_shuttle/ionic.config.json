@@ -1,0 +1,7 @@
+{
+  "name": "vc_shuttle",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
