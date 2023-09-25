@@ -17,7 +17,7 @@ const ShuttleDropDown: React.FC<ContainerProps> = () => {
     return (
         <div>
             <IonList>
-                <IonItem>
+                <IonItem className='ion-padding'>
                     <IonSelect aria-label="Shuttles" placeholder="Select a Shuttle">
                         {shuttles.map((shuttle) => (
                         <IonSelectOption key={shuttle.shuttleID} value={shuttle.shuttleID}>
