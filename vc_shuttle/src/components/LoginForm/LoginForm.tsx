@@ -1,4 +1,4 @@
-import { IonButton, IonCol, IonContent, IonGrid, IonHeader, IonImg, IonInput, IonLabel, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonCol, IonGrid, IonInput, IonRow, } from '@ionic/react';
 import React from 'react';
 import PlaceHolderLogo from '../../resources/images/placeholderimage_logo.png';
 import './LoginForm.css'

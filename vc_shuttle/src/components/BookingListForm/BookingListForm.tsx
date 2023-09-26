@@ -1,4 +1,4 @@
-import { IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import {IonItem, IonLabel,IonList} from '@ionic/react';
 import React, { useEffect, useState } from 'react';
 import { Booking } from '../../models/Booking';
 import { BookDataHandler } from '../../Data/BookDataHandler';

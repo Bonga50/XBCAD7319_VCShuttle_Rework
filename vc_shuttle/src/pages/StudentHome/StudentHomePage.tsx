@@ -1,4 +1,4 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import React from 'react';
 import ShuttleDropDown from '../../components/ShuttleDropDown/ShuttleDropDownForm';
 import ShuttleDetailsForm from '../../components/ShuttleDetailsForm/ShuttleDetailsFrom';
@@ -13,6 +13,7 @@ const StudentHome: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent className="ion-padding">
+                <IonButton routerLink='/ShuttleBooking' className='ion-padding'>Book</IonButton>
                 <ShuttleDropDown/>
                 <ShuttleDetailsForm/>
                 <BookingListForm/>

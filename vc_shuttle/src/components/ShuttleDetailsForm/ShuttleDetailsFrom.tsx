@@ -1,4 +1,4 @@
-import { IonButton, IonCard, IonCardContent, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonIcon, IonPage, IonProgressBar, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonCard, IonCardContent, IonCardSubtitle, IonCardTitle, IonHeader,  IonProgressBar } from '@ionic/react';
 import React from 'react';
 import busIcon from '../../resources/images/iconbus.png'
 
