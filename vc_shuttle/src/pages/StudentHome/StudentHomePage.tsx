@@ -16,7 +16,9 @@ const StudentHome: React.FC = () => {
                 <IonButton routerLink='/ShuttleBooking' className='ion-padding'>Book</IonButton>
                 <ShuttleDropDown/>
                 <ShuttleDetailsForm/>
+                <IonButton routerLink='/StudentBookingList' className='ion-padding'>LIST</IonButton>
                 <BookingListForm/>
+                
             </IonContent>
         </IonPage>
     );
