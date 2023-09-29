@@ -1,4 +1,4 @@
-import { Locations } from "../models/Locations";
+import { Locations } from './../models/Locations';
 
 export class LocationHandler{
     private locations: Locations[];
@@ -17,6 +17,11 @@ export class LocationHandler{
 
     getLocations():Locations[] {
         return this.locations;
+    }
+
+    getexcludedLocations(locationName:String):Locations[] {
+        var tempLoaction : Locations[] = this.locations.filter(loc => loc.locationName === locationName);
+        return tempLoaction;
     }
 
 }
