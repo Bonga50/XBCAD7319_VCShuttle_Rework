@@ -9,7 +9,7 @@ const StudentBookingListForm: React.FC<ContainerProps> = () => {
     
     const [bookings,setBookings] = useState<Booking[]>([]);
     const [activebookings,setActiveBookings] = useState<Booking[]>([]);
-    const dataHandler = new BookDataHandler();
+    const dataHandler = BookDataHandler.getInstance();
 
     useEffect(() => {
         setBookings(dataHandler.getBookings());

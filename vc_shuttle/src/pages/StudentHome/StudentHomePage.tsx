@@ -14,7 +14,9 @@ const StudentHome: React.FC = () => {
             </IonHeader>
             <IonContent className="ion-padding">
                 <IonButton routerLink='/ShuttleBooking' className='ion-padding'>Book</IonButton>
-                <ShuttleDropDown/>
+                <ShuttleDropDown onShuttleSelect={function (shuttleID: number): void {
+                    throw new Error('Function not implemented.');
+                } }/>
                 <ShuttleDetailsForm/>
                 <IonButton routerLink='/StudentBookingList' className='ion-padding'>LIST</IonButton>
                 <BookingListForm/>
