@@ -23,7 +23,7 @@ const ShuttleDetailsForm: React.FC<ContainerProps> = () => {
                 <IonCardContent>
                 Here's a small text description for the card content.
                 </IonCardContent>
-                    <IonButton className='ion-padding'>Track</IonButton>
+                    <IonButton routerLink='/StudentMap' className='ion-padding'>Track</IonButton>
                 </IonHeader>
             </IonCard>
         </div>

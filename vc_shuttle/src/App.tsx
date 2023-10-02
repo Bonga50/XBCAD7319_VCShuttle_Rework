@@ -24,6 +24,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import StudentMapPage from './pages/StudentMap/StudentMapPage';
 
 
 setupIonicReact();
@@ -43,6 +44,9 @@ const App: React.FC = () => (
         </Route>
         <Route exact path="/StudentBookingList">
           <StudentBookingList />
+        </Route>
+        <Route exact path="/StudentMap">
+          <StudentMapPage/>
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>

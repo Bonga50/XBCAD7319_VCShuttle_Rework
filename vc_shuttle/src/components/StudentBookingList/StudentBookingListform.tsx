@@ -13,17 +13,15 @@ const StudentBookingListForm: React.FC<ContainerProps> = () => {
 
     useEffect(() => {
         setBookings(dataHandler.getBookings());
-        
-      }, []);
-      useEffect(() => {
         setActiveBookings(dataHandler.getActiveBookings());
       }, []);
+    
       
 
     return (
       <div>
         <IonText className="ion-padding">Active</IonText>
-        <IonList>
+        <IonList inset={true}>
         {activebookings.map((activebookings) => (
             <IonItem key={activebookings.bookingId}>
               <IonLabel>
@@ -36,7 +34,7 @@ const StudentBookingListForm: React.FC<ContainerProps> = () => {
           ))}
         </IonList>
         <IonText className="ion-padding">All Bookings</IonText>
-        <IonList>
+        <IonList inset={true}>
         {bookings.map((bookings) => (
             <IonItem key={bookings.bookingId}>
                
