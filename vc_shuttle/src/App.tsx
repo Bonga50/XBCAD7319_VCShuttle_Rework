@@ -5,6 +5,7 @@ import Login from './pages/Login/LoginPage';
 import StudentHome from './pages/StudentHome/StudentHomePage';
 import ShuttleBookingPage from './pages/ShuttleBooking/ShuttleBookingPage';
 import StudentBookingList from './pages/StudentBookingList/StudentBookingList';
+import DriverHomePage from './pages/DriverHome/DriverHomePage';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -38,6 +39,9 @@ const App: React.FC = () => (
         </Route>
         <Route exact path="/StudentHome">
           <StudentHome />
+        </Route>
+        <Route exact path="/DriverHomePage">
+          <DriverHomePage />
         </Route>
         <Route exact path="/ShuttleBooking">
           <ShuttleBookingPage />
