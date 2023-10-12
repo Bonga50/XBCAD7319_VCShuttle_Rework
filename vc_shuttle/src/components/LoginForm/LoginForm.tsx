@@ -31,12 +31,14 @@ const LoginForm: React.FC<ContainerProps> = () => {
         if (username === null){
             console.log("Invalid username")
         }else{
-            var user = data.findUser("");
+            var user = data.findUser("janesmith@example.com");
             console.log(user);
             if(user?.role == "driver"){
                 history.push('/DriverHomePage'); // Redirect to admin page
             }else if(user?.role=="user"){
                 history.push('/StudentHome');
+            }else if(user?.role=="admin"){
+                history.push('/AdminHomePage');
             }
         }
         

@@ -2,11 +2,17 @@ import { User } from "../models/User";
 export class UserDataHandler{
 
     private userList: User[];
+    private statusList: string[];
 
     /**
      * setting the list of users
      */
     constructor() {
+        this.statusList = [
+          "Active",
+          "In-active",
+          "Idle"
+        ];
         this.userList = [
             {
                 id: 1,
@@ -14,6 +20,7 @@ export class UserDataHandler{
                 email: "johndoe@example.com",
                 password: "password1",
                 role: "admin",
+                status: "active"
               },
               {
                 id: 2,
@@ -21,6 +28,7 @@ export class UserDataHandler{
                 email: "janesmith@example.com",
                 password: "password2",
                 role: "driver",
+                status: "active"
               },
               {
                 id: 3,
@@ -28,6 +36,7 @@ export class UserDataHandler{
                 email: "alicejohnson@example.com",
                 password: "password3",
                 role: "user",
+                status: "active"
               },
         ]
 
@@ -36,6 +45,10 @@ export class UserDataHandler{
     
     public findUser(email:string): User|undefined {
         return this.userList.find(user => user.email === email)
+    }
+
+    public getStatuses(): string[] {
+      return this.statusList;
     }
 
 }

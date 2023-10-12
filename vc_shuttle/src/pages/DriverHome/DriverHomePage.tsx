@@ -1,7 +1,15 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import React from 'react';
+import { IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import React, { useEffect, useState } from 'react';
+import DriverStatusDropDown from '../../components/DriverStatusDropDown/DriverStatusDropDownForm';
+import DriverRouteDetailsForm from '../../components/RouteDetailsForm/DriverRouteDetailsForm';
 
 const DriverHomePage: React.FC = () => {
+    const [selectedDriverStatus, setDriverStatus] = useState<string>();
+
+    const handleDriverStatusSelect = (status: string) => {
+        setDriverStatus(status);
+        console.log('Selected Driver Status:', status); // Logging the selected driver status
+    };
 
     return (
         <IonPage>
@@ -11,7 +19,9 @@ const DriverHomePage: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent className="ion-padding">
-                UI goes here...
+                <DriverStatusDropDown onDriverStatusSelect={handleDriverStatusSelect}/>
+                <IonButton routerLink='/ShuttleBooking' className='ion-padding'>ROUTE</IonButton>
+                <DriverRouteDetailsForm/>
             </IonContent>
         </IonPage>
     );

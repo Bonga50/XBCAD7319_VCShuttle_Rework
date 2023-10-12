@@ -15,6 +15,7 @@ const ShuttleDetailsForm: React.FC<ContainerProps> = () => {
                     </div>
                         4 / 24 Seats
                     </IonCardTitle>
+                    </IonHeader>
                 <IonCardSubtitle className='ion-padding'>VC Sancdton - Sandton Gautrain</IonCardSubtitle>
                 <IonProgressBar>https://ionicframework.com/docs/api/progress-bar</IonProgressBar>
                 <IonCardContent>
@@ -24,7 +25,7 @@ const ShuttleDetailsForm: React.FC<ContainerProps> = () => {
                 Here's a small text description for the card content.
                 </IonCardContent>
                     <IonButton routerLink='/StudentMap' className='ion-padding'>Track</IonButton>
-                </IonHeader>
+                
             </IonCard>
         </div>
     );
