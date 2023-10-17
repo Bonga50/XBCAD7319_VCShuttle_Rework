@@ -20,7 +20,7 @@ const DriverHomePage: React.FC = () => {
             </IonHeader>
             <IonContent className="ion-padding">
                 <DriverStatusDropDown onDriverStatusSelect={handleDriverStatusSelect}/>
-                <IonButton routerLink='/ShuttleBooking' className='ion-padding'>ROUTE</IonButton>
+                <IonButton routerLink='/DriverCreateRoute' className='ion-padding'>ROUTE</IonButton>
                 <DriverRouteDetailsForm/>
             </IonContent>
         </IonPage>
