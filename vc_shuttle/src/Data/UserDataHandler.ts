@@ -17,7 +17,7 @@ export class UserDataHandler{
             {
                 id: 1,
                 name: "John Doe",
-                email: "johndoe@example.com",
+                email: "User1@ie.com",
                 password: "password1",
                 role: "admin",
                 status: "active"
@@ -25,7 +25,7 @@ export class UserDataHandler{
               {
                 id: 2,
                 name: "Jane Smith",
-                email: "janesmith@example.com",
+                email: "User2@ie.com",
                 password: "password2",
                 role: "driver",
                 status: "active"
@@ -33,7 +33,7 @@ export class UserDataHandler{
               {
                 id: 3,
                 name: "Alice Johnson",
-                email: "alicejohnson@example.com",
+                email: "User3@ie.com",
                 password: "password3",
                 role: "user",
                 status: "active"

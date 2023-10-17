@@ -31,7 +31,7 @@ const LoginForm: React.FC<ContainerProps> = () => {
         if (username === null){
             console.log("Invalid username")
         }else{
-            var user = data.findUser("janesmith@example.com");
+            var user = data.findUser(username!!);
             console.log(user);
             if(user?.role == "driver"){
                 history.push('/DriverHomePage'); // Redirect to admin page
