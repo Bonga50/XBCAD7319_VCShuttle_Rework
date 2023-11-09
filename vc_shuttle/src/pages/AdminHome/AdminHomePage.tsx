@@ -7,6 +7,26 @@ const AdminHomePage: React.FC = () => {
 
     return (
         <>
+            {/* Main page here */}
+            <IonPage id="main-content">
+                <IonHeader>
+                    <IonToolbar>
+                        <IonButtons slot="start">
+                            <IonMenuButton ></IonMenuButton>
+                        </IonButtons>
+                        <IonTitle>Admin</IonTitle>
+                    </IonToolbar>
+                </IonHeader>
+
+                <IonContent className="ion-padding">
+                    <p>Bookings</p>
+                    <BookingGraphComponent />
+                    <br />
+                    <p>Menu</p>
+                    <AdminSettingsList />
+                </IonContent>
+            </IonPage>
+            {/* Slide out menu */}
             <IonMenu contentId="main-content">
                 <IonHeader>
                     <IonToolbar>
@@ -25,26 +45,6 @@ const AdminHomePage: React.FC = () => {
                     </IonList>
                 </IonContent>
             </IonMenu>
-
-            <IonPage id="main-content">
-
-                <IonHeader>
-                    <IonToolbar>
-                        <IonButtons slot="start">
-                            <IonMenuButton ></IonMenuButton>
-                        </IonButtons>
-                        <IonTitle>Admin</IonTitle>
-                    </IonToolbar>
-                </IonHeader>
-
-                <IonContent className="ion-padding">
-                    <p>Bookings</p>
-                    <BookingGraphComponent />
-                    <br />
-                    <p>Menu</p>
-                    <AdminSettingsList />
-                </IonContent>
-            </IonPage>
         </>
     );
 };
