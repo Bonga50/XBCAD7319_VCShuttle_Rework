@@ -1,8 +1,7 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
 import ScheduleDropDown from '../../components/ScheduleDropDown/ScheduleDropDown';
 import LoctionDropDownForm from '../../components/LocationDropDown/LocationDropdownForm';
-
 
 
 const DriverCreateRoutePage: React.FC = () => {
@@ -24,6 +23,7 @@ const DriverCreateRoutePage: React.FC = () => {
                 <LoctionDropDownForm onLocationSelect={setSelectedStartLocation}/>
                 End Location 
                 <LoctionDropDownForm onLocationSelect={setSelectedEndLocation}/>
+                <IonButton className='ion-margin-top' type='submit'>Submit</IonButton> 
             </IonContent>
         </IonPage>
     );
