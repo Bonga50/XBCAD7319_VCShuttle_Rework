@@ -28,6 +28,8 @@ import './theme/variables.css';
 import StudentMapPage from './pages/StudentMap/StudentMapPage';
 import AdminHomePage from './pages/AdminHome/AdminHomePage';
 import DriverCreateRoutePage from './pages/DriverCreateRoute/DriverCreateRoutePage';
+import AdminBookingSubPage from './pages/AdminHome/AdminBookingSubPage/AdminBookingSubPage';
+import AdminAddBookingSubPage from './pages/AdminHome/AdminAddBookingSubPage/AdminAddBookingSubPage';
 
 
 setupIonicReact();
@@ -59,6 +61,15 @@ const App: React.FC = () => (
         </Route>
         <Route exact path="/StudentMap">
           <StudentMapPage/>
+        </Route>
+        <Route exact path="/AdminBooking">
+          <AdminBookingSubPage/>
+        </Route>
+        <Route exact path="/AdminBooking">
+          <AdminBookingSubPage/>
+        </Route>
+        <Route exact path="/AdminAddBooking">
+          <AdminAddBookingSubPage/>
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>

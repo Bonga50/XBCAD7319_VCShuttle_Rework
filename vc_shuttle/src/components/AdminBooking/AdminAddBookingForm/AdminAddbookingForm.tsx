@@ -1,40 +1,45 @@
-import { IonButton, IonContent, IonHeader, IonInput, IonLabel, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonContent, IonHeader, IonInput, IonLabel, IonPage, IonSearchbar, IonTitle, IonToolbar } from '@ionic/react';
 import React, { useState } from 'react';
+import ScheduleDropDown from '../../ScheduleDropDown/ScheduleDropDown';
+import LoctionDropDownForm from '../../LocationDropDown/LocationDropdownForm';
+import { BookDataHandler } from '../../../Data/BookDataHandler';
+import ShuttleDropDown from '../../ShuttleDropDown/ShuttleDropDownForm';
+import AdminViewBookingDetails from '../AdminVIewBookingDetails/AdminViewBookingDetails';
 
 const AdminAddBookingForm: React.FC = () => {
 
     const [studentNumber, setStudentNumber] = useState('');
-    const [schedule, setSchedule] = useState('');
-    const [shuttle, setShuttle] = useState('');
-    const [origin, setOrigin] = useState('');
-    const [destination, setDestination] = useState('');
+    const bookingDataHandler =  BookDataHandler.getInstance();
+    const [selectedShuttle, setSelectedShuttle] = useState<number | null>(null);
+    const [selectedSchedule, setSelectedSchedule] = useState<string | null>(null);
+    const [selectedStartLocation, setSelectedStartLocation] = useState<string | null>(null);
+    const [selectedEndLocation, setSelectedEndLocation] = useState<string | null>(null);
 
     const saveData = () => {
         // Save data here
-        console.log(studentNumber, schedule, shuttle, origin, destination);
+        console.log(studentNumber, selectedSchedule, selectedShuttle, selectedStartLocation, selectedEndLocation);
     };
     return (
-        <form>
-            <h3>New Booking</h3>
-            <IonContent className="ion-padding">
-                <IonLabel>Student Number:</IonLabel>
-                <IonInput value={studentNumber} onIonChange={e => setStudentNumber(e.detail.value||'')}></IonInput>
-
-                <IonLabel>Schedule:</IonLabel>
-                <IonInput value={schedule} onIonChange={e => setSchedule(e.detail.value||'')}></IonInput>
-
-                <IonLabel>Shuttle:</IonLabel>
-                <IonInput value={shuttle} onIonChange={e => setShuttle(e.detail.value||'')}></IonInput>
-
-                <IonLabel>Origin:</IonLabel>
-                <IonInput value={origin} onIonChange={e => setOrigin(e.detail.value||'')}></IonInput>
-
-                <IonLabel>Destination:</IonLabel>
-                <IonInput value={destination} onIonChange={e => setDestination(e.detail.value||'')}></IonInput>
-
-                <IonButton expand="full" onClick={saveData}>Save</IonButton>
-            </IonContent>
-        </form>
+      <form>
+        <div className="ion-padding">
+          <IonSearchbar className="ion-padding"></IonSearchbar>
+          <IonLabel>Student Number:</IonLabel>
+          <IonInput
+            value={studentNumber}
+            onIonChange={(e) => setStudentNumber(e.detail.value || "")}
+          ></IonInput>
+          <ShuttleDropDown onShuttleSelect={setSelectedShuttle} />
+          <ScheduleDropDown onScheduleSelect={setSelectedSchedule} />
+          <IonLabel>Start location</IonLabel>.
+          <LoctionDropDownForm onLocationSelect={setSelectedStartLocation} />
+          <IonLabel>End location</IonLabel>
+          <LoctionDropDownForm onLocationSelect={setSelectedEndLocation} />
+          <IonButton expand="full" onClick={saveData}>
+            Save
+          </IonButton>
+        </div>
+       
+      </form>
     );
 };
 

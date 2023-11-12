@@ -72,6 +72,10 @@ export class BookDataHandler {
     console.log(booking);
   }
 
+  getBookingById(id: number): Booking | undefined {
+    return this.bookings.find((booking) => booking.bookingId === id);
+  }
+
   removeBooking(bookingID: number): void {
     this.bookings = this.bookings.filter(
       (booking) => booking.bookingId !== bookingID
