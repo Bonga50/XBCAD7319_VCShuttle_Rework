@@ -1,7 +1,8 @@
 import { Shuttle } from "../models/Shuttle";
 export class ShuttleDataHandler {
-    private shuttles: Shuttle[];
-  
+    private shuttles: Shuttle[]
+    private static instance: ShuttleDataHandler;
+
     constructor() {
       this.shuttles = [
         // initialize with some dummy shuttles
@@ -10,6 +11,14 @@ export class ShuttleDataHandler {
         { shuttleID: 3, shuttleName: 'Shuttle 3', driverID: 'Driver3', numberOfseats: 30, status: 'Inactive'},
       ];
     }
+
+    public static getInstance(): ShuttleDataHandler {
+      if (!ShuttleDataHandler.instance) {
+        ShuttleDataHandler.instance = new ShuttleDataHandler();
+      }
+  
+      return ShuttleDataHandler.instance;
+    }
   
     getShuttles(): Shuttle[] {
       return this.shuttles;
@@ -17,6 +26,14 @@ export class ShuttleDataHandler {
   
     addShuttle(shuttle: Shuttle): void {
       this.shuttles.push(shuttle);
+    }
+
+    generateRandomShuttleID():number{
+      return Math.floor(Math.random() * 10000); 
+    }
+
+    getShuttleByID(id: number):Shuttle|undefined{
+      return this.shuttles.find((shuttle) => shuttle.shuttleID===id);
     }
   
     removeShuttle(shuttleID: number): void {

@@ -1,25 +1,29 @@
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import React from 'react';
-import AdminAddBookingForm from '../../../components/AdminBooking/AdminAddBookingForm/AdminAddbookingForm';
+import AdminAddSuttleForm from '../../../components/AdminShuttles/AdminAddShuttleForm/AdminAddSuttleForm';
+import AdminSettingsList from '../../../components/AdminSettingsList/AdminSettingsListComp';
 
-const AdminAddBookingSubPage: React.FC = () => {
+const AdminAddShuttleSubPage: React.FC = () => {
 
     return (
+        <>
         <IonPage id="main-content">
             <IonHeader>
                 <IonToolbar>
                 <IonButtons slot="start">
                             <IonMenuButton ></IonMenuButton>
                         </IonButtons>
-                    <IonTitle>add booking</IonTitle>
+                    <IonTitle>Add Shuttle</IonTitle>
                 </IonToolbar>
             </IonHeader>
-            
-            <IonContent >
-                <AdminAddBookingForm/>
+            <IonContent className="ion-padding">
+                <AdminAddSuttleForm/>
             </IonContent>
         </IonPage>
+        <AdminSettingsList/>
+        </>
+
     );
 };
 
-export default AdminAddBookingSubPage;
+export default AdminAddShuttleSubPage;

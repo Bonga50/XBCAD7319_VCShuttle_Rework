@@ -30,6 +30,8 @@ import AdminHomePage from './pages/AdminHome/AdminHomePage';
 import DriverCreateRoutePage from './pages/DriverCreateRoute/DriverCreateRoutePage';
 import AdminBookingSubPage from './pages/AdminHome/AdminBookingSubPage/AdminBookingSubPage';
 import AdminAddBookingSubPage from './pages/AdminHome/AdminAddBookingSubPage/AdminAddBookingSubPage';
+import AdminAddShuttleSubPage from './pages/AdminHome/AdminAddShuttleSubPage/AdminAddShuttleSubPage';
+import AdminShuttleSubPage from './pages/AdminHome/AdminShuttleSubPage/AdminShuttleSubPage';
 
 
 setupIonicReact();
@@ -65,11 +67,14 @@ const App: React.FC = () => (
         <Route exact path="/AdminBooking">
           <AdminBookingSubPage/>
         </Route>
-        <Route exact path="/AdminBooking">
-          <AdminBookingSubPage/>
+        <Route exact path="/AdminShuttle">
+          <AdminShuttleSubPage/>
         </Route>
         <Route exact path="/AdminAddBooking">
           <AdminAddBookingSubPage/>
+        </Route>
+        <Route exact path="/AdminAddShuttle">
+          <AdminAddShuttleSubPage/>
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>

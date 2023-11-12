@@ -39,61 +39,54 @@ const AdminViewBookingDetails: React.FC<ContainerProps>  = ({booking}: {booking:
         // Handle close action here
     };
     return (
-        // <IonPage>
-        //     <IonHeader>
-        //         <IonToolbar>
-        //             <IonTitle>Page Title</IonTitle>
-        //         </IonToolbar>
-        //     </IonHeader>
-        //     <IonContent className="ion-padding">
-        //         <IonLabel>Booking ID: {booking.bookingId}</IonLabel>
-        //         <IonLabel>Session: {booking.session}</IonLabel>
-        //         <IonLabel>Shuttle ID: {booking.shuttleID}</IonLabel>
-        //         <IonLabel>Booking Status: {booking.bookingStatus}</IonLabel>
-        //         <IonLabel>Start Location: {booking.startLocation}</IonLabel>
-        //         <IonLabel>End Location: {booking.endLocation}</IonLabel>
-        //         <IonLabel>Booking Time: {booking.bookingTime.toString()}</IonLabel>
+      <IonModal
+        ref={modal}
+        trigger="open-AddBookingmodal"
+        onWillDismiss={(ev) => onWillDismiss(ev)}
+      >
+        <IonHeader>
+          <IonToolbar>
+            <IonButtons slot="start">
+              <IonButton onClick={() => modal.current?.dismiss()}>
+                Cancel
+              </IonButton>
+            </IonButtons>
+            <IonTitle>Welcome</IonTitle>
+            <IonButtons slot="end">
+              <IonButton strong={true} onClick={() => confirm()}>
+                Confirm
+              </IonButton>
+            </IonButtons>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent className="ion-padding">
+          <IonLabel>Booking ID: {booking ? booking.bookingId : "N/A"}</IonLabel>
+          <IonLabel>Session: {booking ? booking.session : "N/A"}</IonLabel>
+          <IonLabel>Shuttle ID: {booking ? booking.shuttleID : "N/A"}</IonLabel>
+          <IonLabel>
+            Booking Status: {booking ? booking.bookingStatus : "N/A"}
+          </IonLabel>
+          <IonLabel>
+            Start Location: {booking ? booking.startLocation : "N/A"}
+          </IonLabel>
+          <IonLabel>
+            End Location: {booking ? booking.endLocation : "N/A"}
+          </IonLabel>
+          <IonLabel>
+            Booking Time: {booking ? booking.bookingTime.toString() : "N/A"}
+          </IonLabel>
 
-        //         <IonButton expand="full" onClick={handleEdit}>Edit</IonButton>
-        //         <IonButton expand="full" onClick={handleDelete}>Delete</IonButton>
-        //         <IonButton expand="full" onClick={handleClose}>Close</IonButton>
-        //     </IonContent>
-
-            <IonModal ref={modal} trigger="open-AddBookingmodal" onWillDismiss={(ev) => onWillDismiss(ev)}>
-          <IonHeader>
-            <IonToolbar>
-              <IonButtons slot="start">
-                <IonButton onClick={() => modal.current?.dismiss()}>Cancel</IonButton>
-              </IonButtons>
-              <IonTitle>Welcome</IonTitle>
-              <IonButtons slot="end">
-                <IonButton strong={true} onClick={() => confirm()}>
-                  Confirm
-                </IonButton>
-              </IonButtons>
-            </IonToolbar>
-          </IonHeader>
-          <IonContent className="ion-padding">
-
-          <IonLabel>Booking ID: {booking ? booking.bookingId : 'N/A'}</IonLabel>
-            <IonLabel>Session: {booking ? booking.session : 'N/A'}</IonLabel>
-            <IonLabel>Shuttle ID: {booking ? booking.shuttleID : 'N/A'}</IonLabel>
-            <IonLabel>Booking Status: {booking ? booking.bookingStatus : 'N/A'}</IonLabel>
-            <IonLabel>Start Location: {booking ? booking.startLocation : 'N/A'}</IonLabel>
-            <IonLabel>End Location: {booking ? booking.endLocation : 'N/A'}</IonLabel>
-            <IonLabel>Booking Time: {booking ? booking.bookingTime.toString() : 'N/A'}</IonLabel>
-
-
-               <IonButton expand="full" onClick={handleEdit}>Edit</IonButton>
-               <IonButton expand="full" onClick={handleDelete}>Delete</IonButton>
-               <IonButton expand="full" onClick={handleClose}>Close</IonButton>
-          </IonContent>
-        </IonModal>
-
-
-
-
-        // </IonPage>
+          <IonButton expand="full" onClick={handleEdit}>
+            Edit
+          </IonButton>
+          <IonButton expand="full" onClick={handleDelete}>
+            Delete
+          </IonButton>
+          <IonButton expand="full" onClick={handleClose}>
+            Close
+          </IonButton>
+        </IonContent>
+      </IonModal>
     );
 };
 
