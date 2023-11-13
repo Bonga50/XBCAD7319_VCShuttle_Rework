@@ -28,7 +28,7 @@ const AdminAddSuttleForm: React.FC = () => {
         <IonItem>
           <IonLabel position="stacked">Shuttle Name</IonLabel>
           <IonInput
-          label='ShuttleName'
+          label=''
             value={shuttleName}
             onIonChange={(e) => setShuttleName(e.detail.value!)}
           ></IonInput>
@@ -36,7 +36,7 @@ const AdminAddSuttleForm: React.FC = () => {
         <IonItem>
           <IonLabel position="stacked">Driver ID</IonLabel>
           <IonInput
-          label='DriverID'
+          label=''
             value={driverID}
             onIonChange={(e) => setDriverID(e.detail.value!)}
           ></IonInput>
@@ -44,7 +44,7 @@ const AdminAddSuttleForm: React.FC = () => {
         <IonItem>
           <IonLabel position="stacked">Number of Seats</IonLabel>
           <IonInput
-          label='NumberOfSeats'
+          label=''
             type="number"
             value={numberOfSeats}
             onIonChange={(e) => setNumberOfSeats(parseInt(e.detail.value!, 10))}
@@ -53,7 +53,7 @@ const AdminAddSuttleForm: React.FC = () => {
         <IonItem>
           <IonLabel position="stacked">Status</IonLabel>
           <IonInput
-          label='ShuttleStatus'
+          label=''
             value={status}
             onIonChange={(e) => setStatus(e.detail.value!)}
           ></IonInput>

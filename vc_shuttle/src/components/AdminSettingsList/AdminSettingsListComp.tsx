@@ -18,7 +18,7 @@ const AdminSettingsList: React.FC = () => {
                 <IonItem routerLink="/AdminShuttle">Shuttles</IonItem>
                 <IonItem>Locations</IonItem>
                 <IonItem>Schedules</IonItem>
-                <IonItem>Students</IonItem>
+                <IonItem>Users</IonItem>
                 <IonItem>Reviews</IonItem>
             </IonList>
         </IonContent>
