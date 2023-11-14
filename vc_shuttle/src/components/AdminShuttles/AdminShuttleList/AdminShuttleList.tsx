@@ -30,7 +30,7 @@ const AdminShuttleList: React.FC = () => {
     <div>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>Bookings</IonTitle>
+                    <IonTitle>Shuttles</IonTitle>
                 </IonToolbar>
                 <IonButtons slot="End">
                     <IonButton routerLink="AdminAddShuttle">ADD</IonButton>
