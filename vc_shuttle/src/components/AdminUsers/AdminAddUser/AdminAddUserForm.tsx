@@ -1,7 +1,7 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import React from 'react';
 
-const AdminUserDetails: React.FC = () => {
+const AdminAddUsersForm: React.FC = () => {
 
     return (
       <div>
@@ -10,4 +10,4 @@ const AdminUserDetails: React.FC = () => {
     );
 };
 
-export default AdminUserDetails;
+export default AdminAddUsersForm;
