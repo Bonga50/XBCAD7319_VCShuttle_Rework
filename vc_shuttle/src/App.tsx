@@ -34,6 +34,9 @@ import AdminAddShuttleSubPage from './pages/AdminHome/AdminAddShuttleSubPage/Adm
 import AdminShuttleSubPage from './pages/AdminHome/AdminShuttleSubPage/AdminShuttleSubPage';
 import AdminUserSubPage from './pages/AdminHome/AdminUsersSubPage/AdminUsersSubPage';
 import AdminAddUserSubPage from './pages/AdminHome/AdminAddUserSubPage/AdminAddUserSubPage';
+import AdminAddLocationSubPage from './pages/AdminHome/AdminAddLocationSubPage/AdminAddLocationSubPage';
+import AdminLocationSubPage from './pages/AdminHome/AdminLocationSubPage/AdminLocationSubPage';
+import MapNavigationPage from './pages/MapNavigationPage/MapNavigationPage';
 
 
 setupIonicReact();
@@ -75,6 +78,9 @@ const App: React.FC = () => (
         <Route exact path="/AdminUsers">
           <AdminUserSubPage/>
         </Route>
+        <Route exact path="/AdminLocations">
+          <AdminLocationSubPage/>
+        </Route>
         <Route exact path="/AdminAddBooking">
           <AdminAddBookingSubPage/>
         </Route>
@@ -83,6 +89,12 @@ const App: React.FC = () => (
         </Route>
         <Route exact path="/AdminAddUser">
           <AdminAddUserSubPage/>
+        </Route>
+        <Route exact path="/AdminAddLocation">
+          <AdminAddLocationSubPage/>
+        </Route>
+        <Route exact path="/MapNavigation">
+          <MapNavigationPage/>
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>
