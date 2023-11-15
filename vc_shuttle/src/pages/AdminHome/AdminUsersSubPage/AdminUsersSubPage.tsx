@@ -3,6 +3,7 @@ import React from 'react';
 import { Route } from 'react-router';
 import AdminShuttleSubPage from '../AdminShuttleSubPage/AdminShuttleSubPage';
 import AdminSettingsList from '../../../components/AdminSettingsList/AdminSettingsListComp';
+import AdminGetUserList from '../../../components/AdminUsers/AdminGetUsersList/AdminGetUsersList';
 
 const AdminUserSubPage: React.FC = () => {
 
@@ -18,7 +19,7 @@ const AdminUserSubPage: React.FC = () => {
                     </IonToolbar>
                 </IonHeader>
                 <IonContent className="ion-padding">
-                    UI goes here...
+                    <AdminGetUserList/>
                 </IonContent>
             </IonPage>
             <AdminSettingsList />

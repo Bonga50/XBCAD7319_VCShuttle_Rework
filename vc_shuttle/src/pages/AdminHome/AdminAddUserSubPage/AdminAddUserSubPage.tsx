@@ -1,5 +1,6 @@
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import React from 'react';
+import AdminAddUsersForm from '../../../components/AdminUsers/AdminAddUser/AdminAddUserForm';
 
 const AdminAddUserSubPage: React.FC = () => {
 
@@ -14,7 +15,7 @@ const AdminAddUserSubPage: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent className="ion-padding">
-                UI goes here...
+                <AdminAddUsersForm/>
             </IonContent>
         </IonPage>
     );

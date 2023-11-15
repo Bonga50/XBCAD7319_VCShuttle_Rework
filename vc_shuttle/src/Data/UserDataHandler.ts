@@ -3,6 +3,7 @@ export class UserDataHandler{
 
     private userList: User[];
     private statusList: string[];
+    private static instance: UserDataHandler;
 
     /**
      * setting the list of users
@@ -43,12 +44,28 @@ export class UserDataHandler{
     }
 
     
-    public findUser(email:string): User|undefined {
-        return this.userList.find(user => user.email === email)
-    }
+  public getUsers(): User[] {
+    return this.userList
+  }
+  public findUser(email: string): User | undefined {
+    return this.userList.find(user => user.email === email)
+  }
 
     public getStatuses(): string[] {
       return this.statusList;
     }
+
+    public static getInstance(): UserDataHandler {
+      if (!UserDataHandler.instance) {
+        UserDataHandler.instance = new UserDataHandler();
+      }
+  
+      return UserDataHandler.instance;
+    }
+
+    generateRandomUserId():number{
+      return Math.floor(Math.random() * 10000); 
+    }
+  
 
 }

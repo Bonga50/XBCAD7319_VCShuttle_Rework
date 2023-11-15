@@ -33,6 +33,7 @@ import AdminAddBookingSubPage from './pages/AdminHome/AdminAddBookingSubPage/Adm
 import AdminAddShuttleSubPage from './pages/AdminHome/AdminAddShuttleSubPage/AdminAddShuttleSubPage';
 import AdminShuttleSubPage from './pages/AdminHome/AdminShuttleSubPage/AdminShuttleSubPage';
 import AdminUserSubPage from './pages/AdminHome/AdminUsersSubPage/AdminUsersSubPage';
+import AdminAddUserSubPage from './pages/AdminHome/AdminAddUserSubPage/AdminAddUserSubPage';
 
 
 setupIonicReact();
@@ -80,8 +81,8 @@ const App: React.FC = () => (
         <Route exact path="/AdminAddShuttle">
           <AdminAddShuttleSubPage/>
         </Route>
-        <Route exact path="/AdminAddUsers">
-          <AdminUserSubPage/>
+        <Route exact path="/AdminAddUser">
+          <AdminAddUserSubPage/>
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>
