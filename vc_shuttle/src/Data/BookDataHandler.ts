@@ -83,11 +83,12 @@ export class BookDataHandler {
   }
 
   fetchBookingsForUser(userId:string) {
-    fetch(`http://your-backend-url/api/bookings?userId=${userId}`)
+    fetch(`https://localhost:3000/api/bookings/getBookings`)
       .then(response => response.json())
       .then(data => {
         // Assuming the data is an array of bookings
         this.bookings = data;
+        console.log(data);
       })
       .catch(error => {
         console.error('Error:', error);
