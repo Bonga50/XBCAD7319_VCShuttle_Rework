@@ -1,5 +1,5 @@
 import {
-  IonButtons,
+    IonButtons,
   IonContent,
   IonHeader,
   IonMenuButton,
@@ -8,22 +8,24 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import React from "react";
-import StudentBookingListForm from "../../components/StudentBookingList/StudentBookingListform";
+import LocationList from "../../components/LocationList/LocationList";
 import StudentSettings from "../../components/StudentSettings/StudentSettings";
-const StudentBookingList: React.FC = () => {
+
+const LocationListPage: React.FC = () => {
   return (
     <>
     <IonPage id="main-studentcontent">
       <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonMenuButton></IonMenuButton>
-          </IonButtons>
-          <IonTitle>Booking list</IonTitle>
+      <IonToolbar>
+        <IonButtons slot="start">
+          <IonMenuButton></IonMenuButton>
+        </IonButtons>
+        
+          <IonTitle>Locations</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <StudentBookingListForm />
+        <LocationList />
       </IonContent>
     </IonPage>
     <StudentSettings/>
@@ -31,4 +33,4 @@ const StudentBookingList: React.FC = () => {
   );
 };
 
-export default StudentBookingList;
+export default LocationListPage;

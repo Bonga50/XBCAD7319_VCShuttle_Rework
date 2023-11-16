@@ -81,4 +81,16 @@ export class BookDataHandler {
       (booking) => booking.bookingId !== bookingID
     );
   }
+
+  fetchBookingsForUser(userId:string) {
+    fetch(`http://your-backend-url/api/bookings?userId=${userId}`)
+      .then(response => response.json())
+      .then(data => {
+        // Assuming the data is an array of bookings
+        this.bookings = data;
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
 }

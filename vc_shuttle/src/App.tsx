@@ -37,6 +37,7 @@ import AdminAddUserSubPage from './pages/AdminHome/AdminAddUserSubPage/AdminAddU
 import AdminAddLocationSubPage from './pages/AdminHome/AdminAddLocationSubPage/AdminAddLocationSubPage';
 import AdminLocationSubPage from './pages/AdminHome/AdminLocationSubPage/AdminLocationSubPage';
 import MapNavigationPage from './pages/MapNavigationPage/MapNavigationPage';
+import LocationListPage from './pages/LocationListPage/LocationListPage';
 
 
 setupIonicReact();
@@ -95,6 +96,9 @@ const App: React.FC = () => (
         </Route>
         <Route exact path="/MapNavigation">
           <MapNavigationPage/>
+        </Route>
+        <Route exact path="/LocationsList">
+          <LocationListPage/>
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>

@@ -3,7 +3,7 @@ import {
   IonHeader,
   IonPage,
   IonTitle,
-  IonToolbar
+  IonToolbar,
 } from "@ionic/react";
 import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
@@ -24,6 +24,16 @@ const MapNavigation: React.FC = () => {
     });
   }
 
+  // Define your marker locations for differnt stops
+  const markerLocations = [
+    { lat: -26.2041, lng: 28.0473 }, // Johannesburg Art Gallery
+    { lat: -26.2386, lng: 27.9082 }, // Gold Reef City
+    { lat: -26.1754, lng: 28.0083 }, // Johannesburg Zoo
+    { lat: -26.1952, lng: 28.034 }, // Constitution Hill Human Rights Precinct
+    { lat: -26.2384, lng: 28.0176 }, // Apartheid Museum
+    // Add more locations as needed
+  ];
+
   // This function watches the user's current location
   function watchCurrentLocation(
     callback: (position: GeolocationPosition) => void
@@ -36,43 +46,49 @@ const MapNavigation: React.FC = () => {
 
   useEffect(() => {
     map.current = new mapboxgl.Map({
-      container: mapContainer.current, // The ref to the map container element
+      container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v12",
-      center: [-74.5, 40], // Replace with your initial longitude and latitude
-      zoom: 9 // Replace with your initial zoom level
+      center: [-74.5, 40],
+      zoom: 9,
     });
 
     map.current.on("load", function () {
       map.current.resize();
       map.current.addControl(new mapboxgl.NavigationControl(), "top-right");
 
-      // Watch the user's current location and update the route whenever it changes
-      watchCurrentLocation((position) => {
-        const currentLocation: newLocation = {
-          lng: position.coords.longitude,
-          lat: position.coords.latitude
-        };
-        generateRoute(currentLocation, { lat: -26.2041027, lng: 28.1122676 });
+      // Add markers to the map
+      for (const location of markerLocations) {
+        const markerEl = document.createElement("div");
+        markerEl.className = "marker";
+        markerEl.style.backgroundImage =
+          "url(../../src/resources/images/icons8_circle_48.png)";
+        markerEl.style.width = "48px";
+        markerEl.style.height = "48px";
 
-        // Create a custom marker (a puck)
-    const el = document.createElement("div");
-    el.className = "marker";
-    el.style.backgroundImage =
-      "url(../../src/resources/images/icons8_circle_48.png)";
-    el.style.width = "48px";
-    el.style.height = "48px";
+        const marker = new mapboxgl.Marker(markerEl)
+          .setLngLat([location.lng, location.lat])
+          .addTo(map.current);
 
-    // If a marker already exists, remove it
-    if (map.current.getLayer("user-location")) {
-        map.current.removeLayer("user-location");
-        map.current.removeSource("user-location");
-    }
-
-    // Add the custom marker to the map at the user's current location
-    new mapboxgl.Marker(el)
-      .setLngLat([position.coords.longitude, position.coords.latitude])
-      .addTo(map.current);
-      });
+        // Set up a click event listener for the marker
+        markerEl.addEventListener("click", function () {
+          // Update the end location to the clicked marker's location
+          const endLocation = location;
+          // Get the current location
+          watchCurrentLocation((position) => {
+            const currentLocation = {
+              lng: position.coords.longitude,
+              lat: position.coords.latitude,
+            };
+            // If a route is currently displayed on the map, remove it
+            if (map.current.getLayer("route")) {
+              map.current.removeLayer("route");
+              map.current.removeSource("route");
+            }
+            // Generate a new route
+            generateRoute(currentLocation, endLocation);
+          });
+        });
+      }
     });
   }, []);
 
@@ -90,7 +106,7 @@ const MapNavigation: React.FC = () => {
     console.log(position);
     const startLocation: newLocation = {
       lng: position.coords.longitude,
-      lat: position.coords.latitude
+      lat: position.coords.latitude,
     };
 
     const directionsRequest = `https://api.mapbox.com/directions/v5/mapbox/driving/${start.lng},${start.lat};${end.lng},${end.lat}?access_token=${mapboxgl.accessToken}&geometries=geojson`;
@@ -98,6 +114,7 @@ const MapNavigation: React.FC = () => {
       .then((response) => response.json())
       .then((data) => {
         if (data.routes && data.routes.length) {
+          console.log(data);
           // If a route was found
           if (route) {
             // If a route is currently displayed on the map, remove it
@@ -114,17 +131,17 @@ const MapNavigation: React.FC = () => {
               data: {
                 type: "Feature",
                 properties: {},
-                geometry: data.routes[0].geometry
-              }
+                geometry: data.routes[0].geometry,
+              },
             },
             layout: {
               "line-join": "round",
-              "line-cap": "round"
+              "line-cap": "round",
             },
             paint: {
               "line-color": "#888",
-              "line-width": 8
-            }
+              "line-width": 8,
+            },
           });
         } else {
           console.error("No route found", data);
