@@ -35,6 +35,12 @@ export class ShuttleDataHandler {
     getShuttleByID(id: number):Shuttle|undefined{
       return this.shuttles.find((shuttle) => shuttle.shuttleID===id);
     }
+
+    getSeatsByShuttleID(id: number): number | undefined {
+      let shuttle = this.shuttles.find((shuttle) => shuttle.shuttleID === id);
+      return shuttle ? shuttle.numberOfseats : undefined;
+  }
+  
   
     removeShuttle(shuttleID: number): void {
       this.shuttles = this.shuttles.filter(shuttle => shuttle.shuttleID !== shuttleID);

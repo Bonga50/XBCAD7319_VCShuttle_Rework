@@ -2,7 +2,7 @@ export type DriverRoute={
     driverRouteID:string,
     scheduleID:number,
     driverName:string,
-    shuttleName:string,
-    startLocationID:string,
-    endLocationID:string
+    shuttleID:number,
+    startLocationID:number,
+    endLocationID:number
 }

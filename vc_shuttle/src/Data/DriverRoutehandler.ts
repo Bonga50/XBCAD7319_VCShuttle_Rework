@@ -2,6 +2,8 @@ import { DriverRoute } from "../models/DriverRoute";
 
 export class DriverRouteHandler{
     private mapRoutes:DriverRoute[] = [];
+    private static instance: DriverRouteHandler;
+
     /**
      *
      */
@@ -9,22 +11,41 @@ export class DriverRouteHandler{
         this.mapRoutes = [
             {
             driverRouteID: "1",
-            scheduleID: 123,
+            scheduleID: 2,
             driverName: "John Doe",
-            shuttleName: "Shuttle A",
-            startLocationID: "A1",
-            endLocationID: "B1",
+            shuttleID: 1,
+            startLocationID: 2,
+            endLocationID: 3,
           },
           {
             driverRouteID: "2",
-            scheduleID: 456,
+            scheduleID: 1,
             driverName: "Jane Smith",
-            shuttleName: "Shuttle B",
-            startLocationID: "C1",
-            endLocationID: "D1",
+            shuttleID: 2,
+            startLocationID: 1,
+            endLocationID: 2,
           }
           // Add more dummy data here if needed
         ];
 
     }
+
+    public static getInstance(): DriverRouteHandler {
+      if (!DriverRouteHandler.instance) {
+        DriverRouteHandler.instance = new DriverRouteHandler();
+      }
+  
+      return DriverRouteHandler.instance;
+    }
+  
+
+    getByShuttleID(shuttleID: number): DriverRoute | null {
+      console.log(shuttleID);
+      for (let route of this.mapRoutes) {
+          if (route.shuttleID === shuttleID) {
+              return route;
+          }
+      }
+      return null; // Return null if no route with the given shuttleID is found
+  }
 }

@@ -12,7 +12,7 @@ export class BookDataHandler {
       {
         bookingId: 1,
         session: "Morning",
-        shuttleID: 123,
+        shuttleID: 1,
         bookingStatus: "inActive",
         startLocation: "ABC Street",
         endLocation: "XYZ Avenue",
@@ -21,7 +21,7 @@ export class BookDataHandler {
       {
         bookingId: 2,
         session: "Afternoon",
-        shuttleID: 456,
+        shuttleID: 1,
         bookingStatus: "Active",
         startLocation: "DEF Road",
         endLocation: "LMN Lane",
@@ -30,7 +30,7 @@ export class BookDataHandler {
       {
         bookingId: 3,
         session: "Evening",
-        shuttleID: 456,
+        shuttleID: 2,
         bookingStatus: "Active",
         startLocation: "Helo Road",
         endLocation: "Ball Lane",
@@ -39,7 +39,7 @@ export class BookDataHandler {
       {
         bookingId: 4,
         session: "MidAfternoon",
-        shuttleID: 456,
+        shuttleID: 2,
         bookingStatus: "inActive",
         startLocation: "Helo Road",
         endLocation: "Ball Lane",
@@ -81,6 +81,16 @@ export class BookDataHandler {
       (booking) => booking.bookingId !== bookingID
     );
   }
+
+  getActiveBookingsCount(shuttleID:Number): number {
+    let count = 0;
+    for (let booking of this.bookings) {
+        if (booking.shuttleID === shuttleID && booking.bookingStatus === "Active") {
+            count++;
+        }
+    }
+    return count;
+}
 
   fetchBookingsForUser(userId:string) {
     fetch(`https://localhost:3000/api/bookings/getBookings`)
