@@ -66,7 +66,7 @@ const StudentHome: React.FC = () => {
           </div>
         </IonButton>
         {/* Button to show list of past schedules */}
-        <IonButton>
+        <IonButton routerLink="/StudentScheduledTrips">
           <div>
             <img src={clockIcon} height="48px" alt="Schedules" />
           </div>

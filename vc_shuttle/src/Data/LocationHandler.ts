@@ -9,9 +9,9 @@ export class LocationHandler {
      */
     constructor() {
         this.locations = [
-            { locationId: 1, latitude: 2.44, longitude: 3.33, description: "Next to abc sign", locationName: 'Newyork' },
-            { locationId: 2, latitude: 2.44, longitude: 3.33, description: "Next to abc sign", locationName: 'Tokyo' },
-            { locationId: 3, latitude: 2.44, longitude: 3.33, description: "Next to abc sign", locationName: 'London' },
+            { locationId: 7, latitude: -26.0789, longitude: 28.0536, description: "Varsity College Sandton", locationName: 'Varsity College Sandton' },
+            { locationId: 8, latitude: -26.1076, longitude: 28.0567, description: "Gautrain Station Sandton", locationName: 'Gautrain Station Sandton' },
+            { locationId: 9, latitude: -26.0891, longitude: 28.0524, description: "Benmore Mall Sandton", locationName: 'Benmore Mall Sandton' }            
         ]
 
     }

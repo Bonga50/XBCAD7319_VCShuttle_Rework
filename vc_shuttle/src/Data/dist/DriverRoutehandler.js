@@ -38,8 +38,17 @@ var DriverRouteHandler = /** @class */ (function () {
     DriverRouteHandler.prototype.generateRoutes = function (duration, waitTime, startLocation, endLocation, shuttleID, driverName, schedule) {
         var routes = [];
         var tripDuration = duration + waitTime;
-        var startTime = new Date(schedule.startTime);
-        var endTime = new Date(schedule.endTime);
+        var now = new Date();
+        var currentYear = now.getFullYear();
+        var currentMonth = now.getMonth();
+        var currentDay = now.getDate();
+        var startTime = new Date(currentYear, currentMonth, currentDay, schedule.startTime.getHours(), schedule.startTime.getMinutes(), schedule.startTime.getSeconds());
+        var endTime = new Date(currentYear, currentMonth, currentDay, schedule.endTime.getHours(), schedule.endTime.getMinutes(), schedule.endTime.getSeconds());
+        // If the session time is less than the current time, use the next day's date
+        if (now.getTime() > startTime.getTime()) {
+            startTime.setDate(startTime.getDate() + 1);
+            endTime.setDate(endTime.getDate() + 1);
+        }
         var tripCount = Math.floor((endTime.getTime() - startTime.getTime()) / (tripDuration * 1000));
         for (var i = 0; i < tripCount; i++) {
             var startLoc = i % 2 === 0 ? startLocation : endLocation;
@@ -54,8 +63,17 @@ var DriverRouteHandler = /** @class */ (function () {
                 endLocationID: endLoc.locationId
             };
             routes.push(route);
+            this.mapRoutes.push(route);
         }
+        console.log(this.mapRoutes);
         return routes;
+    };
+    DriverRouteHandler.prototype.getRoutesByStartAndEndLocation = function (startLocationID, endLocationID) {
+        console.log(this.mapRoutes);
+        return this.mapRoutes.filter(function (route) {
+            return route.startLocationID === startLocationID &&
+                route.endLocationID === endLocationID;
+        });
     };
     DriverRouteHandler.prototype.getByShuttleID = function (shuttleID) {
         console.log(shuttleID);

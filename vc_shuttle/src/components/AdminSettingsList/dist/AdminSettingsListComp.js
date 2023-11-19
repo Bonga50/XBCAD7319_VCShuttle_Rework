@@ -16,6 +16,7 @@ var AdminSettingsList = function () {
                     react_2["default"].createElement(react_1.IonItem, { routerLink: "/AdminLocations" }, "Locations"),
                     react_2["default"].createElement(react_1.IonItem, { routerLink: "/AdminSchedules" }, "Schedules"),
                     react_2["default"].createElement(react_1.IonItem, { routerLink: "/AdminUsers" }, "Users"),
-                    react_2["default"].createElement(react_1.IonItem, null, "Reviews"))))));
+                    react_2["default"].createElement(react_1.IonItem, null, "Reviews"),
+                    react_2["default"].createElement(react_1.IonItem, { routerLink: "/" }, "Logout"))))));
 };
 exports["default"] = AdminSettingsList;

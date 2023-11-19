@@ -38,6 +38,7 @@ var MapNavigationPage_1 = require("./pages/MapNavigationPage/MapNavigationPage")
 var LocationListPage_1 = require("./pages/LocationListPage/LocationListPage");
 var AdminAddScheduleSubPage_1 = require("./pages/AdminHome/AdminAddScheduleSubPage/AdminAddScheduleSubPage");
 var AdminScheduleSubPage_1 = require("./pages/AdminHome/AdminScheduleSubPage/AdminScheduleSubPage");
+var StudentScheduledTrips_1 = require("./pages/StudentScheduledTrips/StudentScheduledTrips");
 react_1.setupIonicReact();
 var App = function () { return (React.createElement(react_1.IonApp, null,
     React.createElement(react_router_1.IonReactRouter, null,
@@ -81,5 +82,7 @@ var App = function () { return (React.createElement(react_1.IonApp, null,
             React.createElement(react_router_dom_1.Route, { exact: true, path: "/MapNavigation" },
                 React.createElement(MapNavigationPage_1["default"], null)),
             React.createElement(react_router_dom_1.Route, { exact: true, path: "/LocationsList" },
-                React.createElement(LocationListPage_1["default"], null)))))); };
+                React.createElement(LocationListPage_1["default"], null)),
+            React.createElement(react_router_dom_1.Route, { exact: true, path: "/StudentScheduledTrips" },
+                React.createElement(StudentScheduledTrips_1["default"], null)))))); };
 exports["default"] = App;

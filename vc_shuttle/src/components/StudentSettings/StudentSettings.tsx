@@ -24,6 +24,7 @@ const StudentSettings: React.FC = () => {
             <IonItem routerLink="/StudentHome">Home</IonItem>
             <IonItem routerLink="/StudentBookingList">Bookings</IonItem>
             <IonItem routerLink="/LocationsList">Locations</IonItem>
+            <IonItem routerLink="/">Logout</IonItem>
           </IonList>
         </IonContent>
       </IonMenu>
