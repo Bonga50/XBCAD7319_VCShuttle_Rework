@@ -47,7 +47,7 @@ const MapNavigation: React.FC = () => {
   useEffect(() => {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/mapbox/streets-v12",
+      style: "mapbox://styles/mapbox/streets-v11",
       center: [-74.5, 40],
       zoom: 9,
     });
@@ -96,6 +96,7 @@ const MapNavigation: React.FC = () => {
   const [lng, setLng] = useState(-70.9); // Set your initial longitude
   const [lat, setLat] = useState(42.35); // Set your initial latitude
   const [zoom, setZoom] = useState(9); // Set your initial zoom level
+  const [directions, setDirections] = useState('');
 
   async function generateRoute(
     start: newLocation,
@@ -110,6 +111,7 @@ const MapNavigation: React.FC = () => {
     };
 
     const directionsRequest = `https://api.mapbox.com/directions/v5/mapbox/driving/${start.lng},${start.lat};${end.lng},${end.lat}?access_token=${mapboxgl.accessToken}&geometries=geojson`;
+    console.log(directionsRequest);
     fetch(directionsRequest)
       .then((response) => response.json())
       .then((data) => {
@@ -143,6 +145,18 @@ const MapNavigation: React.FC = () => {
               "line-width": 8,
             },
           });
+           // Create directions overlay
+        const steps = data.routes[0].legs[0].steps;
+        let instructions = '';
+        for (const step of steps) {
+          instructions += `<li>${step.maneuver.instruction}</li>`;
+        }
+        setDirections(instructions);
+        console.log(instructions);
+        const directionsOverlay = document.createElement('div');
+        directionsOverlay.innerHTML = `<ol>${instructions}</ol>`;
+        document.body.appendChild(directionsOverlay);
+     
         } else {
           console.error("No route found", data);
         }
@@ -152,14 +166,15 @@ const MapNavigation: React.FC = () => {
       });
   }
 
+
   return (
-    <div>
-      <div
-        ref={mapContainer}
-        className="map-container"
-        style={{ width: "100%", height: "100vh" }}
-      />
+    <div id="map">
+    <div className="sidebar">
+      Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
     </div>
+    <div ref={mapContainer} className="map-container" />
+    <div className="directions" dangerouslySetInnerHTML={{ __html: directions }} />
+  </div>
   );
 };
 

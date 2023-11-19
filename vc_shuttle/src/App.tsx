@@ -38,6 +38,8 @@ import AdminAddLocationSubPage from './pages/AdminHome/AdminAddLocationSubPage/A
 import AdminLocationSubPage from './pages/AdminHome/AdminLocationSubPage/AdminLocationSubPage';
 import MapNavigationPage from './pages/MapNavigationPage/MapNavigationPage';
 import LocationListPage from './pages/LocationListPage/LocationListPage';
+import AdminAddScheduleSubPage from './pages/AdminHome/AdminAddScheduleSubPage/AdminAddScheduleSubPage';
+import AdminScheduleSubPage from './pages/AdminHome/AdminScheduleSubPage/AdminScheduleSubPage';
 
 
 setupIonicReact();
@@ -82,17 +84,24 @@ const App: React.FC = () => (
         <Route exact path="/AdminLocations">
           <AdminLocationSubPage/>
         </Route>
+        <Route exact path="/AdminSchedules">
+          <AdminScheduleSubPage/>
+        </Route>
         <Route exact path="/AdminAddBooking">
           <AdminAddBookingSubPage/>
         </Route>
         <Route exact path="/AdminAddShuttle">
           <AdminAddShuttleSubPage/>
         </Route>
+        
         <Route exact path="/AdminAddUser">
           <AdminAddUserSubPage/>
         </Route>
         <Route exact path="/AdminAddLocation">
           <AdminAddLocationSubPage/>
+        </Route>
+        <Route exact path="/AdminAddSchedules">
+          <AdminAddScheduleSubPage/>
         </Route>
         <Route exact path="/MapNavigation">
           <MapNavigationPage/>

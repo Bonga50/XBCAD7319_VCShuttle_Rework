@@ -13,6 +13,7 @@ var DriverRouteHandler = /** @class */ (function () {
                 scheduleID: 2,
                 driverName: "John Doe",
                 shuttleID: 1,
+                departureTime: new Date(2020, 1, 1),
                 startLocationID: 2,
                 endLocationID: 3
             },
@@ -21,6 +22,7 @@ var DriverRouteHandler = /** @class */ (function () {
                 scheduleID: 1,
                 driverName: "Jane Smith",
                 shuttleID: 2,
+                departureTime: new Date(2020, 1, 1),
                 startLocationID: 1,
                 endLocationID: 2
             }
@@ -32,6 +34,28 @@ var DriverRouteHandler = /** @class */ (function () {
             DriverRouteHandler.instance = new DriverRouteHandler();
         }
         return DriverRouteHandler.instance;
+    };
+    DriverRouteHandler.prototype.generateRoutes = function (duration, waitTime, startLocation, endLocation, shuttleID, driverName, schedule) {
+        var routes = [];
+        var tripDuration = duration + waitTime;
+        var startTime = new Date(schedule.startTime);
+        var endTime = new Date(schedule.endTime);
+        var tripCount = Math.floor((endTime.getTime() - startTime.getTime()) / (tripDuration * 1000));
+        for (var i = 0; i < tripCount; i++) {
+            var startLoc = i % 2 === 0 ? startLocation : endLocation;
+            var endLoc = i % 2 === 0 ? endLocation : startLocation;
+            var route = {
+                driverRouteID: shuttleID + "-" + i,
+                scheduleID: schedule.scheduleID,
+                driverName: driverName,
+                shuttleID: shuttleID,
+                departureTime: new Date(startTime.getTime() + i * tripDuration * 1000),
+                startLocationID: startLoc.locationId,
+                endLocationID: endLoc.locationId
+            };
+            routes.push(route);
+        }
+        return routes;
     };
     DriverRouteHandler.prototype.getByShuttleID = function (shuttleID) {
         console.log(shuttleID);
