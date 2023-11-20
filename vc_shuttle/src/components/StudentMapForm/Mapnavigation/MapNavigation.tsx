@@ -17,13 +17,6 @@ type newLocation = {
   lng: number;
 };
 const MapNavigation: React.FC = () => {
-  // This function gets the user's current location
-  function getCurrentLocation() {
-    return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(resolve, reject);
-    });
-  }
-
   // Define your marker locations for differnt stops
   const markerLocations = [
     { lat: -26.2041, lng: 28.0473 }, // Johannesburg Art Gallery
@@ -33,6 +26,14 @@ const MapNavigation: React.FC = () => {
     { lat: -26.2384, lng: 28.0176 }, // Apartheid Museum
     // Add more locations as needed
   ];
+  // This function gets the user's current location
+  function getCurrentLocation() {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject);
+    });
+  }
+
+  
 
   // This function watches the user's current location
   function watchCurrentLocation(
@@ -143,6 +144,12 @@ const MapNavigation: React.FC = () => {
               "line-width": 8,
             },
           });
+
+          // Display the instructions
+        const instructions = data.routes[0].legs[0].steps.map((step: any) => step.maneuver.instruction);
+        console.log("Instructions: "+instructions);
+
+
         } else {
           console.error("No route found", data);
         }
@@ -152,6 +159,13 @@ const MapNavigation: React.FC = () => {
       });
   }
 
+  function cancelTrip(): void {
+    if (map.current.getLayer("route")) {
+      map.current.removeLayer("route");
+      map.current.removeSource("route");
+    }
+  }
+
   return (
     <div>
       <div
@@ -159,6 +173,8 @@ const MapNavigation: React.FC = () => {
         className="map-container"
         style={{ width: "100%", height: "100vh" }}
       />
+      <div id="instructions"></div>
+      <button id="cancel" onClick={cancelTrip}>Cancel Trip</button>
     </div>
   );
 };
