@@ -10,29 +10,11 @@ export class DriverRouteHandler {
    *
    */
   constructor() {
-    this.mapRoutes = [
-      {
-        driverRouteID: "1",
-        scheduleID: 2,
-        driverName: "John Doe",
-        shuttleID: 1,
-        departureTime: new Date(2020, 1, 1),
-        startLocationID: 2,
-        endLocationID: 3
-      },
-      {
-        driverRouteID: "2",
-        scheduleID: 1,
-        driverName: "Jane Smith",
-        shuttleID: 2,
-        departureTime: new Date(2020, 1, 1),
-        startLocationID: 1,
-        endLocationID: 2
-      }
-      // Add more dummy data here if needed
-    ];
+    this.fetchDriverRoutes();
   }
-
+  /**
+   *Singleton route handler
+   */
   public static getInstance(): DriverRouteHandler {
     if (!DriverRouteHandler.instance) {
       DriverRouteHandler.instance = new DriverRouteHandler();
@@ -41,6 +23,30 @@ export class DriverRouteHandler {
     return DriverRouteHandler.instance;
   }
 
+  public fetchDriverRoutes(): void {
+    fetch('https://localhost:3000/api/driveRoute/getDriveRoute')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        this.mapRoutes = data.data.map((route: any) => ({
+          driverRouteID: route.driverRouteID,
+          scheduleID: route.scheduleID,
+          driverName: route.driverName,
+          shuttleID: route.shuttleID,
+          startLocationID: route.startLocationID,
+          endLocationID: route.endLocationID,
+          departureTime: new Date(route.departureTime?route.departureTime:1),
+        }));
+        console.log("Map", this.mapRoutes); // Moved inside the .then block
+      })
+      .catch(error => console.error('Error:', error));
+}
+
+
+ /**
+   *Method that will generate trips based on the start time and end time of the session,
+    and the amount of time it takes to get to get from start location to end location.
+   */
   generateRoutes(
     duration: number,
     waitTime: number,
@@ -88,7 +94,7 @@ export class DriverRouteHandler {
       let endLoc = i % 2 === 0 ? endLocation : startLocation;
 
       let route: DriverRoute = {
-        driverRouteID: `${shuttleID}-${i}`,
+        driverRouteID: `tr${schedule.scheduleID}-${shuttleID}-${i}`,
         scheduleID: schedule.scheduleID,
         driverName: driverName,
         shuttleID: shuttleID,
@@ -103,7 +109,7 @@ export class DriverRouteHandler {
     console.log(this.mapRoutes);
     return routes;
   }
-
+ 
   getRoutesByStartAndEndLocation(
     startLocationID: number,
     endLocationID: number
