@@ -9,7 +9,7 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ShuttleDropDown from "../../components/ShuttleDropDown/ShuttleDropDownForm";
 import ShuttleDetailsForm from "../../components/ShuttleDetailsForm/ShuttleDetailsFrom";
 import BookingListForm from "../../components/BookingListForm/BookingListForm";
@@ -17,8 +17,22 @@ import listIcon from "../../resources/images/listicon.png";
 import clockIcon from "../../resources/images/clockicon.png";
 import mapPinicon from "../../resources/images/mapblackpin.png";
 import StudentSettings from "../../components/StudentSettings/StudentSettings";
+import { DriverRouteHandler } from "../../Data/DriverRoutehandler";
+import { DriverRoute } from "../../models/DriverRoute";
 
 const StudentHome: React.FC = () => {
+  const [selectedShuttle, setSelectedShuttle] = useState<number | null>(null);
+  const [selectedRoute, setSelectedRoute] = useState<DriverRoute | null>(null);
+  const routedataHandler = DriverRouteHandler.getInstance();
+
+  useEffect(() => {
+    if (selectedShuttle !== null) {
+      let route = routedataHandler.getByShuttleID(selectedShuttle);
+      console.log(selectedShuttle);
+      setSelectedRoute(route);
+    }
+  }, [selectedShuttle]);
+
   return (
     <>
     <IonPage id="main-studentcontent">
@@ -35,12 +49,10 @@ const StudentHome: React.FC = () => {
           Book
         </IonButton>
         <ShuttleDropDown
-          onShuttleSelect={function (shuttleID: number): void {
-            throw new Error("Function not implemented.");
-          }}
+          onShuttleSelect={setSelectedShuttle}
         />
 
-        <ShuttleDetailsForm />
+        <ShuttleDetailsForm trip={selectedRoute? selectedRoute:undefined} />
         {/* Button to show list of Bookings */}
         <IonButton routerLink="/StudentBookingList">
           <div>
@@ -54,7 +66,7 @@ const StudentHome: React.FC = () => {
           </div>
         </IonButton>
         {/* Button to show list of past schedules */}
-        <IonButton>
+        <IonButton routerLink="/StudentScheduledTrips">
           <div>
             <img src={clockIcon} height="48px" alt="Schedules" />
           </div>
@@ -65,6 +77,8 @@ const StudentHome: React.FC = () => {
     <StudentSettings/>
     </>
   );
+
+
 };
 
 export default StudentHome;

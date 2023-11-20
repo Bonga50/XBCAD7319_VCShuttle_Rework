@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { ScheduleDataHandler } from '../../Data/ScheduleDataHandler';
 import { Schedule } from '../../models/Schedule';
 interface ScheduleDropDownProps  { 
-    onScheduleSelect: (scheduleName: string) => void;
+    onScheduleSelect: (scheduleName: number) => void;
 }
 const ScheduleDropDown: React.FC<ScheduleDropDownProps>  = ({ onScheduleSelect })=> {
 
@@ -21,7 +21,7 @@ const ScheduleDropDown: React.FC<ScheduleDropDownProps>  = ({ onScheduleSelect }
                 <IonItem className='ion-padding'>
                     <IonSelect aria-label="Schedules" placeholder="Select a Time slot" onIonChange={e => onScheduleSelect(e.detail.value)}>
                         {schedules.map((schedules) => (
-                        <IonSelectOption key={schedules.scheduleID} value={schedules.scheduleName}>
+                        <IonSelectOption key={schedules.scheduleID} value={schedules.scheduleID}>
                           {schedules.scheduleName}
                         </IonSelectOption>
                         ))}

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Locations } from '../../models/Locations';
 import { LocationHandler } from '../../Data/LocationHandler';
 interface LoctionDropDownFormProps {
-    onLocationSelect: (locationId: string) => void;
+    onLocationSelect: (locationId: number) => void;
 }
 const LoctionDropDownForm: React.FC<LoctionDropDownFormProps>= ({ onLocationSelect }) => {
 
@@ -20,7 +20,7 @@ const LoctionDropDownForm: React.FC<LoctionDropDownFormProps>= ({ onLocationSele
             <IonItem className='ion-padding'>
                 <IonSelect aria-label="Locations" placeholder="Select a Location" onIonChange={e => onLocationSelect(e.detail.value)}>
                     {locations.map((locations) => (
-                    <IonSelectOption key={locations.locationId} value={locations.locationName} >
+                    <IonSelectOption key={locations.locationId} value={locations.locationId} >
                       {locations.locationName}
                     </IonSelectOption>
                     ))}

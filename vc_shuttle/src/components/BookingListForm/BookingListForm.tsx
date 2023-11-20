@@ -12,6 +12,7 @@ const BookingListForm: React.FC<ContainerProps> = () => {
 
     useEffect(() => {
         setBookings(dataHandler.getActiveBookings());
+        dataHandler.fetchBookingsForUser("st123");
       }, []);
     return (
       <div className="ion-padding">
