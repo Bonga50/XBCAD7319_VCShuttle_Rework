@@ -2,6 +2,8 @@ import { Schedule } from "./../models/Schedule";
 import { DriverRoute } from "../models/DriverRoute";
 import { Locations } from "../models/Locations";
 
+
+
 export class DriverRouteHandler {
   private mapRoutes: DriverRoute[] = [];
   private static instance: DriverRouteHandler;
@@ -24,10 +26,10 @@ export class DriverRouteHandler {
   }
 
   public fetchDriverRoutes(): void {
-    fetch('https://localhost:3000/api/driveRoute/getDriveRoute')
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
+    fetch("https://localhost:3000/api/driveRoute/getDriveRoute")
+      .then((response) => response.json())
+      .then((data) => {
+        
         this.mapRoutes = data.data.map((route: any) => ({
           driverRouteID: route.driverRouteID,
           scheduleID: route.scheduleID,
@@ -35,15 +37,30 @@ export class DriverRouteHandler {
           shuttleID: route.shuttleID,
           startLocationID: route.startLocationID,
           endLocationID: route.endLocationID,
-          departureTime: new Date(route.departureTime?route.departureTime:1),
+          departureTime: new Date(
+            route.departureTime ? route.departureTime : 1
+          ),
         }));
         console.log("Map", this.mapRoutes); // Moved inside the .then block
       })
-      .catch(error => console.error('Error:', error));
-}
+      .catch((error) => console.error("Error:", error));
+  }
 
+  public addDriverRoutesToDatabase(newRoute: DriverRoute) {
+    
+    fetch("https://localhost:3000/api/driveRoute/AddDriveRoute", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newRoute),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error("Error:", error));
+  }
 
- /**
+  /**
    *Method that will generate trips based on the start time and end time of the session,
     and the amount of time it takes to get to get from start location to end location.
    */
@@ -97,19 +114,22 @@ export class DriverRouteHandler {
         driverRouteID: `tr${schedule.scheduleID}-${shuttleID}-${i}`,
         scheduleID: schedule.scheduleID,
         driverName: driverName,
+        seatsBooked:0,
         shuttleID: shuttleID,
         departureTime: new Date(startTime.getTime() + i * tripDuration * 1000),
         startLocationID: startLoc.locationId,
-        endLocationID: endLoc.locationId
+        endLocationID: endLoc.locationId,
       };
-
+      console.log("preRoute"+route)
+      this.addDriverRoutesToDatabase(route);
       routes.push(route);
       this.mapRoutes.push(route);
     }
+    this.fetchDriverRoutes()
     console.log(this.mapRoutes);
     return routes;
   }
- 
+
   getRoutesByStartAndEndLocation(
     startLocationID: number,
     endLocationID: number

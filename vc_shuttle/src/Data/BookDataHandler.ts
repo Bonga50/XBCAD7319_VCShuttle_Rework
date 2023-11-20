@@ -1,51 +1,11 @@
-import { Booking } from './../models/Booking';
-
-
+import { Booking } from "./../models/Booking";
 
 export class BookDataHandler {
   private static instance: BookDataHandler;
   private bookings: Booking[];
 
   constructor() {
-    this.bookings = [
-      // initialize with some dummy shuttles
-      {
-        bookingId: 1,
-        session: "Morning",
-        shuttleID: 1,
-        bookingStatus: "inActive",
-        startLocation: "ABC Street",
-        endLocation: "XYZ Avenue",
-        bookingTime: new Date("2022-01-01T09:00:00")
-      },
-      {
-        bookingId: 2,
-        session: "Afternoon",
-        shuttleID: 1,
-        bookingStatus: "Active",
-        startLocation: "DEF Road",
-        endLocation: "LMN Lane",
-        bookingTime: new Date("2022-01-02T14:30:00")
-      },
-      {
-        bookingId: 3,
-        session: "Evening",
-        shuttleID: 2,
-        bookingStatus: "Active",
-        startLocation: "Helo Road",
-        endLocation: "Ball Lane",
-        bookingTime: new Date("2022-01-02T14:30:00")
-      },
-      {
-        bookingId: 4,
-        session: "MidAfternoon",
-        shuttleID: 2,
-        bookingStatus: "inActive",
-        startLocation: "Helo Road",
-        endLocation: "Ball Lane",
-        bookingTime: new Date("2022-01-02T14:30:00")
-      }
-    ];
+    this.bookings = [];
   }
 
   public static getInstance(): BookDataHandler {
@@ -72,36 +32,61 @@ export class BookDataHandler {
     console.log(booking);
   }
 
-  getBookingById(id: number): Booking | undefined {
+  getBookingById(id: string): Booking | undefined {
     return this.bookings.find((booking) => booking.bookingId === id);
   }
 
-  removeBooking(bookingID: number): void {
+  removeBooking(bookingID: string): void {
     this.bookings = this.bookings.filter(
       (booking) => booking.bookingId !== bookingID
     );
   }
+   generateBookingID() {
+    length = 10
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = 'bk';
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+  }
 
-  getActiveBookingsCount(shuttleID:Number): number {
+  getActiveBookingsCount(shuttleID: Number): number {
     let count = 0;
     for (let booking of this.bookings) {
-        if (booking.shuttleID === shuttleID && booking.bookingStatus === "Active") {
-            count++;
-        }
+      if (
+        booking.shuttleID === shuttleID &&
+        booking.bookingStatus === "Active"
+      ) {
+        count++;
+      }
     }
     return count;
-}
+  }
 
-  fetchBookingsForUser(userId:string) {
+  public addBookingsForUser(booking:Booking) {
+    fetch("https://localhost:3000/api/bookings/AddBooking", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(booking),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error("Error:", error));
+  }
+
+  public fetchBookingsForUser(userId: string) {
     fetch(`https://localhost:3000/api/bookings/getBookings`)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         // Assuming the data is an array of bookings
         this.bookings = data;
         console.log(data);
       })
-      .catch(error => {
-        console.error('Error:', error);
+      .catch((error) => {
+        console.error("Error:", error);
       });
   }
 }

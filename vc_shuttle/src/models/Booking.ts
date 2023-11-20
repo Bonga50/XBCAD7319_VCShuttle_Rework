@@ -1,11 +1,13 @@
 export type Booking  ={
-    bookingId: number;
-    session: string;
+    bookingid: string;
+    userId:string;
+    session: number;
     shuttleID: number;
     bookingStatus: string;
-    startLocation: string;
-    endLocation: string;
+    startLocation: number;
+    endLocation: number;
     bookingTime: Date;
+    tripId:string;
 };
 export class Bookingclass{
     bookingId: number;
@@ -24,5 +26,6 @@ export class Bookingclass{
         this.startLocation = startLocation;
         this.endLocation = endLocation;
         this.bookingTime = bookingTime;
+        
     }
 }

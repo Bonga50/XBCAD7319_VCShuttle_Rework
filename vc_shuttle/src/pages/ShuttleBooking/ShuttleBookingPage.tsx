@@ -15,40 +15,47 @@ import ScheduleDropDown from "../../components/ScheduleDropDown/ScheduleDropDown
 import LoctionDropDownForm from "../../components/LocationDropDown/LocationDropdownForm";
 import { BookDataHandler } from "../../Data/BookDataHandler";
 import StudentSettings from "../../components/StudentSettings/StudentSettings";
+import DriverRouteDropDown from "../../components/DriverRouterDropDown/DriverRouterDropDown";
 
 const ShuttleBookingPage: React.FC = () => {
   const bookingDataHandler = BookDataHandler.getInstance();
   const [selectedShuttle, setSelectedShuttle] = useState<number | null>(null);
-  const [selectedSchedule, setSelectedSchedule] = useState<string | null>(null);
+  const [selectedSchedule, setSelectedSchedule] = useState<number | null>(null);
   const [selectedStartLocation, setSelectedStartLocation] = useState<
-    string | null
+    number | null
   >(null);
-  const [selectedEndLocation, setSelectedEndLocation] = useState<string | null>(
+  const [selectedEndLocation, setSelectedEndLocation] = useState<number | null>(
+    null
+  );
+  const [selectedDriverRoute, setSelectedDriverRoute] = useState<string | null>(
     null
   );
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     if (
-      selectedShuttle === null ||
+      selectedShuttle === null||
       selectedSchedule === null ||
       selectedStartLocation === null ||
-      selectedEndLocation === null
+      selectedEndLocation === null||
+      selectedDriverRoute===null
     ) {
       console.error("Please select all values.");
     } else {
       event.preventDefault();
 
-      const dummyBooking = {
-        bookingId: 1, // adjust as needed
+      const newBooking = {
+        bookingid: bookingDataHandler.generateBookingID(), // adjust as needed
+        userId:"User3@.ie.com",
         session: selectedSchedule, // adjust as needed
         shuttleID: selectedShuttle, // adjust as needed
         bookingStatus: "Active", // adjust as needed
         startLocation: selectedStartLocation, // adjust as needed
         endLocation: selectedEndLocation, // adjust as needed
         bookingTime: new Date(), // adjust as needed
+        tripId:selectedDriverRoute
       };
-
-      bookingDataHandler.addBooking(dummyBooking);
+      bookingDataHandler.addBookingsForUser(newBooking);
+      
     }
   };
 
@@ -70,6 +77,11 @@ const ShuttleBookingPage: React.FC = () => {
           <LoctionDropDownForm onLocationSelect={setSelectedStartLocation} />
           <IonLabel>End location</IonLabel>
           <LoctionDropDownForm onLocationSelect={setSelectedEndLocation} />
+          <DriverRouteDropDown onDriverRouteSelect={setSelectedDriverRoute}
+           startLocation={selectedStartLocation?selectedStartLocation:0} 
+          endLocation={selectedEndLocation?selectedEndLocation:0} />
+
+
           <IonButton className="ion-margin-top" type="submit">
             Submit
           </IonButton>
