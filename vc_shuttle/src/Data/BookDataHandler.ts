@@ -33,12 +33,12 @@ export class BookDataHandler {
   }
 
   getBookingById(id: string): Booking | undefined {
-    return this.bookings.find((booking) => booking.bookingId === id);
+    return this.bookings.find((booking) => booking.bookingid === id);
   }
 
   removeBooking(bookingID: string): void {
     this.bookings = this.bookings.filter(
-      (booking) => booking.bookingId !== bookingID
+      (booking) => booking.bookingid !== bookingID
     );
   }
    generateBookingID() {

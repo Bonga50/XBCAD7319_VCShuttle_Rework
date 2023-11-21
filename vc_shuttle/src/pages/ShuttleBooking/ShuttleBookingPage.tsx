@@ -16,6 +16,7 @@ import LoctionDropDownForm from "../../components/LocationDropDown/LocationDropd
 import { BookDataHandler } from "../../Data/BookDataHandler";
 import StudentSettings from "../../components/StudentSettings/StudentSettings";
 import DriverRouteDropDown from "../../components/DriverRouterDropDown/DriverRouterDropDown";
+import AvailableShuttleDropDown from "../../components/AvailableDriverShuttle/AvailableShuttleDropDownForm";
 
 const ShuttleBookingPage: React.FC = () => {
   const bookingDataHandler = BookDataHandler.getInstance();
@@ -71,7 +72,6 @@ const ShuttleBookingPage: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">
-          <ShuttleDropDown onShuttleSelect={setSelectedShuttle} />
           <ScheduleDropDown onScheduleSelect={setSelectedSchedule} />
           <IonLabel>Start location</IonLabel>.
           <LoctionDropDownForm onLocationSelect={setSelectedStartLocation} />
@@ -80,6 +80,12 @@ const ShuttleBookingPage: React.FC = () => {
           <DriverRouteDropDown onDriverRouteSelect={setSelectedDriverRoute}
            startLocation={selectedStartLocation?selectedStartLocation:0} 
           endLocation={selectedEndLocation?selectedEndLocation:0} />
+
+            <AvailableShuttleDropDown onShuttleSelect={setSelectedShuttle} 
+            sessionId={selectedSchedule?selectedSchedule:0} 
+            startLocation={selectedStartLocation?selectedStartLocation:0} 
+            endLocation={selectedEndLocation?selectedEndLocation:0} />
+
 
 
           <IonButton className="ion-margin-top" type="submit">

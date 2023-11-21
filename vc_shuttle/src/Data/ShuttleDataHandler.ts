@@ -45,4 +45,18 @@ export class ShuttleDataHandler {
     removeShuttle(shuttleID: number): void {
       this.shuttles = this.shuttles.filter(shuttle => shuttle.shuttleID !== shuttleID);
     }
+
+    getShuttlesByIDs(ids: Set<number>): Shuttle[] {
+      console.log("Parsed IDs"+ids);
+      let result: Shuttle[] = [];
+      ids.forEach(id => {
+          let shuttle = this.shuttles.find(shuttle => shuttle.shuttleID === id);
+          if (shuttle) {
+              result.push(shuttle);
+          }
+      });
+      console.log("Results"+result);
+      return result;
+  }
+  
   }

@@ -151,4 +151,16 @@ export class DriverRouteHandler {
     }
     return null; // Return null if no route with the given shuttleID is found
   }
+
+  //Will look for all available shuttles for a specific session.
+  public getRoutesForSession(sessionID: number, startLocation: number, endLocation: number): DriverRoute[] {
+    const routesForSession = this.mapRoutes.filter(route => 
+        route.scheduleID === sessionID && 
+        route.startLocationID === startLocation && 
+        route.endLocationID === endLocation
+    );
+    console.log("Available routes"+ routesForSession.length);
+    return routesForSession;
+}
+
 }
