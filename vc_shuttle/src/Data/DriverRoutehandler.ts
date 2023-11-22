@@ -177,9 +177,15 @@ export class DriverRouteHandler {
   }
 
   //will get all trips for a specific shuttle
-  public getRoutesByShuttleID(shuttleID: number): DriverRoute[] {
-    console.log("Available routes" + this.mapRoutes.length);
-    return this.mapRoutes.filter( (route) => route.shuttleID === shuttleID);
+  public getRoutesByShuttleID(shuttleId: number): Promise<DriverRoute[]> {
+    return new Promise((resolve, reject) => {
+      const interval = setInterval(() => {
+        if (this.mapRoutes.length > 0) {
+          clearInterval(interval);
+          resolve(this.mapRoutes.filter(route => route.shuttleID === shuttleId));
+        }
+      }, 1000);
+    });
   }
   
 //will get a trip by a specific id

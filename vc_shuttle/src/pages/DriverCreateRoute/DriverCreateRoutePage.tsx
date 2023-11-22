@@ -15,6 +15,7 @@ import { DriverRouteHandler } from "../../Data/DriverRoutehandler";
 import { ScheduleDataHandler } from "../../Data/ScheduleDataHandler";
 import { LocationHandler } from "../../Data/LocationHandler";
 import DriverSettings from "../../components/DriverSettings/DriverSettings";
+import { UserDataHandler } from "../../Data/UserDataHandler";
 
 const DriverCreateRoutePage: React.FC = () => {
   const [selectedSchedule, setSelectedSchedule] = useState<number | null>(null);
@@ -27,6 +28,7 @@ const DriverCreateRoutePage: React.FC = () => {
   const driverRouteHandler = DriverRouteHandler.getInstance();
   const scheduleDataHandler = ScheduleDataHandler.getInstance();
   const locationDataHandler = LocationHandler.getInstance();
+  const userDataHandler = UserDataHandler.getInstance();
   const handleSubmit = () => {
     if (selectedSchedule && selectedStartLocation && selectedEndLocation) {
       const duration = 30 * 60; // Replace with actual duration
@@ -42,7 +44,7 @@ const DriverCreateRoutePage: React.FC = () => {
         start!!,
         end!!,
         shuttleID,
-        "User1@ie.com",
+        userDataHandler.getLoggedUser()!!,
         selectedSession!!
       );
     }

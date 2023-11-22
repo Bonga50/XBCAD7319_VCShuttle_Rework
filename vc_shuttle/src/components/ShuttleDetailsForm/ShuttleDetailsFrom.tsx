@@ -53,11 +53,7 @@ const ShuttleDetailsForm: React.FC<ContainerProps> = ({trip}: {trip: DriverRoute
                 {trip ? selectedschedule!!.startTime.getHours(): 'N/A'}:{trip ? selectedschedule!!.startTime.getMinutes(): 'N/A'} 
                 - {trip ? selectedschedule!!.endTime.getHours(): 'N/A'}:{trip ? selectedschedule!!.endTime.getMinutes(): 'N/A'}
                 </IonCardContent>
-                <IonCardContent>
-                Here's a small text description for the card content.
-                </IonCardContent>
                     <IonButton routerLink='/StudentMap' className='ion-padding'>Track</IonButton>
-                
             </IonCard>
         </div>
     );

@@ -28,6 +28,7 @@ const DriverRouteDetailsForm: React.FC<ContainerProps> = ({trip}) => {
     const scheduledataHandler = ScheduleDataHandler.getInstance();
 
     useEffect(() => {
+        
         if (trip) {
             setStartLocation(locationdataHandler.getLocationByID(trip.startLocationID));
             setEndLocation(locationdataHandler.getLocationByID(trip.endLocationID));
@@ -51,8 +52,7 @@ const DriverRouteDetailsForm: React.FC<ContainerProps> = ({trip}) => {
                 <IonCardSubtitle className='ion-padding'> {trip ? startLocation?.locationName : 'N/A'} - {trip ? endLocation?.locationName : 'N/A'}</IonCardSubtitle>
                 <IonProgressBar>https://ionicframework.com/docs/api/progress-bar</IonProgressBar>
                 <IonCardContent>
-                {trip ? selectedschedule?.startTime.getHours(): 'N/A'}:{trip ? selectedschedule?.startTime.getMinutes(): 'N/A'} 
-                - {trip ? selectedschedule?.endTime.getHours(): 'N/A'}:{trip ? selectedschedule?.endTime.getMinutes(): 'N/A'}
+                Departure time: {trip ? new Date(trip.departureTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A'}
                 </IonCardContent>
                 <IonButton routerLink='/StudentMap' className='ion-padding'>Track</IonButton>
             </IonCard>

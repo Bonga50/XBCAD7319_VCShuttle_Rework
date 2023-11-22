@@ -14,9 +14,15 @@ const DriverAllRouteDropDown: React.FC<DriverRouteDropDownProps> = ({shuttleId, 
     const [driverRoute, setDriverRoute] = useState<DriverRoute[]>([]);
 
     useEffect(() => {
-       dataHandler.fetchDriverRoutes();
-      setDriverRoute(dataHandler.getRoutesByShuttleID(shuttleId));
-    }, []);
+        console.log(shuttleId)
+        const fetchRoutes = async () => {
+            const routes = dataHandler.getRoutesByShuttleID(shuttleId);
+            setDriverRoute(await routes);
+        };
+    
+        fetchRoutes();
+    }, [shuttleId]);
+    
 
     const handleDriverRouteChange = (e: CustomEvent) => {
         const selectedDriverRoute = e.detail.value as string;
@@ -38,6 +44,6 @@ const DriverAllRouteDropDown: React.FC<DriverRouteDropDownProps> = ({shuttleId, 
             </IonList> 
         </div>
     );
-};;
+};
 
 export default DriverAllRouteDropDown;

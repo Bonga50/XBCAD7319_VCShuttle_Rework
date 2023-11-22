@@ -12,11 +12,14 @@ const LoginForm: React.FC<ContainerProps> = () => {
 
     const [username, setUsername] = useState<string>();
     const [password, setPassword] = useState<string>();
-    const data = new UserDataHandler();
+    const data = UserDataHandler.getInstance();
     
 
     const handleUsernameInputChange = (event: CustomEvent) => {
         setUsername(event.detail.value);
+      };
+      const handlePasswordInputChange = (event: CustomEvent) => {
+        setPassword(event.detail.value);
       };
 
 
@@ -28,18 +31,25 @@ const LoginForm: React.FC<ContainerProps> = () => {
     //   };
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
         if (username === null){
-            console.log("Invalid username")
+            console.log("Invalid username or password")
         }else{
-            var user = data.findUser(username!!);
-            console.log(user);
-            if(user?.role == "driver"){
-                history.push('/DriverHomePage'); // Redirect to admin page
-            }else if(user?.role=="user"){
-                history.push('/StudentHome');
-            }else if(user?.role=="admin"){
-                history.push('/AdminHomePage');
+            console.log(username+" "+password);
+            var user = data.findUser(username!!,password!!);
+            console.log(user)
+            if(user){
+                data.setLogedInUser(user.email)
+                console.log(user);
+                if(user?.role == "driver"){
+                    history.push('/DriverHomePage'); // Redirect to admin page
+                }else if(user?.role=="user"){
+                    history.push('/StudentHome');
+                }else if(user?.role=="admin"){
+                    history.push('/AdminHomePage');
+                }
             }
+           
         }
         
         
@@ -57,8 +67,9 @@ const LoginForm: React.FC<ContainerProps> = () => {
                              </div>
                              
                              <IonInput className='ion-margin-top' label="Email" label-placement="floating" type='email'  fill="outline" placeholder="Enter email" value={username} onIonChange={handleUsernameInputChange} ></IonInput>
-                             <IonInput className='ion-margin-top' label="Password" label-placement="floating" type='password' fill="outline" placeholder="Enter Password"></IonInput>
+                             <IonInput className='ion-margin-top' label="Password" label-placement="floating" type='password' fill="outline" placeholder="Enter Password" value={password} onIonChange={handlePasswordInputChange}  ></IonInput>
                              <IonButton className='ion-margin-top' type='submit'  expand="block" >Log In</IonButton> 
+                             <IonButton className='ion-margin-top'  routerLink='/StudentRegister' expand="block" >Sign Up</IonButton> 
                              {/* <IonButton routerLink='/StudentHome' className='ion-margin-top'  expand="block" >Log In</IonButton>   */}
                              
                          </IonCol>
@@ -67,29 +78,7 @@ const LoginForm: React.FC<ContainerProps> = () => {
             </form>
         
         </div>
-        // <div id='container'>
-        // <IonPage >
-        //     VC Shuttle
-        //     <IonHeader >
-        //     <IonTitle >VC Shuttle</IonTitle>
-        //     </IonHeader>
-        //     <IonContent className="ion-padding">
-        //         <IonLabel>Login</IonLabel>
-        //         <IonGrid>
-        //             <IonRow className="ion-justify-content-center ion-align-items-center" style={{height: "10%"}}>
-        //                 <IonCol  size="12" sizeMd="6" sizeLg="4" sizeXl="3">
-        //                     <IonImg src={PlaceHolderLogo} alt="Place holder logo"  />
-        //                     <form>
-        //                     <IonInput className='ion-margin-top' label="Email" label-placement="floating" type='email'  fill="outline" placeholder="Enter email"></IonInput>
-        //                     <IonInput className='ion-margin-top' label="Password" label-placement="floating" type='password' fill="outline" placeholder="Enter Password"></IonInput>
-        //                     <IonButton className='ion-margin-top' type='submit'  expand="block" >Log In</IonButton>  
-        //                     </form>
-        //                 </IonCol>
-        //         </IonRow>
-        //     </IonGrid>
-        //     </IonContent>
-        // </IonPage>
-        // </div>
+       
     );
 };
 

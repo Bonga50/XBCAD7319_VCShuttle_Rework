@@ -6,7 +6,7 @@ export class ShuttleDataHandler {
     constructor() {
       this.shuttles = [
         // initialize with some dummy shuttles
-        { shuttleID: 1, shuttleName: 'Shuttle 1', driverID: 'Driver1', numberOfseats: 20, status: 'Active' },
+        { shuttleID: 1, shuttleName: 'Shuttle 1', driverID: 'User2@ie.com', numberOfseats: 20, status: 'Active' },
         { shuttleID: 2, shuttleName: 'Shuttle 2', driverID: 'Driver2', numberOfseats: 30, status: 'Inactive'},
         { shuttleID: 3, shuttleName: 'Shuttle 3', driverID: 'Driver3', numberOfseats: 30, status: 'Inactive'},
       ];
@@ -34,6 +34,10 @@ export class ShuttleDataHandler {
 
     getShuttleByID(id: number):Shuttle|undefined{
       return this.shuttles.find((shuttle) => shuttle.shuttleID===id);
+    }
+
+    getShuttleByDriverID(id: string):Shuttle|undefined{
+      return this.shuttles.find((shuttle) => shuttle.driverID===id);
     }
 
     getSeatsByShuttleID(id: number): number | undefined {
