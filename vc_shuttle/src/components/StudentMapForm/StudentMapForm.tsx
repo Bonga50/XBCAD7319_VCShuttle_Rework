@@ -1,27 +1,40 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import React, { useRef, useEffect, useState } from 'react';
-import mapboxgl from 'mapbox-gl'; 
-import './StudentMapForm.css'
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar
+} from "@ionic/react";
+import React, { useRef, useEffect, useState } from "react";
+import mapboxgl from "mapbox-gl";
+import "./StudentMapForm.css";
 import geoJson from "../../resources/images/chicago-parks.json";
+import { Locations } from "../../models/Locations";
 
-interface ContainerProps { }
-mapboxgl.accessToken = 'pk.eyJ1IjoidGhlcmVhbGJvbmdhIiwiYSI6ImNsbG0yMXF2dTJqZm0zZ21nbm43b3RyamYifQ.DeWMvQ5HgM53BMjgWqc2TQ';
-const StudentMapForm: React.FC<ContainerProps> = () => {
+interface ContainerProps {
+  startLocation: Locations;
+  endLocation: Locations;
+}
+mapboxgl.accessToken =
+  "pk.eyJ1IjoidGhlcmVhbGJvbmdhIiwiYSI6ImNsbG0yMXF2dTJqZm0zZ21nbm43b3RyamYifQ.DeWMvQ5HgM53BMjgWqc2TQ";
+const StudentMapForm: React.FC<ContainerProps> = ({
+  startLocation,
+  endLocation
+}) => {
+  const mapContainer = useRef(null);
+  const map = useRef(null);
+  const [lng, setLng] = useState(-70.9);
+  const [lat, setLat] = useState(42.35);
+  const [zoom, setZoom] = useState(9);
+  const tooltipRef = useRef(new mapboxgl.Popup({ offset: 15 }));
 
-    const mapContainer = useRef(null);
-    const map = useRef(null);
-    const [lng, setLng] = useState(-70.9);
-    const [lat, setLat] = useState(42.35);
-    const [zoom, setZoom] = useState(9);
-    const tooltipRef = useRef(new mapboxgl.Popup({ offset: 15 }));
-
-    // Initialize map when component mounts
+  // Initialize map when component mounts
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v11",
-      center: [-87.65, 41.84],
-      zoom: 10,
+      center: [startLocation.longitude, startLocation.latitude], // Set initial center to start location
+      zoom: 10
     });
 
     map.on("load", function () {
@@ -32,15 +45,40 @@ const StudentMapForm: React.FC<ContainerProps> = () => {
           if (error) throw error;
           map.addImage("custom-marker", image);
           map.resize();
-          // Add a GeoJSON source with multiple points
+
+          // Create GeoJSON data for the start and end locations
+          const data = {
+            type: "FeatureCollection",
+            features: [
+              {
+                type: "Feature",
+                geometry: {
+                  type: "Point",
+                  coordinates: [startLocation.longitude, startLocation.latitude]
+                },
+                properties: {
+                  title: startLocation.locationName
+                }
+              },
+              {
+                type: "Feature",
+                geometry: {
+                  type: "Point",
+                  coordinates: [endLocation.longitude, endLocation.latitude]
+                },
+                properties: {
+                  title: endLocation.locationName
+                }
+              }
+            ]
+          };
+
+          // Add a GeoJSON source with the start and end locations
           map.addSource("points", {
             type: "geojson",
-            data: {
-              type: "FeatureCollection",
-              features: geoJson.features,
-            },
+            data: data
           });
-          // Add a symbol layer
+
           map.addLayer({
             id: "points",
             type: "symbol",
@@ -64,16 +102,15 @@ const StudentMapForm: React.FC<ContainerProps> = () => {
     // Clean up on unmount
     return () => map.remove();
   }, []);
-    
 
-    return (
-      <div>
-        <div className="sidebar" >
-          Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-        </div>
-        <div ref={mapContainer} className="map-container" />
+  return (
+    <div>
+      <div className="sidebar">
+        Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
       </div>
-    );
+      <div ref={mapContainer} className="map-container" />
+    </div>
+  );
 };
 
 export default StudentMapForm;

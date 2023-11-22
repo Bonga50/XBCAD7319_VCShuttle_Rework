@@ -2,8 +2,6 @@ import { Schedule } from "./../models/Schedule";
 import { DriverRoute } from "../models/DriverRoute";
 import { Locations } from "../models/Locations";
 
-
-
 export class DriverRouteHandler {
   private mapRoutes: DriverRoute[] = [];
   private static instance: DriverRouteHandler;
@@ -25,11 +23,11 @@ export class DriverRouteHandler {
     return DriverRouteHandler.instance;
   }
 
+  //methods that will fetch all valid trips from the data base
   public fetchDriverRoutes(): void {
     fetch("https://localhost:3000/api/driveRoute/getDriveRoute")
       .then((response) => response.json())
       .then((data) => {
-        
         this.mapRoutes = data.data.map((route: any) => ({
           driverRouteID: route.driverRouteID,
           scheduleID: route.scheduleID,
@@ -37,23 +35,21 @@ export class DriverRouteHandler {
           shuttleID: route.shuttleID,
           startLocationID: route.startLocationID,
           endLocationID: route.endLocationID,
-          departureTime: new Date(
-            route.departureTime ? route.departureTime : 1
-          ),
+          departureTime: new Date(route.departureTime ? route.departureTime : 1)
         }));
         console.log("Map", this.mapRoutes); // Moved inside the .then block
       })
       .catch((error) => console.error("Error:", error));
   }
 
+  //Method that will add the trips to the driver routes/trips to a database
   public addDriverRoutesToDatabase(newRoute: DriverRoute) {
-    
     fetch("https://localhost:3000/api/driveRoute/AddDriveRoute", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify(newRoute),
+      body: JSON.stringify(newRoute)
     })
       .then((response) => response.json())
       .then((data) => console.log(data))
@@ -106,30 +102,39 @@ export class DriverRouteHandler {
       (endTime.getTime() - startTime.getTime()) / (tripDuration * 1000)
     );
 
+    let date = new Date();
+    let dateString = `${date.getFullYear()}${(
+      "0" +
+      (date.getMonth() + 1)
+    ).slice(-2)}${("0" + date.getDate()).slice(-2)}`;
+
     for (let i = 0; i < tripCount; i++) {
       let startLoc = i % 2 === 0 ? startLocation : endLocation;
       let endLoc = i % 2 === 0 ? endLocation : startLocation;
 
       let route: DriverRoute = {
-        driverRouteID: `tr${schedule.scheduleID}-${shuttleID}-${i}`,
+        driverRouteID: `tr${schedule.scheduleID}-${shuttleID}-${i}-${dateString}`,
         scheduleID: schedule.scheduleID,
         driverName: driverName,
-        seatsBooked:0,
+        seatsBooked: 0,
         shuttleID: shuttleID,
         departureTime: new Date(startTime.getTime() + i * tripDuration * 1000),
         startLocationID: startLoc.locationId,
-        endLocationID: endLoc.locationId,
+        endLocationID: endLoc.locationId
       };
-      console.log("preRoute"+route)
+      console.log("preRoute" + route);
       this.addDriverRoutesToDatabase(route);
       routes.push(route);
       this.mapRoutes.push(route);
     }
-    this.fetchDriverRoutes()
+    this.fetchDriverRoutes();
     console.log(this.mapRoutes);
     return routes;
   }
 
+  /**
+   *Method that will get all the trips/routes by a given start location and a given end location.
+   */
   getRoutesByStartAndEndLocation(
     startLocationID: number,
     endLocationID: number
@@ -141,7 +146,9 @@ export class DriverRouteHandler {
         route.endLocationID === endLocationID
     );
   }
-
+  /**
+   *Method that will look for trips with specific shuttles
+   */
   getByShuttleID(shuttleID: number): DriverRoute | null {
     console.log(shuttleID);
     for (let route of this.mapRoutes) {
@@ -153,14 +160,30 @@ export class DriverRouteHandler {
   }
 
   //Will look for all available shuttles for a specific session.
-  public getRoutesForSession(sessionID: number, startLocation: number, endLocation: number): DriverRoute[] {
-    const routesForSession = this.mapRoutes.filter(route => 
-        route.scheduleID === sessionID && 
-        route.startLocationID === startLocation && 
+  //for a given stat and end location
+  public getRoutesForSession(
+    sessionID: number,
+    startLocation: number,
+    endLocation: number
+  ): DriverRoute[] {
+    const routesForSession = this.mapRoutes.filter(
+      (route) =>
+        route.scheduleID === sessionID &&
+        route.startLocationID === startLocation &&
         route.endLocationID === endLocation
     );
-    console.log("Available routes"+ routesForSession.length);
+    console.log("Available routes" + routesForSession.length);
     return routesForSession;
-}
+  }
 
+  //will get all trips for a specific shuttle
+  public getRoutesByShuttleID(shuttleID: number): DriverRoute[] {
+    console.log("Available routes" + this.mapRoutes.length);
+    return this.mapRoutes.filter( (route) => route.shuttleID === shuttleID);
+  }
+  
+//will get a trip by a specific id
+  public getByDriverRouteID(driverRouteID: string): DriverRoute | undefined {
+    return this.mapRoutes.find(route => route.driverRouteID === driverRouteID);
+  }
 }

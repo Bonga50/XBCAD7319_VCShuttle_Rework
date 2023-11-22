@@ -31,7 +31,7 @@ export class MapHandler {
     }
 
     async getTimeToGetToDestanation(startLocation:Locations,endLocation:Locations) {
-        const directionsRequest = `https://api.mapbox.com/directions/v5/mapbox/driving/${startLocation.longitude},${startLocation.latitude};${endLocation.longitude},${endLocation.latitude}?access_token=${mapboxgl.accessToken}&geometries=geojson`;
+        const directionsRequest = `https://api.mapbox.com/directions/v5/mapbox/driving-traffic/${startLocation.longitude},${startLocation.latitude};${endLocation.longitude},${endLocation.latitude}?access_token=${mapboxgl.accessToken}&geometries=geojson`;
         try {
             const response = await axios.get(directionsRequest);
             const routes = response.data.routes;

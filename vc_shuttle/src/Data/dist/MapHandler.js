@@ -65,7 +65,7 @@ var MapHandler = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        directionsRequest = "https://api.mapbox.com/directions/v5/mapbox/driving/" + startLocation.longitude + "," + startLocation.latitude + ";" + endLocation.longitude + "," + endLocation.latitude + "?access_token=" + mapbox_gl_1["default"].accessToken + "&geometries=geojson";
+                        directionsRequest = "https://api.mapbox.com/directions/v5/mapbox/driving-traffic/" + startLocation.longitude + "," + startLocation.latitude + ";" + endLocation.longitude + "," + endLocation.latitude + "?access_token=" + mapbox_gl_1["default"].accessToken + "&geometries=geojson";
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 3, , 4]);

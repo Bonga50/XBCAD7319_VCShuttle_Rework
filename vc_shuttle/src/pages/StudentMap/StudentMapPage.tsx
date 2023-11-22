@@ -12,7 +12,19 @@ const StudentMapPage: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent className="ion-padding">
-                <StudentMapForm/>
+                <StudentMapForm startLocation={{
+                    locationId: 0,
+                    latitude: -26.093444,
+                    longitude: 28.047038,
+                    description: '',
+                    locationName: 'Varsity College Sandton'
+                }} endLocation={{
+                    locationId: 0,
+                    latitude: -26.107862,
+                    longitude: 28.057683,
+                    description: '',
+                    locationName: 'Gautrain Station Sandton'
+                }}/>
             </IonContent>
         </IonPage>
     );

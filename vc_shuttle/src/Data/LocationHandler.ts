@@ -9,9 +9,9 @@ export class LocationHandler {
      */
     constructor() {
         this.locations = [
-            { locationId: 7, latitude: -26.0789, longitude: 28.0536, description: "Varsity College Sandton", locationName: 'Varsity College Sandton' },
-            { locationId: 8, latitude: -26.1076, longitude: 28.0567, description: "Gautrain Station Sandton", locationName: 'Gautrain Station Sandton' },
-            { locationId: 9, latitude: -26.0891, longitude: 28.0524, description: "Benmore Mall Sandton", locationName: 'Benmore Mall Sandton' }            
+            { locationId: 7, latitude: -26.093444,longitude: 28.047038, description: "Varsity College Sandton", locationName: 'Varsity College Sandton' },
+            { locationId: 8, latitude: -26.107862, longitude: 28.057683, description: "Gautrain Station Sandton", locationName: 'Gautrain Station Sandton' },
+            { locationId: 9, latitude: -26.100766, longitude: 28.049716, description: "Benmore Mall Sandton", locationName: 'Benmore Mall Sandton' }            
         ]
 
     }

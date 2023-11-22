@@ -9,6 +9,7 @@ import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import geoJson from "../../../resources/images/chicago-parks.json";
+import { Locations } from "../../../models/Locations";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoidGhlcmVhbGJvbmdhIiwiYSI6ImNsbG0yMXF2dTJqZm0zZ21nbm43b3RyamYifQ.DeWMvQ5HgM53BMjgWqc2TQ";
@@ -16,7 +17,11 @@ type newLocation = {
   lat: number;
   lng: number;
 };
-const MapNavigation: React.FC = () => {
+interface ContainerProps{
+  startLocation: Locations;
+  endLocation: Locations;
+}
+const MapNavigation: React.FC<ContainerProps> = ({}) => {
   // Define your marker locations for differnt stops
   const markerLocations = [
     { lat: -26.2041, lng: 28.0473 }, // Johannesburg Art Gallery
@@ -111,7 +116,7 @@ const MapNavigation: React.FC = () => {
       lat: position.coords.latitude,
     };
 
-    const directionsRequest = `https://api.mapbox.com/directions/v5/mapbox/driving/${start.lng},${start.lat};${end.lng},${end.lat}?access_token=${mapboxgl.accessToken}&geometries=geojson`;
+    const directionsRequest = `https://api.mapbox.com/directions/v5/mapbox/driving-traffic/${start.lng},${start.lat};${end.lng},${end.lat}?access_token=${mapboxgl.accessToken}&geometries=geojson`;
     console.log(directionsRequest);
     fetch(directionsRequest)
       .then((response) => response.json())

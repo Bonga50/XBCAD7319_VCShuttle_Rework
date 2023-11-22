@@ -41,13 +41,7 @@ var mapbox_gl_1 = require("mapbox-gl");
 require("mapbox-gl/dist/mapbox-gl.css");
 mapbox_gl_1["default"].accessToken =
     "pk.eyJ1IjoidGhlcmVhbGJvbmdhIiwiYSI6ImNsbG0yMXF2dTJqZm0zZ21nbm43b3RyamYifQ.DeWMvQ5HgM53BMjgWqc2TQ";
-var MapNavigation = function () {
-    // This function gets the user's current location
-    function getCurrentLocation() {
-        return new Promise(function (resolve, reject) {
-            navigator.geolocation.getCurrentPosition(resolve, reject);
-        });
-    }
+var MapNavigation = function (_a) {
     // Define your marker locations for differnt stops
     var markerLocations = [
         { lat: -26.2041, lng: 28.0473 },
@@ -56,6 +50,12 @@ var MapNavigation = function () {
         { lat: -26.1952, lng: 28.034 },
         { lat: -26.2384, lng: 28.0176 },
     ];
+    // This function gets the user's current location
+    function getCurrentLocation() {
+        return new Promise(function (resolve, reject) {
+            navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
+    }
     // This function watches the user's current location
     function watchCurrentLocation(callback) {
         return navigator.geolocation.watchPosition(callback);
@@ -110,10 +110,10 @@ var MapNavigation = function () {
         });
     }, []);
     var route = null;
-    var _a = react_1.useState(-70.9), lng = _a[0], setLng = _a[1]; // Set your initial longitude
-    var _b = react_1.useState(42.35), lat = _b[0], setLat = _b[1]; // Set your initial latitude
-    var _c = react_1.useState(9), zoom = _c[0], setZoom = _c[1]; // Set your initial zoom level
-    var _d = react_1.useState(''), directions = _d[0], setDirections = _d[1];
+    var _b = react_1.useState(-70.9), lng = _b[0], setLng = _b[1]; // Set your initial longitude
+    var _c = react_1.useState(42.35), lat = _c[0], setLat = _c[1]; // Set your initial latitude
+    var _d = react_1.useState(9), zoom = _d[0], setZoom = _d[1]; // Set your initial zoom level
+    var _e = react_1.useState(''), directions = _e[0], setDirections = _e[1];
     function generateRoute(start, end) {
         return __awaiter(this, void 0, Promise, function () {
             var position, startLocation, directionsRequest;
@@ -127,7 +127,7 @@ var MapNavigation = function () {
                             lng: position.coords.longitude,
                             lat: position.coords.latitude
                         };
-                        directionsRequest = "https://api.mapbox.com/directions/v5/mapbox/driving/" + start.lng + "," + start.lat + ";" + end.lng + "," + end.lat + "?access_token=" + mapbox_gl_1["default"].accessToken + "&geometries=geojson";
+                        directionsRequest = "https://api.mapbox.com/directions/v5/mapbox/driving-traffic/" + start.lng + "," + start.lat + ";" + end.lng + "," + end.lat + "?access_token=" + mapbox_gl_1["default"].accessToken + "&geometries=geojson";
                         console.log(directionsRequest);
                         fetch(directionsRequest)
                             .then(function (response) { return response.json(); })
