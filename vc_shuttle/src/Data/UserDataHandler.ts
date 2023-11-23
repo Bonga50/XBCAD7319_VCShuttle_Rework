@@ -70,6 +70,24 @@ export class UserDataHandler {
     localStorage.setItem('username', username);
   }
 
+  public async getUsersfromDatabse(): Promise<User[]> {
+    const response = await fetch('https://localhost:3000/api/user/getUser');
+    const data = await response.json();
+    this.userList = data;
+    return this.userList;
+  }
+
+  public async addUsertoDatabase(user: User): Promise<void> {
+    const response = await fetch('https://localhost:3000/api/user/AddUser', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(user)
+    });
+    const data = await response.json();
+    this.userList.push(data);
+  }
   getLoggedUser(): string | null {
     return localStorage.getItem('username');
   }
