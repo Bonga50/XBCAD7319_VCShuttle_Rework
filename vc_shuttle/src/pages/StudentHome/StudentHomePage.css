@@ -63,3 +63,23 @@ body {
     justify-content: space-between;
     align-items: center;
   }
+
+  .sectionio {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  @media (max-width: 350px) {
+    .sectionio {
+      flex-direction: column;
+    }
+  }
+
+  .textio{
+    margin: 5px 5px 5px 5px;
+    padding: 10px;
+  }
+
+
+  

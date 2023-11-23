@@ -45,7 +45,6 @@ const StudentRegisterForm: React.FC = () => {
                 </IonRow>
             </IonGrid>
         </form>
-    
     </div>
    
     );
