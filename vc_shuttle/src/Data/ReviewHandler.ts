@@ -26,4 +26,8 @@ export class ReviewHandler {
     getReviewByID(id: number): Reviews | undefined {
         return this.reviews.find((review) => review.reviewId === id);
     }
+
+    getReviewByUsername(username: string): Reviews | undefined{
+        return this.reviews.find((review)=> review.username === username)
+    }
 }

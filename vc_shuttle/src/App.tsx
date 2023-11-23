@@ -117,10 +117,10 @@ const App: React.FC = () => (
         </Route>
         <Route exact path="/StudentRegister">
           <StudentRegisterPage/>
-          <Route exact path="/Reviews">
+        </Route>
+        <Route exact path="/Reviews">
             <Reviews/>
           </Route>
-        </Route>
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>

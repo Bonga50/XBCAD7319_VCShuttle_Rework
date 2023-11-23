@@ -1,5 +1,6 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import React from 'react';
+import ReviewForm from '../../components/AdminReviews/AdminReviews';
 
 const Reviews: React.FC = () => {
 
@@ -11,7 +12,7 @@ const Reviews: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent className="ion-padding">
-              
+            <ReviewForm/>
             </IonContent>
         </IonPage>
     );
