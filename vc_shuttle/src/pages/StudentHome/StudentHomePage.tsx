@@ -17,6 +17,7 @@ import BookingListForm from "../../components/BookingListForm/BookingListForm";
 import listIcon from "../../resources/images/listicon.png";
 import clockIcon from "../../resources/images/clockicon.png";
 import mapPinicon from "../../resources/images/mapblackpin.png";
+import staricon from "../../resources/images/star.png";
 import StudentSettings from "../../components/StudentSettings/StudentSettings";
 import { DriverRouteHandler } from "../../Data/DriverRoutehandler";
 import { DriverRoute } from "../../models/DriverRoute";
@@ -24,6 +25,7 @@ import { BookDataHandler } from "../../Data/BookDataHandler";
 import LoctionDropDownForm from "../../components/LocationDropDown/LocationDropdownForm";
 import DriverRouteDropDown from "../../components/DriverRouterDropDown/DriverRouterDropDown";
 import "./StudentHomePage.css";
+import StudentReviews from "../../components/StudentReviews/StudentReviews";
 const StudentHome: React.FC = () => {
   const [selectedShuttle, setSelectedShuttle] = useState<number | null>(null);
   const [selectedRoute, setSelectedRoute] = useState<DriverRoute | null>(null);
@@ -112,6 +114,12 @@ const StudentHome: React.FC = () => {
                 <img src={clockIcon} height="48px" alt="Schedules" />
               </div>
             </IonButton>
+            <IonButton id="open-ReviewsModal" >
+              <div>
+                <img src={staricon} height="48px" alt="Schedules" />
+              </div>
+            </IonButton>
+            <StudentReviews/>
           </div>
           <BookingListForm />
         </IonContent>
