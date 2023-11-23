@@ -15,8 +15,8 @@ const AdminGetUserList: React.FC = () => {
         setUsers(userDataHandler.getUsers());
     }, []);
 
-    const handleUserClick = (userEmail:string) => {
-      const userDetails = userDataHandler.findUser(userEmail); 
+    const handleUserClick = (userEmail:string, userPassword:string) => {
+      const userDetails = userDataHandler.findUser(userEmail,userPassword); 
       setSelectedUser(userDetails);
     };
     return (
@@ -36,7 +36,7 @@ const AdminGetUserList: React.FC = () => {
 
       <IonList id="open-AddUserModal" inset={true}>
         {users!!.map((user) => (
-          <IonItem button key={user.id} onClick={() => handleUserClick(user.email)}>
+          <IonItem button key={user.id} onClick={() => handleUserClick(user.email, user.password)}>
             <IonLabel>{user.name}</IonLabel>
           </IonItem>
         ))}
