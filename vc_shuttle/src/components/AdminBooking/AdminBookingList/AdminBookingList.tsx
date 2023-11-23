@@ -14,7 +14,10 @@ const AdminBookingList: React.FC = () => {
     const [selectedBookings,setSelectedBooking] = useState<Booking>();
 
     useEffect(() => {
-        setBookings(dataHandler.getBookings());
+      const fetchBooking = async () => {
+        setBookings(await dataHandler.getBookings());
+      }
+      fetchBooking();
         setActiveBookings(dataHandler.getActiveBookings());
       }, []);
 
@@ -29,7 +32,7 @@ const AdminBookingList: React.FC = () => {
         modal.current?.dismiss(input.current?.value, 'confirm');
       }
 
-      function setSelectedItem(id:number){
+      function setSelectedItem(id:string){
         setSelectedBooking(dataHandler.getBookingById(id))
         console.log(selectedBookings);
       }
@@ -58,7 +61,7 @@ const AdminBookingList: React.FC = () => {
 
             <IonList id="open-AddBookingmodal" inset={true}>
         {bookings.map((bookings) => (
-            <IonItem button key={bookings.bookingId}  onClick={() => setSelectedItem(bookings.bookingId)} >
+            <IonItem button key={bookings.bookingid}  onClick={() => setSelectedItem(bookings.bookingid)} >
               <IonLabel>
                 {bookings.session}
               </IonLabel>
