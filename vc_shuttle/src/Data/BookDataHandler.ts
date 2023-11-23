@@ -16,9 +16,16 @@ export class BookDataHandler {
     return BookDataHandler.instance;
   }
 
-  getBookings(): Booking[] {
-    console.log(this.bookings.length);
-    return this.bookings;
+  getBookings(): Promise<Booking[]>  {
+    return new Promise((resolve, reject) => {
+      const interval = setInterval(() => {
+        if (this.bookings.length > 0) {
+          clearInterval(interval);
+          resolve(this.bookings);
+        }
+      }, 1000);
+    });
+    
   }
 
   getActiveBookings(): Booking[] {

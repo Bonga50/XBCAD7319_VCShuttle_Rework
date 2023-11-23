@@ -21,7 +21,10 @@ const StudentBookingListForm: React.FC<ContainerProps> = () => {
 
 
     useEffect(() => {
-        setBookings(dataHandler.getBookings());
+      const fetchBooking = async () => {
+        setBookings(await dataHandler.getBookings());
+      }
+      fetchBooking();
         setActiveBookings(dataHandler.getBookingsByUserId(userdataHandler.getLoggedUser()!!));
        
       }, []);
@@ -53,7 +56,8 @@ const StudentBookingListForm: React.FC<ContainerProps> = () => {
                 {bookings.bookingid}
               </IonLabel>
               <IonLabel>
-                {bookings.startLocation} to {bookings.endLocation}
+                { locationdataHandler.getLocationByID(bookings.startLocation)?.locationName}
+                 to {locationdataHandler.getLocationByID(bookings.endLocation)?.locationName}
               </IonLabel>
             </IonItem>
           ))}

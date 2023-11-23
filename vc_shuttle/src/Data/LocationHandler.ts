@@ -34,8 +34,9 @@ export class LocationHandler {
     }
 
     public getLocationByID(locationId: number): Locations | undefined {
-        console.log("Given"+locationId);
-        return this.locations.find((location) => location.locationId === locationId);
+        console.log("Given"+this.locations.find((location) => location.locationId === locationId)?.locationName);
+
+        return this.locations.find((location) => location.locationId == locationId);
     }
 
     getexcludedLocations(locationName: String): Locations[] {
