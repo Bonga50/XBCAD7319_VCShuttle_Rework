@@ -34,6 +34,7 @@ export class LocationHandler {
     }
 
     public getLocationByID(locationId: number): Locations | undefined {
+        console.log("Given"+locationId);
         return this.locations.find((location) => location.locationId === locationId);
     }
 

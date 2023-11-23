@@ -17,9 +17,12 @@ import { BookDataHandler } from "../../Data/BookDataHandler";
 import StudentSettings from "../../components/StudentSettings/StudentSettings";
 import DriverRouteDropDown from "../../components/DriverRouterDropDown/DriverRouterDropDown";
 import AvailableShuttleDropDown from "../../components/AvailableDriverShuttle/AvailableShuttleDropDownForm";
+import { useHistory } from "react-router";
+import { UserDataHandler } from "../../Data/UserDataHandler";
 
 const ShuttleBookingPage: React.FC = () => {
   const bookingDataHandler = BookDataHandler.getInstance();
+  const userDataHandler = UserDataHandler.getInstance();
   const [selectedShuttle, setSelectedShuttle] = useState<number | null>(null);
   const [selectedSchedule, setSelectedSchedule] = useState<number | null>(null);
   const [selectedStartLocation, setSelectedStartLocation] = useState<
@@ -31,6 +34,8 @@ const ShuttleBookingPage: React.FC = () => {
   const [selectedDriverRoute, setSelectedDriverRoute] = useState<string | null>(
     null
   );
+  const history = useHistory();
+
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     if (
@@ -46,7 +51,7 @@ const ShuttleBookingPage: React.FC = () => {
 
       const newBooking = {
         bookingid: bookingDataHandler.generateBookingID(), // adjust as needed
-        userId:"User3@.ie.com",
+        userId:userDataHandler.getLoggedUser()!!,
         session: selectedSchedule, // adjust as needed
         shuttleID: selectedShuttle, // adjust as needed
         bookingStatus: "Active", // adjust as needed
@@ -56,8 +61,10 @@ const ShuttleBookingPage: React.FC = () => {
         tripId:selectedDriverRoute
       };
       bookingDataHandler.addBookingsForUser(newBooking);
-      
+      history.push('/StudentHome');
     }
+
+
   };
 
   return (
@@ -85,8 +92,6 @@ const ShuttleBookingPage: React.FC = () => {
             sessionId={selectedSchedule?selectedSchedule:0} 
             startLocation={selectedStartLocation?selectedStartLocation:0} 
             endLocation={selectedEndLocation?selectedEndLocation:0} />
-
-
 
           <IonButton className="ion-margin-top" type="submit">
             Submit

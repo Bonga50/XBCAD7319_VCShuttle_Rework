@@ -3,8 +3,8 @@ import { Booking } from "./../models/Booking";
 export class BookDataHandler {
   private static instance: BookDataHandler;
   private bookings: Booking[];
-
   constructor() {
+    this.fetchBookings()
     this.bookings = [];
   }
 
@@ -41,6 +41,13 @@ export class BookDataHandler {
       (booking) => booking.bookingid !== bookingID
     );
   }
+
+  getNumberOfBookingsForTrip(tripId: string): number {
+    console.log("trip id = "+tripId);
+    console.log("number of bookings"+ this.bookings.length);
+    return this.bookings.filter(booking => booking.tripId === tripId).length;
+  }
+
    generateBookingID() {
     length = 10
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -49,6 +56,14 @@ export class BookDataHandler {
       result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
     return result;
+  }
+
+  getBookingsByUserId(userId: string): Booking[] {
+    return this.bookings.filter(booking => booking.userId === userId);
+  }
+
+  getBookingsByTripId(tripId: string): Booking[] {
+    return this.bookings.filter(booking => booking.tripId === tripId);
   }
 
   getActiveBookingsCount(shuttleID: Number): number {
@@ -77,12 +92,12 @@ export class BookDataHandler {
       .catch((error) => console.error("Error:", error));
   }
 
-  public fetchBookingsForUser(userId: string) {
+  public fetchBookings() {
     fetch(`https://localhost:3000/api/bookings/getBookings`)
       .then((response) => response.json())
       .then((data) => {
         // Assuming the data is an array of bookings
-        this.bookings = data;
+        this.bookings = data.data;
         console.log(data);
       })
       .catch((error) => {

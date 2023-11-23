@@ -32,7 +32,7 @@ const DriverRouteDetailsForm: React.FC<ContainerProps> = ({trip}) => {
         if (trip) {
             setStartLocation(locationdataHandler.getLocationByID(trip.startLocationID));
             setEndLocation(locationdataHandler.getLocationByID(trip.endLocationID));
-            setnumberOfBookedSeats(boookingdataHandler.getActiveBookingsCount(trip.shuttleID));
+            setnumberOfBookedSeats(boookingdataHandler.getNumberOfBookingsForTrip(trip.driverRouteID));
             setnumberOfSeats(shuttledataHandler.getSeatsByShuttleID(trip.shuttleID));
             setSelectedschedule(scheduledataHandler.getScheduleByID(trip.scheduleID));
         }
@@ -49,6 +49,7 @@ const DriverRouteDetailsForm: React.FC<ContainerProps> = ({trip}) => {
                     {trip ? numberOfBookedSeats: 'N/A'} / {trip ? numberOfSeats: 'N/A'} Seats
                     </IonCardTitle>
                 </IonHeader>
+                
                 <IonCardSubtitle className='ion-padding'> {trip ? startLocation?.locationName : 'N/A'} - {trip ? endLocation?.locationName : 'N/A'}</IonCardSubtitle>
                 <IonProgressBar>https://ionicframework.com/docs/api/progress-bar</IonProgressBar>
                 <IonCardContent>

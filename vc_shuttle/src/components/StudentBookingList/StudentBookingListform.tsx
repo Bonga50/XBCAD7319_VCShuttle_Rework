@@ -2,6 +2,9 @@ import { IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonText, Io
 import React, { useEffect, useState } from 'react';
 import {BookDataHandler} from '../../Data/BookDataHandler';
 import {Booking} from '../../models/Booking';
+import { DriverRouteHandler } from '../../Data/DriverRoutehandler';
+import { LocationHandler } from '../../Data/LocationHandler';
+import { UserDataHandler } from '../../Data/UserDataHandler';
 
 interface ContainerProps { }
 const StudentBookingListForm: React.FC<ContainerProps> = () => {
@@ -9,11 +12,18 @@ const StudentBookingListForm: React.FC<ContainerProps> = () => {
     
     const [bookings,setBookings] = useState<Booking[]>([]);
     const [activebookings,setActiveBookings] = useState<Booking[]>([]);
+    const [routes,setRoutes] = useState<Booking[]>([]);
+    
     const dataHandler = BookDataHandler.getInstance();
+    const routerdataHandler = DriverRouteHandler.getInstance();
+    const locationdataHandler = LocationHandler.getInstance();
+    const userdataHandler = UserDataHandler.getInstance();
+
 
     useEffect(() => {
         setBookings(dataHandler.getBookings());
-        setActiveBookings(dataHandler.getActiveBookings());
+        setActiveBookings(dataHandler.getBookingsByUserId(userdataHandler.getLoggedUser()!!));
+       
       }, []);
     
       
@@ -23,12 +33,13 @@ const StudentBookingListForm: React.FC<ContainerProps> = () => {
         <IonText className="ion-padding">Active</IonText>
         <IonList inset={true}>
         {activebookings.map((activebookings) => (
-            <IonItem key={activebookings.bookingId}>
+            <IonItem key={activebookings.bookingid}>
               <IonLabel>
-                {activebookings.session}
+                {activebookings.bookingid}
               </IonLabel>
               <IonLabel>
-                {activebookings.startLocation} to {activebookings.endLocation}
+                { locationdataHandler.getLocationByID(activebookings.startLocation)?.locationName}
+                 to {locationdataHandler.getLocationByID(activebookings.endLocation)?.locationName}
               </IonLabel>
             </IonItem>
           ))}
@@ -36,16 +47,13 @@ const StudentBookingListForm: React.FC<ContainerProps> = () => {
         <IonText className="ion-padding">All Bookings</IonText>
         <IonList inset={true}>
         {bookings.map((bookings) => (
-            <IonItem key={bookings.bookingId}>
+            <IonItem key={bookings.bookingid}>
                
               <IonLabel>
-                {bookings.session}
+                {bookings.bookingid}
               </IonLabel>
               <IonLabel>
                 {bookings.startLocation} to {bookings.endLocation}
-              </IonLabel>
-              <IonLabel>
-                {bookings.bookingStatus} 
               </IonLabel>
             </IonItem>
           ))}

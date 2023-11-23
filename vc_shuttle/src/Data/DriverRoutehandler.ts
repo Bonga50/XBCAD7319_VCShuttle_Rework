@@ -139,11 +139,16 @@ export class DriverRouteHandler {
     startLocationID: number,
     endLocationID: number
   ): DriverRoute[] {
+     // Get the current date and time
+     let currentDate = new Date();
+     // Set the hours, minutes, seconds and milliseconds to 0
+     currentDate.setHours(0, 0, 0, 0);
     console.log(this.mapRoutes);
     return this.mapRoutes.filter(
       (route) =>
         route.startLocationID === startLocationID &&
-        route.endLocationID === endLocationID
+        route.endLocationID === endLocationID&&
+        new Date(route.departureTime) >= currentDate
     );
   }
   /**
@@ -166,30 +171,46 @@ export class DriverRouteHandler {
     startLocation: number,
     endLocation: number
   ): DriverRoute[] {
+    // Get the current date and time
+    let currentDate = new Date();
+    // Set the hours, minutes, seconds and milliseconds to 0
+    currentDate.setHours(0, 0, 0, 0);
     const routesForSession = this.mapRoutes.filter(
       (route) =>
         route.scheduleID === sessionID &&
         route.startLocationID === startLocation &&
-        route.endLocationID === endLocation
+        route.endLocationID === endLocation &&
+        new Date(route.departureTime) >= currentDate
     );
     console.log("Available routes" + routesForSession.length);
     return routesForSession;
   }
 
-  //will get all trips for a specific shuttle
   public getRoutesByShuttleID(shuttleId: number): Promise<DriverRoute[]> {
     return new Promise((resolve, reject) => {
       const interval = setInterval(() => {
         if (this.mapRoutes.length > 0) {
           clearInterval(interval);
-          resolve(this.mapRoutes.filter(route => route.shuttleID === shuttleId));
+          // Get the current date and time
+          let currentDate = new Date();
+          // Set the hours, minutes, seconds and milliseconds to 0
+          currentDate.setHours(0, 0, 0, 0);
+          resolve(
+            this.mapRoutes.filter(
+              (route) =>
+                route.shuttleID === shuttleId &&
+                new Date(route.departureTime) >= currentDate
+            )
+          );
         }
       }, 1000);
     });
   }
-  
-//will get a trip by a specific id
+
+  //will get a trip by a specific id
   public getByDriverRouteID(driverRouteID: string): DriverRoute | undefined {
-    return this.mapRoutes.find(route => route.driverRouteID === driverRouteID);
+    return this.mapRoutes.find(
+      (route) => route.driverRouteID === driverRouteID
+    );
   }
 }

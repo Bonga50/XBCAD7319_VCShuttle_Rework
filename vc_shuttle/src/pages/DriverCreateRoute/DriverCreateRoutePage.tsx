@@ -16,6 +16,8 @@ import { ScheduleDataHandler } from "../../Data/ScheduleDataHandler";
 import { LocationHandler } from "../../Data/LocationHandler";
 import DriverSettings from "../../components/DriverSettings/DriverSettings";
 import { UserDataHandler } from "../../Data/UserDataHandler";
+import { useHistory } from "react-router";
+import { BookDataHandler } from "../../Data/BookDataHandler";
 
 const DriverCreateRoutePage: React.FC = () => {
   const [selectedSchedule, setSelectedSchedule] = useState<number | null>(null);
@@ -29,6 +31,9 @@ const DriverCreateRoutePage: React.FC = () => {
   const scheduleDataHandler = ScheduleDataHandler.getInstance();
   const locationDataHandler = LocationHandler.getInstance();
   const userDataHandler = UserDataHandler.getInstance();
+  const bookingdataHandler = BookDataHandler.getInstance();
+  const history = useHistory();
+
   const handleSubmit = () => {
     if (selectedSchedule && selectedStartLocation && selectedEndLocation) {
       const duration = 30 * 60; // Replace with actual duration
@@ -47,7 +52,10 @@ const DriverCreateRoutePage: React.FC = () => {
         userDataHandler.getLoggedUser()!!,
         selectedSession!!
       );
+      history.push('/DriverHomePage');
     }
+
+    driverRouteHandler.fetchDriverRoutes();
   };
 
   return (
