@@ -10,32 +10,8 @@ export class UserDataHandler {
    */
   constructor() {
     this.statusList = ["Active", "In-active", "Idle"];
-    this.userList = [
-      {
-        id: 1,
-        name: "John Doe",
-        email: "User1@ie.com",
-        password: "Password1",
-        role: "admin",
-        status: "active",
-      },
-      {
-        id: 2,
-        name: "Jane Smith",
-        email: "User2@ie.com",
-        password: "Password2",
-        role: "driver",
-        status: "active",
-      },
-      {
-        id: 3,
-        name: "Alice Johnson",
-        email: "User3@ie.com",
-        password: "Password3",
-        role: "user",
-        status: "active",
-      },
-    ];
+    this.userList = [];
+    this.getUsersfromDatabse()
   }
 
   public getUsers(): User[] {
@@ -73,7 +49,8 @@ export class UserDataHandler {
   public async getUsersfromDatabse(): Promise<User[]> {
     const response = await fetch('https://localhost:3000/api/user/getUser');
     const data = await response.json();
-    this.userList = data;
+    console.log(data);
+    this.userList = data.data;
     return this.userList;
   }
 
