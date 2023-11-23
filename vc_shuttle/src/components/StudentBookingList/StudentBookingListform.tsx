@@ -21,6 +21,7 @@ const StudentBookingListForm: React.FC<ContainerProps> = () => {
 
 
     useEffect(() => {
+      
       const fetchBooking = async () => {
         setBookings(await dataHandler.getBookings());
       }
