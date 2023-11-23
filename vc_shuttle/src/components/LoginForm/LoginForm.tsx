@@ -1,6 +1,6 @@
 import { IonButton, IonCol, IonGrid, IonInput, IonRow, } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
-import PlaceHolderLogo from '../../resources/images/placeholderimage_logo.png';
+import PlaceHolderLogo from '../../resources/images/logo.png';
 import './LoginForm.css'
 import { User } from '../../models/User';
 import { UserDataHandler } from '../../Data/UserDataHandler';
