@@ -1,7 +1,7 @@
 import { IonButton, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
 import React, { useState } from 'react';
 import { UserDataHandler } from '../../Data/UserDataHandler';
-import PlaceHolderLogo from '../../resources/images/placeholderimage_logo.png';
+import PlaceHolderLogo from '../../resources/images/logo.png';
 
 
 const StudentRegisterForm: React.FC = () => {
