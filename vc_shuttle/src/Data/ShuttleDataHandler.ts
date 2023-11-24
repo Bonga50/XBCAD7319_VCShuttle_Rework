@@ -5,10 +5,7 @@ export class ShuttleDataHandler {
 
     constructor() {
       this.shuttles = [
-        // initialize with some dummy shuttles
-        { shuttleID: 1, shuttleName: 'Shuttle 1', driverID: 'User2@ie.com', numberOfseats: 20, status: 'Active' },
-        { shuttleID: 2, shuttleName: 'Shuttle 2', driverID: 'Driver2', numberOfseats: 30, status: 'Inactive'},
-        { shuttleID: 3, shuttleName: 'Shuttle 3', driverID: 'Driver3', numberOfseats: 30, status: 'Inactive'},
+       
       ];
     }
 
@@ -61,6 +58,19 @@ export class ShuttleDataHandler {
       });
       console.log("Results"+result);
       return result;
+  }
+
+  async getShuttlesFromDatabse():Promise<void>{
+    fetch(`https://localhost:3000/api/schedule/getSchedule`)
+    .then((response) => response.json())
+    .then((data) => {
+      // Assuming the data is an array of bookings
+      this.shuttles = data.data;
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
   }
   
   }
