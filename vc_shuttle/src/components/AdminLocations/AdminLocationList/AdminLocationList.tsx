@@ -13,8 +13,11 @@ const AdminLocationList: React.FC = () => {
   const modal = useRef<HTMLIonModalElement>(null);
 
   useEffect(() => {
-    setLocations(dataHandler.getLocations());
-  }, []);
+    const fetchLocations = async () => {
+      const locations =  await dataHandler.getLocations();
+      setLocations(locations);
+     }
+     fetchLocations();  }, []);
 
   useEffect(() => {
     console.log(selectedLocation);
