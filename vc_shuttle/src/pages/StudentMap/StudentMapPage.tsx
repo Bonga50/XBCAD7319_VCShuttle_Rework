@@ -8,7 +8,7 @@ const StudentMapPage: React.FC = () => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>Page Title</IonTitle>
+                    <IonTitle>Locations</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent className="ion-padding">

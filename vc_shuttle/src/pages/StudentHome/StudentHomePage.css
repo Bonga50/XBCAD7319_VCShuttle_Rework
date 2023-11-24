@@ -67,14 +67,12 @@ body {
   .sectionio {
     display: flex;
     align-items: center;
-    width: 100vw;
     gap: 10px;
   }
 
-  @media (max-width: 350px) {
+  @media (max-width: 400px) {
     .sectionio {
       flex-direction: column;
-      width: 100%;
     }
   }
 

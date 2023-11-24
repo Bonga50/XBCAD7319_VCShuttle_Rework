@@ -55,11 +55,17 @@ const handleClose = () => {
       </IonHeader>
       <IonContent className="ion-padding">
         <IonLabel>User ID: {user ? user.id : 'N/A'}</IonLabel>
+        <br/>
         <IonLabel>Name: {user ? user.name : 'N/A'}</IonLabel>
+        <br/>
         <IonLabel>Email: {user ? user.email : 'N/A'}</IonLabel>
+        <br/>
         <IonLabel>Password: {user ? user.password : 'N/A'}</IonLabel>
+        <br/>
         <IonLabel>Role: {user ? user.role : 'N/A'}</IonLabel>
+        <br/>
         <IonLabel>Status: {user ? user.status : 'N/A'}</IonLabel>
+        
 
         <IonButton expand="full" onClick={handleEdit}>
           Edit
