@@ -4,6 +4,7 @@ import { Booking } from '../../models/Booking';
 import { BookDataHandler } from '../../Data/BookDataHandler';
 import { UserDataHandler } from '../../Data/UserDataHandler';
 import { DriverRouteHandler } from '../../Data/DriverRoutehandler';
+import { LocationHandler } from '../../Data/LocationHandler';
 
 interface ContainerProps { }
 const BookingListForm: React.FC<ContainerProps> = () => {
@@ -12,13 +13,11 @@ const BookingListForm: React.FC<ContainerProps> = () => {
     const dataHandler = BookDataHandler.getInstance();
     const userDataHandler = UserDataHandler.getInstance();
     const routeDataHandler = DriverRouteHandler.getInstance();
-
+    const locationdataHandler = LocationHandler.getInstance();
       
 
     useEffect(() => {
-        setBookings(dataHandler.getActiveBookings());
-        dataHandler.getBookingsByUserId(userDataHandler.getLoggedUser()!!);
-        
+        setBookings(dataHandler.getBookingsForToday(userDataHandler.getLoggedUser()!!));
       }, []);
     return (
       <div className="ion-padding">
@@ -26,10 +25,11 @@ const BookingListForm: React.FC<ContainerProps> = () => {
           {bookings.map((booking) => (
             <IonItem key={booking.bookingid}>
               <IonLabel>
-                {booking.bookingid}
+                Departing - { new Date(routeDataHandler.getByDriverRouteID(booking.tripId)!!.departureTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })  }
               </IonLabel>
               <IonLabel>
-                {booking.startLocation} to {booking.endLocation}
+              { locationdataHandler.getLocationByID(booking.startLocation)?.locationName}
+                 - {locationdataHandler.getLocationByID(booking.endLocation)?.locationName}
               </IonLabel>
             </IonItem>
           ))}

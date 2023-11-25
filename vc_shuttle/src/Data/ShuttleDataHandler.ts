@@ -7,6 +7,7 @@ export class ShuttleDataHandler {
       this.shuttles = [
        
       ];
+      this.getShuttlesFromDatabse()
     }
 
     public static getInstance(): ShuttleDataHandler {
@@ -17,8 +18,15 @@ export class ShuttleDataHandler {
       return ShuttleDataHandler.instance;
     }
   
-    getShuttles(): Shuttle[] {
-      return this.shuttles;
+    getShuttles(): Promise<Shuttle[]> {
+      return new Promise((resolve, reject) => {
+        const interval = setInterval(() => {
+          if (this.shuttles.length > 0) {
+            clearInterval(interval);
+            resolve(this.shuttles);
+          }
+        }, 1000);
+      });
     }
   
     addShuttle(shuttle: Shuttle): void {
@@ -59,9 +67,15 @@ export class ShuttleDataHandler {
       console.log("Results"+result);
       return result;
   }
+  setSelectedShuttle(shuttleId:number){ localStorage.setItem('shuttleId', shuttleId.toString());}
+  getSelectedShuttle(): number {
+    const shuttleId = localStorage.getItem('shuttleId');
+    console.log("Selected"+shuttleId)
+    return shuttleId ? parseInt(shuttleId) : 0; // Returns 0 if shuttleId is null or undefined
+  }
 
   async getShuttlesFromDatabse():Promise<void>{
-    fetch(`https://localhost:3000/api/schedule/getSchedule`)
+    fetch(`https://localhost:3000/api/shuttle/getShuttle`)
     .then((response) => response.json())
     .then((data) => {
       // Assuming the data is an array of bookings

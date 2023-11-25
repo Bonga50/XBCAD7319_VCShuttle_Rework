@@ -30,7 +30,7 @@ export class MapHandler {
         return `${hours} hours, ${minutes} minutes, and ${secs} seconds`;
     }
 
-    async getTimeToGetToDestanation(startLocation:Locations,endLocation:Locations) {
+    async getTimeToGetToDestanation(startLocation:Locations,endLocation:Locations):Promise<number> {
         const directionsRequest = `https://api.mapbox.com/directions/v5/mapbox/driving-traffic/${startLocation.longitude},${startLocation.latitude};${endLocation.longitude},${endLocation.latitude}?access_token=${mapboxgl.accessToken}&geometries=geojson`;
         try {
             const response = await axios.get(directionsRequest);
@@ -42,11 +42,11 @@ export class MapHandler {
                 return duration;
             } else {
                 console.log('No routes found');
-                return null;
+                return 0;
             }
         } catch (error) {
             console.error('Error fetching directions:', error);
-            return null;
+            return 0;
         }
     }
 

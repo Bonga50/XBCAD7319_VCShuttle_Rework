@@ -3,6 +3,9 @@ import {
   IonButtons,
   IonContent,
   IonHeader,
+  IonInput,
+  IonItem,
+  IonLabel,
   IonMenuButton,
   IonPage,
   IonTitle,
@@ -18,6 +21,8 @@ import DriverSettings from "../../components/DriverSettings/DriverSettings";
 import { UserDataHandler } from "../../Data/UserDataHandler";
 import { useHistory } from "react-router";
 import { BookDataHandler } from "../../Data/BookDataHandler";
+import { MapHandler } from "../../Data/MapHandler";
+import { ShuttleDataHandler } from "../../Data/ShuttleDataHandler";
 
 const DriverCreateRoutePage: React.FC = () => {
   const [selectedSchedule, setSelectedSchedule] = useState<number | null>(null);
@@ -27,35 +32,48 @@ const DriverCreateRoutePage: React.FC = () => {
   const [selectedEndLocation, setSelectedEndLocation] = useState<number | null>(
     null
   );
+  const [waitTime, setSelectedWaitTime] = useState<number | null>(
+    null
+  );
   const driverRouteHandler = DriverRouteHandler.getInstance();
   const scheduleDataHandler = ScheduleDataHandler.getInstance();
   const locationDataHandler = LocationHandler.getInstance();
   const userDataHandler = UserDataHandler.getInstance();
   const bookingdataHandler = BookDataHandler.getInstance();
+  const mapdataHandler = MapHandler.getInstance();
+  const shuttleDataHandler = ShuttleDataHandler.getInstance();
   const history = useHistory();
 
   const handleSubmit = () => {
-    if (selectedSchedule && selectedStartLocation && selectedEndLocation) {
-      const duration = 30 * 60; // Replace with actual duration
-      const waitTime = 5 * 60; // Replace with actual wait time
-      const shuttleID = 1; // Replace with actual shuttle ID
-      const selectedSession =
-        scheduleDataHandler.getScheduleByID(selectedSchedule);
+    if (selectedSchedule && selectedStartLocation && selectedEndLocation&&waitTime) {
+      const newwaitTime = waitTime; // Replace with actual wait time
+      console.log(userDataHandler.getLoggedUser()!!)
+      
+      const selectedSession =scheduleDataHandler.getScheduleByID(selectedSchedule);
+      console.log("Selected session "+selectedSession?.startTime);
       const start = locationDataHandler.getLocationByID(selectedStartLocation);
       const end = locationDataHandler.getLocationByID(selectedEndLocation);
-      const routes = driverRouteHandler.generateRoutes(
-        duration,
-        waitTime,
-        start!!,
-        end!!,
-        shuttleID,
-        userDataHandler.getLoggedUser()!!,
-        selectedSession!!
-      );
+      const AddRouting = async () => {
+        shuttleDataHandler.getShuttlesFromDatabse();
+        const duration = await mapdataHandler.getTimeToGetToDestanation(start!!,end!!);
+        const shuttleID = shuttleDataHandler.getShuttleByDriverID(userDataHandler.getLoggedUser()!!)?.shuttleID; 
+        const routes = driverRouteHandler.generateRoutes(
+          duration!!,
+          newwaitTime,
+          start!!,
+          end!!,
+          shuttleID!!,
+          userDataHandler.getLoggedUser()!!,
+          selectedSession!!
+        );
+        driverRouteHandler.fetchDriverRoutes();
+      }
+      AddRouting();
+     
       history.push('/DriverHomePage');
     }
 
-    driverRouteHandler.fetchDriverRoutes();
+    
   };
 
   return (
@@ -75,7 +93,17 @@ const DriverCreateRoutePage: React.FC = () => {
           <LoctionDropDownForm onLocationSelect={setSelectedStartLocation} />
           End Location
           <LoctionDropDownForm onLocationSelect={setSelectedEndLocation} />
-          <IonButton
+         
+            <IonItem>
+          <IonLabel position="stacked">Wait time (in minutes)</IonLabel>
+          <IonInput
+          label=''
+            type="number"
+            value={waitTime}
+            onIonChange={(e) => setSelectedWaitTime(parseInt(e.detail.value!))}
+          ></IonInput>
+        </IonItem>
+         <IonButton
             className="ion-margin-top"
             type="submit"
             onClick={handleSubmit}

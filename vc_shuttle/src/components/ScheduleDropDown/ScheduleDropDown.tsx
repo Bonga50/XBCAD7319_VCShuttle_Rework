@@ -11,7 +11,12 @@ const ScheduleDropDown: React.FC<ScheduleDropDownProps>  = ({ onScheduleSelect }
         const dataHandler = new ScheduleDataHandler();
       
         useEffect(() => {
-            setSchedules(dataHandler.getSchedules());
+           
+            const fetchSchedules= async () => {
+                const allSchedules = await dataHandler.getSchedules();
+                setSchedules(allSchedules);
+              }
+              fetchSchedules();
         }, []);
       
 

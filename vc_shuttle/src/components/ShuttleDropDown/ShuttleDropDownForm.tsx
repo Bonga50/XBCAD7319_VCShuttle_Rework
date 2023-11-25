@@ -11,7 +11,11 @@ const ShuttleDropDown: React.FC<ShuttleDropDownProps> = ({ onShuttleSelect })  =
         const dataHandler = new ShuttleDataHandler();
       
         useEffect(() => {
-          setShuttles(dataHandler.getShuttles());
+            const fetchShuttles = async () => {
+                const shuttles =  await dataHandler.getShuttles();
+                setShuttles(shuttles);
+               }
+               fetchShuttles();
         }, []);
       
 
