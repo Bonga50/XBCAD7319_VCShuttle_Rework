@@ -34,8 +34,10 @@ const StudentMapForm: React.FC<ContainerProps> = ({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v11",
       center: [startLocation.longitude, startLocation.latitude], // Set initial center to start location
-      zoom: 10
+      zoom: 15
     });
+
+    console.log("Locations"+ startLocation.longitude);
   
     map.on("load", function () {
       // Add an image to use as a custom marker
