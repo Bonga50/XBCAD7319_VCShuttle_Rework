@@ -1,71 +1,77 @@
 import { User } from "../models/User";
-export class UserDataHandler{
+export class UserDataHandler {
+  private userList: User[];
+  private statusList: string[];
+  private static instance: UserDataHandler;
+  public loggedInUser: string | undefined;
 
-    private userList: User[];
-    private statusList: string[];
-    private static instance: UserDataHandler;
+  /**
+   * setting the list of users
+   */
+  constructor() {
+    this.statusList = ["Active", "In-active", "Idle"];
+    this.userList = [];
+    this.getUsersfromDatabse()
+  }
 
-    /**
-     * setting the list of users
-     */
-    constructor() {
-        this.statusList = [
-          "Active",
-          "In-active",
-          "Idle"
-        ];
-        this.userList = [
-            {
-                id: 1,
-                name: "John Doe",
-                email: "User1@ie.com",
-                password: "password1",
-                role: "admin",
-                status: "active"
-              },
-              {
-                id: 2,
-                name: "Jane Smith",
-                email: "User2@ie.com",
-                password: "password2",
-                role: "driver",
-                status: "active"
-              },
-              {
-                id: 3,
-                name: "Alice Johnson",
-                email: "User3@ie.com",
-                password: "password3",
-                role: "user",
-                status: "active"
-              },
-        ]
-
-    }
-
-    
   public getUsers(): User[] {
-    return this.userList
-  }
-  public findUser(email: string): User | undefined {
-    return this.userList.find(user => user.email === email)
+    return this.userList;
   }
 
-    public getStatuses(): string[] {
-      return this.statusList;
+  public findUser(email: string, password: string): User | undefined {
+    console.log("findUseMethod "+email+" "+password+".");
+    return this.userList.find(
+      (user) => user.email === email && user.password === password
+    );
+  }
+
+  public getStatuses(): string[] {
+    return this.statusList;
+  }
+
+  public static getInstance(): UserDataHandler {
+    if (!UserDataHandler.instance) {
+      UserDataHandler.instance = new UserDataHandler();
     }
 
-    public static getInstance(): UserDataHandler {
-      if (!UserDataHandler.instance) {
-        UserDataHandler.instance = new UserDataHandler();
-      }
+    return UserDataHandler.instance;
+  }
+
+  generateRandomUserId(): number {
+    return Math.floor(Math.random() * 10000);
+  }
+
+  setLogedInUser(username: string) {
+    this.loggedInUser = username;
+    localStorage.setItem('username', username);
+  }
   
-      return UserDataHandler.instance;
-    }
+  public logOutUser(): void {
+    this.loggedInUser = undefined;
+    localStorage.removeItem('username');
+  }
 
-    generateRandomUserId():number{
-      return Math.floor(Math.random() * 10000); 
-    }
-  
+  public async getUsersfromDatabse(): Promise<User[]> {
+    const response = await fetch('https://localhost:3000/api/user/getUser');
+    const data = await response.json();
+    console.log(data);
+    this.userList = data.data;
+    return this.userList;
+  }
 
+  public async addUsertoDatabase(user: User): Promise<void> {
+    const response = await fetch('https://localhost:3000/api/user/AddUser', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(user)
+    });
+    const data = await response.json();
+    this.userList.push(data);
+    this.getUsersfromDatabse()
+  }
+  getLoggedUser(): string | null {
+    return localStorage.getItem('username');
+  }
 }

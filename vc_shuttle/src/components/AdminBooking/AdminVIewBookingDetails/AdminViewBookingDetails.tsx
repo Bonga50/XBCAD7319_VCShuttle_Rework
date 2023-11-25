@@ -60,31 +60,33 @@ const AdminViewBookingDetails: React.FC<ContainerProps>  = ({booking}: {booking:
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">
-          <IonLabel>Booking ID: {booking ? booking.bookingId : "N/A"}</IonLabel>
+          <IonLabel>Booking ID: {booking ? booking.bookingid : "N/A"}</IonLabel>
+          <br/>
           <IonLabel>Session: {booking ? booking.session : "N/A"}</IonLabel>
+          <br/>
           <IonLabel>Shuttle ID: {booking ? booking.shuttleID : "N/A"}</IonLabel>
+          <br/>
           <IonLabel>
             Booking Status: {booking ? booking.bookingStatus : "N/A"}
           </IonLabel>
+          <br/>
           <IonLabel>
             Start Location: {booking ? booking.startLocation : "N/A"}
           </IonLabel>
+          <br/>
           <IonLabel>
             End Location: {booking ? booking.endLocation : "N/A"}
           </IonLabel>
+          <br/>
           <IonLabel>
             Booking Time: {booking ? booking.bookingTime.toString() : "N/A"}
           </IonLabel>
+          <br/>
 
-          <IonButton expand="full" onClick={handleEdit}>
-            Edit
-          </IonButton>
           <IonButton expand="full" onClick={handleDelete}>
             Delete
           </IonButton>
-          <IonButton expand="full" onClick={handleClose}>
-            Close
-          </IonButton>
+         
         </IonContent>
       </IonModal>
     );

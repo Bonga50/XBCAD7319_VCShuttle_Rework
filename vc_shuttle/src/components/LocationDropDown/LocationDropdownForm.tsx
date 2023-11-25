@@ -8,10 +8,16 @@ interface LoctionDropDownFormProps {
 const LoctionDropDownForm: React.FC<LoctionDropDownFormProps>= ({ onLocationSelect }) => {
 
     const [locations,setLocation] = useState<Locations[]>([]);
-    const dataHandler = new LocationHandler();
+    const dataHandler =LocationHandler.getInstance();
 
     useEffect(() => {
-        setLocation(dataHandler.getLocations());
+
+        const fetchLocations = async () => {
+            const locations =  await dataHandler.getLocations();
+            setLocation(locations);
+           }
+           fetchLocations();
+
       }, []);
 
     return (

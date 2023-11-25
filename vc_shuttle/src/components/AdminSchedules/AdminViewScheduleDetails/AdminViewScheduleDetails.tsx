@@ -40,10 +40,13 @@ const AdminViewScheduleDetails: React.FC<AdminViewScheduleDetailsProps> = ({sche
         </IonHeader>
         <IonContent className="ion-padding">
             <IonLabel>Schedule ID: {schedule ? schedule.scheduleID : 'N/A'}</IonLabel>
+            <br/>
             <IonLabel>Schedule Name: {schedule ? schedule.scheduleName : 'N/A'}</IonLabel>
+            <br/>
             <IonLabel>Start Time: {schedule ? schedule.startTime.toISOString() : 'N/A'}</IonLabel>
+            <br/>
             <IonLabel>End Time: {schedule ? schedule.endTime.toISOString() : 'N/A'}</IonLabel>
-
+            <br/>
             <IonButton expand="full" onClick={handleEdit}>
                 Edit
             </IonButton>

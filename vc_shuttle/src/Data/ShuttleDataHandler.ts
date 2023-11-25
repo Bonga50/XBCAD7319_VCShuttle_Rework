@@ -4,12 +4,8 @@ export class ShuttleDataHandler {
     private static instance: ShuttleDataHandler;
 
     constructor() {
-      this.shuttles = [
-        // initialize with some dummy shuttles
-        { shuttleID: 1, shuttleName: 'Shuttle 1', driverID: 'Driver1', numberOfseats: 20, status: 'Active' },
-        { shuttleID: 2, shuttleName: 'Shuttle 2', driverID: 'Driver2', numberOfseats: 30, status: 'Inactive'},
-        { shuttleID: 3, shuttleName: 'Shuttle 3', driverID: 'Driver3', numberOfseats: 30, status: 'Inactive'},
-      ];
+      this.shuttles = [];
+      this.getShuttlesFromDatabse();
     }
 
     public static getInstance(): ShuttleDataHandler {
@@ -21,6 +17,7 @@ export class ShuttleDataHandler {
     }
   
     getShuttles(): Shuttle[] {
+      
       return this.shuttles;
     }
   
@@ -36,6 +33,10 @@ export class ShuttleDataHandler {
       return this.shuttles.find((shuttle) => shuttle.shuttleID===id);
     }
 
+    getShuttleByDriverID(id: string):Shuttle|undefined{
+      return this.shuttles.find((shuttle) => shuttle.driverID===id);
+    }
+
     getSeatsByShuttleID(id: number): number | undefined {
       let shuttle = this.shuttles.find((shuttle) => shuttle.shuttleID === id);
       return shuttle ? shuttle.numberOfseats : undefined;
@@ -46,17 +47,59 @@ export class ShuttleDataHandler {
       this.shuttles = this.shuttles.filter(shuttle => shuttle.shuttleID !== shuttleID);
     }
 
-    getShuttlesByIDs(ids: Set<number>): Shuttle[] {
-      console.log("Parsed IDs"+ids);
-      let result: Shuttle[] = [];
-      ids.forEach(id => {
-          let shuttle = this.shuttles.find(shuttle => shuttle.shuttleID === id);
-          if (shuttle) {
-              result.push(shuttle);
-          }
+    getShuttlesByIDs(ids: Set<number>): Promise<Shuttle[]> {
+      return new Promise((resolve, reject) => {
+          const interval = setInterval(() => {
+              if (this.shuttles.length > 0) {
+                  clearInterval(interval);
+                  let result: Shuttle[] = [];
+                  ids.forEach(id => {
+                      let shuttle = this.shuttles.find(shuttle => shuttle.shuttleID === id);
+                      if (shuttle) {
+                          result.push(shuttle);
+                      }
+                  });
+                  resolve(result);
+              }
+          }, 1000);
       });
-      console.log("Results"+result);
-      return result;
   }
   
+
+  setSelectedShuttle(shuttleId:number){ localStorage.setItem('shuttleId', shuttleId.toString());}
+  getSelectedShuttle(): number {
+    const shuttleId = localStorage.getItem('shuttleId');
+    console.log("Selected"+shuttleId)
+    return shuttleId ? parseInt(shuttleId) : 0; // Returns 0 if shuttleId is null or undefined
   }
+
+  async getShuttlesFromDatabse():Promise<void>{
+    fetch(`https://localhost:3000/api/shuttle/getShuttle`)
+    .then((response) => response.json())
+    .then((data) => {
+      // Assuming the data is an array of bookings
+      this.shuttles = data.data;
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+  }
+  
+  public addShuttles(shuttle:Shuttle){
+
+    fetch("https://localhost:3000/api/shuttle/AddShuttle", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(shuttle),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error("Error:", error));
+
+      this.getShuttlesFromDatabse();
+  }
+  }
+  

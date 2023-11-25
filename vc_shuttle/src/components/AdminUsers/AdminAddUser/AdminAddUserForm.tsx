@@ -22,7 +22,7 @@ const AdminAddUsersForm: React.FC = () => {
       role,
       status,
     };
-    console.log(user);
+    userDataHandler.addUsertoDatabase(user);
     // You can now pass 'user' to your data handler for further processing
   };
 

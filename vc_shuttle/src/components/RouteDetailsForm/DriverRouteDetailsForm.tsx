@@ -9,6 +9,8 @@ import { ScheduleDataHandler } from '../../Data/ScheduleDataHandler';
 import { ShuttleDataHandler } from '../../Data/ShuttleDataHandler';
 import { Locations } from '../../models/Locations';
 import { Schedule } from '../../models/Schedule';
+import { MapHandler } from '../../Data/MapHandler';
+import { useHistory } from 'react-router';
 
 interface ContainerProps {
     trip:DriverRoute|undefined
@@ -28,14 +30,26 @@ const DriverRouteDetailsForm: React.FC<ContainerProps> = ({trip}) => {
     const scheduledataHandler = ScheduleDataHandler.getInstance();
 
     useEffect(() => {
+        
         if (trip) {
             setStartLocation(locationdataHandler.getLocationByID(trip.startLocationID));
             setEndLocation(locationdataHandler.getLocationByID(trip.endLocationID));
-            setnumberOfBookedSeats(boookingdataHandler.getActiveBookingsCount(trip.shuttleID));
+            setnumberOfBookedSeats(boookingdataHandler.getNumberOfBookingsForTrip(trip.driverRouteID));
             setnumberOfSeats(shuttledataHandler.getSeatsByShuttleID(trip.shuttleID));
             setSelectedschedule(scheduledataHandler.getScheduleByID(trip.scheduleID));
         }
     }, [trip]);
+
+    const mapHandler = MapHandler.getInstance();
+    const history = useHistory();
+
+    const handleTrackLocation = () => {
+        if (startLocation && endLocation) {
+            mapHandler.setStartEndLocation(startLocation, endLocation);
+        }
+        history.push('/StudentMap');
+    };
+
 
     return (
         <div>
@@ -48,13 +62,13 @@ const DriverRouteDetailsForm: React.FC<ContainerProps> = ({trip}) => {
                     {trip ? numberOfBookedSeats: 'N/A'} / {trip ? numberOfSeats: 'N/A'} Seats
                     </IonCardTitle>
                 </IonHeader>
+                
                 <IonCardSubtitle className='ion-padding'> {trip ? startLocation?.locationName : 'N/A'} - {trip ? endLocation?.locationName : 'N/A'}</IonCardSubtitle>
                 <IonProgressBar>https://ionicframework.com/docs/api/progress-bar</IonProgressBar>
                 <IonCardContent>
-                {trip ? selectedschedule?.startTime.getHours(): 'N/A'}:{trip ? selectedschedule?.startTime.getMinutes(): 'N/A'} 
-                - {trip ? selectedschedule?.endTime.getHours(): 'N/A'}:{trip ? selectedschedule?.endTime.getMinutes(): 'N/A'}
+                Departure time: {trip ? new Date(trip.departureTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A'}
                 </IonCardContent>
-                <IonButton routerLink='/StudentMap' className='ion-padding'>Track</IonButton>
+                <IonButton onClick={handleTrackLocation} className='ion-padding'>Track</IonButton>
             </IonCard>
         </div>
     );

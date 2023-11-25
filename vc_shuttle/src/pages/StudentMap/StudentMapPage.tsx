@@ -1,29 +1,32 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import React from 'react';
 import StudentMapForm from '../../components/StudentMapForm/StudentMapForm';
+import { MapHandler } from '../../Data/MapHandler';
 
 const StudentMapPage: React.FC = () => {
+
+    const mapHandler = MapHandler.getInstance()
 
     return (
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>Page Title</IonTitle>
+                    <IonTitle>Locations</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent className="ion-padding">
                 <StudentMapForm startLocation={{
                     locationId: 0,
-                    latitude: -26.093444,
-                    longitude: 28.047038,
+                    latitude: mapHandler.getStartLocation().latitude,
+                    longitude: mapHandler.getStartLocation().longitude,
                     description: '',
-                    locationName: 'Varsity College Sandton'
+                    locationName: mapHandler.getStartLocation().locationName
                 }} endLocation={{
                     locationId: 0,
-                    latitude: -26.107862,
-                    longitude: 28.057683,
+                    latitude: mapHandler.getEndLocation().latitude,
+                    longitude: mapHandler.getEndLocation().longitude,
                     description: '',
-                    locationName: 'Gautrain Station Sandton'
+                    locationName: mapHandler.getEndLocation().locationName
                 }}/>
             </IonContent>
         </IonPage>

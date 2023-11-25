@@ -34,9 +34,11 @@ const StudentMapForm: React.FC<ContainerProps> = ({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v11",
       center: [startLocation.longitude, startLocation.latitude], // Set initial center to start location
-      zoom: 10
+      zoom: 15
     });
 
+    console.log("Locations"+ startLocation.longitude);
+  
     map.on("load", function () {
       // Add an image to use as a custom marker
       map.loadImage(
@@ -45,7 +47,7 @@ const StudentMapForm: React.FC<ContainerProps> = ({
           if (error) throw error;
           map.addImage("custom-marker", image);
           map.resize();
-
+  
           // Create GeoJSON data for the start and end locations
           const data = {
             type: "FeatureCollection",
@@ -72,13 +74,13 @@ const StudentMapForm: React.FC<ContainerProps> = ({
               }
             ]
           };
-
+  
           // Add a GeoJSON source with the start and end locations
           map.addSource("points", {
             type: "geojson",
             data: data
           });
-
+  
           map.addLayer({
             id: "points",
             type: "symbol",
@@ -92,16 +94,42 @@ const StudentMapForm: React.FC<ContainerProps> = ({
               "text-anchor": "top",
             },
           });
+  
+          // Get the route data from the Mapbox Directions API
+          fetch(`https://api.mapbox.com/directions/v5/mapbox/driving-traffic/${startLocation.longitude},${startLocation.latitude};${endLocation.longitude},${endLocation.latitude}?geometries=geojson&access_token=${mapboxgl.accessToken}`)
+            .then(response => response.json())
+            .then(data => {
+              // Add a source and layer for the route
+              map.addSource('route', {
+                type: 'geojson',
+                data: {
+                  type: 'Feature',
+                  properties: {},
+                  geometry: data.routes[0].geometry
+                }
+              });
+  
+              map.addLayer({
+                id: 'route',
+                type: 'line',
+                source: 'route',
+                paint: {
+                  'line-width': 2,
+                  'line-color': '#007cbf'
+                }
+              });
+            });
         }
       );
     });
-
-    // Add navigation control (the +/- zoom buttons)
-    map.addControl(new mapboxgl.NavigationControl(), "top-right");
-
-    // Clean up on unmount
-    return () => map.remove();
-  }, []);
+  
+      // Add navigation control (the +/- zoom buttons)
+      map.addControl(new mapboxgl.NavigationControl(), "top-right");
+  
+      // Clean up on unmount
+      return () => map.remove();
+    }, []);
+  
 
   return (
     <div>
@@ -111,6 +139,6 @@ const StudentMapForm: React.FC<ContainerProps> = ({
       <div ref={mapContainer} className="map-container" />
     </div>
   );
-};
+  };
 
 export default StudentMapForm;

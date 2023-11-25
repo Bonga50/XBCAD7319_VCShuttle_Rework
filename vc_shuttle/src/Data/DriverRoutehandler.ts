@@ -69,27 +69,40 @@ export class DriverRouteHandler {
     driverName: string,
     schedule: Schedule
   ): DriverRoute[] {
+    console.log();
     const routes: DriverRoute[] = [];
     let tripDuration = duration + waitTime;
     let now = new Date();
     let currentYear = now.getFullYear();
     let currentMonth = now.getMonth();
     let currentDay = now.getDate();
-    let startTime = new Date(
+
+    let startTime = new Date(schedule.startTime);
+    let endTime = new Date(schedule.endTime);
+
+    let startHours = startTime.getHours();
+    let startMinutes = startTime.getMinutes();
+    let startSeconds = startTime.getSeconds();
+
+    let endHours = endTime.getHours();
+    let endMinutes = endTime.getMinutes();
+    let endSeconds = endTime.getSeconds();
+
+    startTime = new Date(
       currentYear,
       currentMonth,
       currentDay,
-      schedule.startTime.getHours(),
-      schedule.startTime.getMinutes(),
-      schedule.startTime.getSeconds()
+      startHours,
+      startMinutes,
+      startSeconds
     );
-    let endTime = new Date(
+    endTime = new Date(
       currentYear,
       currentMonth,
       currentDay,
-      schedule.endTime.getHours(),
-      schedule.endTime.getMinutes(),
-      schedule.endTime.getSeconds()
+      endHours,
+      endMinutes,
+      endSeconds
     );
 
     // If the session time is less than the current time, use the next day's date
@@ -139,11 +152,16 @@ export class DriverRouteHandler {
     startLocationID: number,
     endLocationID: number
   ): DriverRoute[] {
+    // Get the current date and time
+    let currentDate = new Date();
+    // Set the hours, minutes, seconds and milliseconds to 0
+    currentDate.setHours(0, 0, 0, 0);
     console.log(this.mapRoutes);
     return this.mapRoutes.filter(
       (route) =>
         route.startLocationID === startLocationID &&
-        route.endLocationID === endLocationID
+        route.endLocationID === endLocationID &&
+        new Date(route.departureTime) >= currentDate
     );
   }
   /**
@@ -166,24 +184,47 @@ export class DriverRouteHandler {
     startLocation: number,
     endLocation: number
   ): DriverRoute[] {
+    // Get the current date and time
+    let currentDate = new Date();
+    // Set the hours, minutes, seconds and milliseconds to 0
+    currentDate.setHours(0, 0, 0, 0);
     const routesForSession = this.mapRoutes.filter(
       (route) =>
         route.scheduleID === sessionID &&
         route.startLocationID === startLocation &&
-        route.endLocationID === endLocation
+        route.endLocationID === endLocation &&
+        new Date(route.departureTime) >= currentDate
     );
     console.log("Available routes" + routesForSession.length);
     return routesForSession;
   }
 
-  //will get all trips for a specific shuttle
-  public getRoutesByShuttleID(shuttleID: number): DriverRoute[] {
-    console.log("Available routes" + this.mapRoutes.length);
-    return this.mapRoutes.filter( (route) => route.shuttleID === shuttleID);
+  public getRoutesByShuttleID(shuttleId: number): Promise<DriverRoute[]> {
+    return new Promise((resolve, reject) => {
+      const interval = setInterval(() => {
+        if (this.mapRoutes.length > 0) {
+          clearInterval(interval);
+          // Get the current date and time
+          let currentDate = new Date();
+          // Set the hours, minutes, seconds and milliseconds to 0
+          currentDate.setHours(0, 0, 0, 0);
+          resolve(
+            this.mapRoutes.filter(
+              (route) =>
+                route.shuttleID === shuttleId &&
+                new Date(route.departureTime) >= currentDate
+            )
+          );
+        }
+      }, 1000);
+    });
   }
-  
-//will get a trip by a specific id
+
+  //will get a trip by a specific id
   public getByDriverRouteID(driverRouteID: string): DriverRoute | undefined {
-    return this.mapRoutes.find(route => route.driverRouteID === driverRouteID);
+    const now = new Date();
+    return this.mapRoutes.find(
+      (route) => route.driverRouteID === driverRouteID && route.departureTime > now
+    );
   }
 }

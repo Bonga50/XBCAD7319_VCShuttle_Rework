@@ -54,9 +54,13 @@ const AdminViewLocation: React.FC<AdminViewLocationDetailsProps> = ({location}: 
             </IonHeader>
             <IonContent className="ion-padding">
                 <IonLabel>Location ID: {location ? location.locationId : 'N/A'}</IonLabel>
+                <br/>
                 <IonLabel>Location Name: {location ? location.locationName : 'N/A'}</IonLabel>
+                <br/>
                 <IonLabel>Latitude: {location ? location.latitude : 'N/A'}</IonLabel>
+                <br/>
                 <IonLabel>Longitude: {location ? location.longitude : 'N/A'}</IonLabel>
+                <br/>
                 <IonLabel>Description: {location ? location.description : 'N/A'}</IonLabel>
 
                 <IonButton expand="full" onClick={handleEdit}>

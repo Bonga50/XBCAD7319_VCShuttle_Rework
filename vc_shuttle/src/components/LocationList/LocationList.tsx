@@ -11,7 +11,12 @@ const LocationList: React.FC = () => {
     const [selectedLocation, setSelectedLocation] = useState<Locations>();
     
     useEffect(() => {
-        setLocations(dataHandler.getLocations());
+      
+      const fetchLocations = async () => {
+       const locations =  await dataHandler.getLocations();
+       setLocations(locations);
+      }
+      fetchLocations();
       }, []);
 
     useEffect(() => {

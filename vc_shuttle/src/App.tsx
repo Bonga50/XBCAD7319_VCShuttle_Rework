@@ -41,6 +41,8 @@ import LocationListPage from './pages/LocationListPage/LocationListPage';
 import AdminAddScheduleSubPage from './pages/AdminHome/AdminAddScheduleSubPage/AdminAddScheduleSubPage';
 import AdminScheduleSubPage from './pages/AdminHome/AdminScheduleSubPage/AdminScheduleSubPage';
 import StudentScheduledTrips from './pages/StudentScheduledTrips/StudentScheduledTrips';
+import StudentRegisterPage from './pages/StudentRegisterPage/StudentRegisterPage';
+import Reviews from './pages/Reviews/Reviews';
 
 
 setupIonicReact();
@@ -113,6 +115,12 @@ const App: React.FC = () => (
         <Route exact path="/StudentScheduledTrips">
           <StudentScheduledTrips/>
         </Route>
+        <Route exact path="/StudentRegister">
+          <StudentRegisterPage/>
+        </Route>
+        <Route exact path="/Reviews">
+            <Reviews/>
+          </Route>
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>

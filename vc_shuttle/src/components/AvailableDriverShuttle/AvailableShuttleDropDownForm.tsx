@@ -45,7 +45,12 @@ const AvailableShuttleDropDown: React.FC<ShuttleDropDownProps> = ({
         " end: " +
         endLocation
     );
-    setShuttles(dataHandler.getShuttlesByIDs(uniqueShuttleIDs));
+    const fetchShuttles = async () => {
+      const allSchedules = await dataHandler.getShuttlesByIDs(uniqueShuttleIDs);
+      setShuttles(allSchedules);
+  };
+  fetchShuttles();
+    
   }, [sessionId, startLocation, endLocation]);
 
   return (

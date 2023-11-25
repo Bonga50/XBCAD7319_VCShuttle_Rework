@@ -7,6 +7,7 @@ mapboxgl.accessToken =
 export class MapHandler {
     private static instance: MapHandler;
 
+    
     /**
      *
      */
@@ -30,7 +31,32 @@ export class MapHandler {
         return `${hours} hours, ${minutes} minutes, and ${secs} seconds`;
     }
 
-    async getTimeToGetToDestanation(startLocation:Locations,endLocation:Locations) {
+     setStartEndLocation(startLocation:Locations,endLocation:Locations){
+        localStorage.setItem('shuttleStop_StartLocation_Latitude', startLocation.latitude.toString());
+        localStorage.setItem('shuttleStop_StartLocation_Longitude', startLocation.longitude.toString());
+        localStorage.setItem('shuttleStop_StartLocation_LocName', startLocation.locationName);
+        localStorage.setItem('shuttleStop_EndLocation_Latitude', endLocation.latitude.toString());
+        localStorage.setItem('shuttleStop_EndLocation_Longitude', endLocation.longitude.toString());
+        localStorage.setItem('shuttleStop_EndLocation_LocName', endLocation.locationName);
+     }
+    
+     getStartLocation(): myLocations {
+        const latitude = parseFloat(localStorage.getItem('shuttleStop_StartLocation_Latitude') || '0');
+        const longitude = parseFloat(localStorage.getItem('shuttleStop_StartLocation_Longitude') || '0');
+        const locationName = localStorage.getItem('shuttleStop_StartLocation_LocName') || '';
+        return { latitude, longitude, locationName };
+      }
+      
+      getEndLocation(): myLocations {
+        const latitude = parseFloat(localStorage.getItem('shuttleStop_EndLocation_Latitude') || '0');
+        const longitude = parseFloat(localStorage.getItem('shuttleStop_EndLocation_Longitude') || '0');
+        const locationName = localStorage.getItem('shuttleStop_EndLocation_LocName') || '';
+        return { latitude, longitude, locationName };
+      }
+      
+    // const getStartEndLocation(){}
+
+    async getTimeToGetToDestanation(startLocation:Locations,endLocation:Locations):Promise<number> {
         const directionsRequest = `https://api.mapbox.com/directions/v5/mapbox/driving-traffic/${startLocation.longitude},${startLocation.latitude};${endLocation.longitude},${endLocation.latitude}?access_token=${mapboxgl.accessToken}&geometries=geojson`;
         try {
             const response = await axios.get(directionsRequest);
@@ -42,11 +68,11 @@ export class MapHandler {
                 return duration;
             } else {
                 console.log('No routes found');
-                return null;
+                return 0;
             }
         } catch (error) {
             console.error('Error fetching directions:', error);
-            return null;
+            return 0;
         }
     }
 
@@ -55,3 +81,8 @@ export class MapHandler {
 
 
 }
+type myLocations = {
+    latitude: number;
+    longitude: number;
+    locationName: string;
+  };

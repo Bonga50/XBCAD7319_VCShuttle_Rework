@@ -61,9 +61,13 @@ const AdminViewShuttleDetails: React.FC<ContainerProps> = ({shuttle}: {shuttle: 
         </IonHeader>
         <IonContent className="ion-padding">
           <IonLabel>Shuttle ID: {shuttle ? shuttle.shuttleID : "N/A"}</IonLabel>
+          <br/>
           <IonLabel>Shuttle Name: {shuttle ? shuttle.shuttleName : "N/A"}</IonLabel>
+          <br/>
           <IonLabel>Driver ID: {shuttle ? shuttle.driverID : "N/A"}</IonLabel>
+          <br/>
           <IonLabel>Number of Seats: {shuttle ? shuttle.numberOfseats : "N/A"}</IonLabel>
+          <br/>
           <IonLabel>Status: {shuttle ? shuttle.status : "N/A"}</IonLabel>
       
           <IonButton expand="full" onClick={handleEdit}>
