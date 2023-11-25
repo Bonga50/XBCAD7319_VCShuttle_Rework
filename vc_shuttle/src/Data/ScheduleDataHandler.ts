@@ -16,15 +16,18 @@ export class ScheduleDataHandler {
     return ScheduleDataHandler.instance;
   }
 
-  getSchedules(): Promise<Schedule[]> {
+  getSchedules(searchTerm: string = ''): Promise<Schedule[]> {
     return new Promise((resolve, reject) => {
-        const interval = setInterval(() => {
-          if (this.schedules.length > 0) {
-            clearInterval(interval);
-            resolve(this.schedules);
-          }
-        }, 1000);
-      });
+      const interval = setInterval(() => {
+        if (this.schedules.length > 0) {
+          clearInterval(interval);
+          const filteredSchedules = this.schedules.filter((schedule) => 
+            searchTerm.trim() === '' || (schedule.scheduleName && schedule.scheduleName.includes(searchTerm))
+          );
+          resolve(filteredSchedules);
+        }
+      }, 1000);
+    });
   }
 
   getScheduleByID(id: number): Schedule | undefined {

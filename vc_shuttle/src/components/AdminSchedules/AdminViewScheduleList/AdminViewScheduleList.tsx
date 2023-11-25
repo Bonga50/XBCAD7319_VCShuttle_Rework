@@ -9,10 +9,15 @@ const AdminViewScheduleList: React.FC = () => {
     const [schedules, setSchedules] = useState<Schedule[]>([]);
     const dataHandler = ScheduleDataHandler.getInstance(); // Replace with your actual data handler
     const [selectedSchedule, setSelectedSchedule] = useState<Schedule>();
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
-        setSchedules(dataHandler.getSchedules());
-    }, []);
+        const fetchSchedules= async () => {
+            const schedules = await dataHandler.getSchedules(searchTerm);
+            setSchedules(schedules);
+        }
+        fetchSchedules();
+    }, [searchTerm]);
 
     useEffect(() => {
         console.log(selectedSchedule);
@@ -32,7 +37,7 @@ const AdminViewScheduleList: React.FC = () => {
                 <IonButton routerLink="/AdminAddSchedules">ADD</IonButton> {/* Update the routerLink */}
             </IonButtons>
             <IonToolbar>
-                <IonSearchbar></IonSearchbar>
+            <IonSearchbar onIonChange={(e) => setSearchTerm(e.detail.value?e.detail.value:"")}></IonSearchbar>
             </IonToolbar>
         </IonHeader>
 
