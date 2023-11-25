@@ -15,6 +15,9 @@ interface ContainerProps {
   startLocationId: number;
   endLocationId: number;
 }
+import { LocationHandler } from "../../Data/LocationHandler";
+import { UserDataHandler } from '../../Data/UserDataHandler';
+import {Booking} from '../../models/Booking';
 
 const StudentSchedules: React.FC<ContainerProps> = ({
   startLocationId,
@@ -22,6 +25,9 @@ const StudentSchedules: React.FC<ContainerProps> = ({
 }) => {
   const [driverRoutes, setDriverRoutes] = useState<DriverRoute[]>([]);
   const routeHandler = DriverRouteHandler.getInstance();
+  const locationdataHandler = LocationHandler.getInstance();
+  const userdataHandler = UserDataHandler.getInstance();
+  const [bookings,setBookings] = useState<Booking[]>([]);
 
   useEffect(() => {
     setDriverRoutes(
@@ -39,7 +45,8 @@ const StudentSchedules: React.FC<ContainerProps> = ({
           <IonItem key={route.driverRouteID}>
             <IonLabel>{route.driverName}</IonLabel>
             <IonLabel>
-              {route.startLocationID} to {route.endLocationID}
+              { locationdataHandler.getLocationByID(route.startLocationID)?.locationName}
+                --to-- { locationdataHandler.getLocationByID(route.endLocationID)?.locationName}
             </IonLabel>
             <IonLabel>Leaving at ,
               {new Date(route.departureTime).toLocaleTimeString([], {
