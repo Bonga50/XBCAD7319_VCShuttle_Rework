@@ -31,7 +31,29 @@ export class MapHandler {
         return `${hours} hours, ${minutes} minutes, and ${secs} seconds`;
     }
 
-    // const setStartEndLocation(startLocation:Locations,endLocation:Locations){}
+     setStartEndLocation(startLocation:Locations,endLocation:Locations){
+        localStorage.setItem('shuttleStop_StartLocation_Latitude', startLocation.latitude.toString());
+        localStorage.setItem('shuttleStop_StartLocation_Longitude', startLocation.longitude.toString());
+        localStorage.setItem('shuttleStop_StartLocation_LocName', startLocation.locationName);
+        localStorage.setItem('shuttleStop_EndLocation_Latitude', endLocation.latitude.toString());
+        localStorage.setItem('shuttleStop_EndLocation_Longitude', endLocation.longitude.toString());
+        localStorage.setItem('shuttleStop_EndLocation_LocName', endLocation.locationName);
+     }
+    
+     getStartLocation(): myLocations {
+        const latitude = parseFloat(localStorage.getItem('shuttleStop_StartLocation_Latitude') || '0');
+        const longitude = parseFloat(localStorage.getItem('shuttleStop_StartLocation_Longitude') || '0');
+        const locationName = localStorage.getItem('shuttleStop_StartLocation_LocName') || '';
+        return { latitude, longitude, locationName };
+      }
+      
+      getEndLocation(): myLocations {
+        const latitude = parseFloat(localStorage.getItem('shuttleStop_EndLocation_Latitude') || '0');
+        const longitude = parseFloat(localStorage.getItem('shuttleStop_EndLocation_Longitude') || '0');
+        const locationName = localStorage.getItem('shuttleStop_EndLocation_LocName') || '';
+        return { latitude, longitude, locationName };
+      }
+      
     // const getStartEndLocation(){}
 
     async getTimeToGetToDestanation(startLocation:Locations,endLocation:Locations):Promise<number> {
@@ -59,3 +81,8 @@ export class MapHandler {
 
 
 }
+type myLocations = {
+    latitude: number;
+    longitude: number;
+    locationName: string;
+  };

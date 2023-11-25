@@ -9,6 +9,8 @@ import { ScheduleDataHandler } from '../../Data/ScheduleDataHandler';
 import { ShuttleDataHandler } from '../../Data/ShuttleDataHandler';
 import { Locations } from '../../models/Locations';
 import { Schedule } from '../../models/Schedule';
+import { MapHandler } from '../../Data/MapHandler';
+import { useHistory } from 'react-router';
 
 interface ContainerProps {
     trip:DriverRoute|undefined
@@ -38,6 +40,17 @@ const DriverRouteDetailsForm: React.FC<ContainerProps> = ({trip}) => {
         }
     }, [trip]);
 
+    const mapHandler = MapHandler.getInstance();
+    const history = useHistory();
+
+    const handleTrackLocation = () => {
+        if (startLocation && endLocation) {
+            mapHandler.setStartEndLocation(startLocation, endLocation);
+        }
+        history.push('/StudentMap');
+    };
+
+
     return (
         <div>
             <IonCard>
@@ -55,7 +68,7 @@ const DriverRouteDetailsForm: React.FC<ContainerProps> = ({trip}) => {
                 <IonCardContent>
                 Departure time: {trip ? new Date(trip.departureTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A'}
                 </IonCardContent>
-                <IonButton routerLink='/StudentMap' className='ion-padding'>Track</IonButton>
+                <IonButton onClick={handleTrackLocation} className='ion-padding'>Track</IonButton>
             </IonCard>
         </div>
     );
