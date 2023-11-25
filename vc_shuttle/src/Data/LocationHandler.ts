@@ -70,20 +70,23 @@ export class LocationHandler {
             },
             body: JSON.stringify(location),
         });
-
+    
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-
+    
         const data = await response.json();
-
-        if (data.Message !== 'Location Added') {
-            throw new Error('Failed to add location');
-        }
-
-        this.locations.push(location);
+    
+        return new Promise((resolve, reject) => {
+            if (data.Message === 'Location Added') {
+                this.locations.push(location);
+                resolve();
+            } else {
+                reject('Location added successfully');
+            }
+        });
     }
-
+    
 
 
 }

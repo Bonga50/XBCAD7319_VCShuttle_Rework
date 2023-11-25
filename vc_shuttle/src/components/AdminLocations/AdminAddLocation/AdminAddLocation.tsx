@@ -4,14 +4,14 @@ import { LocationHandler } from '../../../Data/LocationHandler';
 
 const AdminAddLocation: React.FC = () => {
 
-
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
     const [description, setDescription] = useState('');
     const [locationName, setLocationName] = useState('');
+    const [status, setStatus] = useState(''); // Add this line
     const locationDataHandler = LocationHandler.getInstance();
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const locationId = locationDataHandler.generateRandomLocationID(); // Generate a random ID
         const location = {
             locationId,
@@ -22,7 +22,15 @@ const AdminAddLocation: React.FC = () => {
         };
         console.log(location);
         // You can now pass 'location' to your data handler for further processing
+        try {
+            await locationDataHandler.addLocation(location);
+            setStatus('Location added successfully'); // Update the status
+        } catch (error) {
+            setStatus(String(error)); // Convert the error to a string before setting the status
+        }
     };
+    
+    
 
     return (
         <div>
@@ -63,6 +71,7 @@ const AdminAddLocation: React.FC = () => {
             <IonButton expand="full" onClick={handleSubmit}>
                 Submit
             </IonButton>
+            <p>{status}</p> {/* Display the status */}
         </div>
     );
 };
