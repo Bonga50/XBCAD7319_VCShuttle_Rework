@@ -9,9 +9,14 @@ const ReviewForms: React.FC = () => {
 
   const reviewHandler = ReviewHandler.getInstance(); 
 
-  const handleSearch = () => {
-    const foundReviews = reviewHandler.getReviewByUsername(searchUsername);
-    setReviews(foundReviews);
+  const handleSearch = async () => {
+    try {
+      const foundReviews = await reviewHandler.getReviewByUsername(searchUsername);
+      setReviews(foundReviews);
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+      // Handle the error, such as displaying an error message to the user
+    }
   };
   
 
