@@ -46,7 +46,7 @@ const StudentSchedules: React.FC<ContainerProps> = ({
             <IonLabel>{route.driverName}</IonLabel>
             <IonLabel>
               { locationdataHandler.getLocationByID(route.startLocationID)?.locationName}
-                --to-- { locationdataHandler.getLocationByID(route.endLocationID)?.locationName}
+                --to--{ locationdataHandler.getLocationByID(route.endLocationID)?.locationName}
             </IonLabel>
             <IonLabel>Leaving at ,
               {new Date(route.departureTime).toLocaleTimeString([], {

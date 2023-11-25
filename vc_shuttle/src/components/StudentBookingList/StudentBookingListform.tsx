@@ -1,39 +1,47 @@
-import { IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonText, IonTitle, IonToolbar } from '@ionic/react';
-import React, { useEffect, useState } from 'react';
-import {BookDataHandler} from '../../Data/BookDataHandler';
-import {Booking} from '../../models/Booking';
-import { DriverRouteHandler } from '../../Data/DriverRoutehandler';
-import { LocationHandler } from '../../Data/LocationHandler';
-import { UserDataHandler } from '../../Data/UserDataHandler';
+import {
+  IonContent,
+  IonHeader,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonPage,
+  IonText,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react";
+import React, { useEffect, useState } from "react";
+import { BookDataHandler } from "../../Data/BookDataHandler";
+import { Booking } from "../../models/Booking";
+import { DriverRouteHandler } from "../../Data/DriverRoutehandler";
+import { LocationHandler } from "../../Data/LocationHandler";
+import { UserDataHandler } from "../../Data/UserDataHandler";
 
-interface ContainerProps { }
+interface ContainerProps {}
 const StudentBookingListForm: React.FC<ContainerProps> = () => {
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [activebookings, setActiveBookings] = useState<Booking[]>([]);
+  const [routes, setRoutes] = useState<Booking[]>([]);
 
-    
-    const [bookings,setBookings] = useState<Booking[]>([]);
-    const [activebookings,setActiveBookings] = useState<Booking[]>([]);
-    const [routes,setRoutes] = useState<Booking[]>([]);
-    
-    const dataHandler = BookDataHandler.getInstance();
-    const routerdataHandler = DriverRouteHandler.getInstance();
-    const locationdataHandler = LocationHandler.getInstance();
-    const userdataHandler = UserDataHandler.getInstance();
+  const dataHandler = BookDataHandler.getInstance();
+  const routerdataHandler = DriverRouteHandler.getInstance();
+  const locationdataHandler = LocationHandler.getInstance();
+  const userdataHandler = UserDataHandler.getInstance();
 
+  useEffect(() => {
+    const fetchBooking = async () => {
+      setBookings(
+        await dataHandler.getBookings(userdataHandler.getLoggedUser()!!)
+      );
+    };
+    fetchBooking();
+    setActiveBookings(
+      dataHandler.getBookingsByUserId(userdataHandler.getLoggedUser()!!)
+    );
+  }, []);
 
-    useEffect(() => {
-      
-      const fetchBooking = async () => {
-        setBookings(await dataHandler.getBookings(userdataHandler.getLoggedUser()!!));
-      }
-      fetchBooking();
-        setActiveBookings(dataHandler.getBookingsByUserId(userdataHandler.getLoggedUser()!!));
-      }, []);
-    
-      
-
-    return (
-      <div>
-        {/* <IonText className="ion-padding">Active</IonText>
+  return (
+    <div>
+      {/* <IonText className="ion-padding">Active</IonText>
         <IonList inset={true}>
         {activebookings.map((activebookings) => (
             <IonItem key={activebookings.bookingid}>
@@ -47,23 +55,33 @@ const StudentBookingListForm: React.FC<ContainerProps> = () => {
             </IonItem>
           ))}
         </IonList> */}
-        <IonText className="ion-padding">All Bookings</IonText>
-        <IonList inset={true}>
+      <IonText className="ion-padding">All Bookings</IonText>
+      <IonList inset={true}>
         {bookings.map((bookings) => (
-            <IonItem key={bookings.bookingid}>
-               
-              <IonLabel>
-                {bookings.bookingid}
-              </IonLabel>
-              <IonLabel>
-                { locationdataHandler.getLocationByID(bookings.startLocation)?.locationName}
-                 to {locationdataHandler.getLocationByID(bookings.endLocation)?.locationName}
-              </IonLabel>
-            </IonItem>
-          ))}
-        </IonList>
-      </div>
-    );
+          <IonItem key={bookings.bookingid}>
+            <IonLabel>
+              {new Date(bookings.bookingTime).toLocaleDateString(undefined, {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </IonLabel>
+            <IonLabel>
+              {
+                locationdataHandler.getLocationByID(bookings.startLocation)
+                  ?.locationName
+              }
+              to{" "}
+              {
+                locationdataHandler.getLocationByID(bookings.endLocation)
+                  ?.locationName
+              }
+            </IonLabel>
+          </IonItem>
+        ))}
+      </IonList>
+    </div>
+  );
 };
 
 export default StudentBookingListForm;
