@@ -13,7 +13,7 @@ const AdminLocationSubPage: React.FC = () => {
                     <IonButtons slot="start">
                             <IonMenuButton ></IonMenuButton>
                         </IonButtons>
-                        <IonTitle>Page Title</IonTitle>
+                        <IonTitle>Locations</IonTitle>
                     </IonToolbar>
                 </IonHeader>
                 <IonContent className="ion-padding">

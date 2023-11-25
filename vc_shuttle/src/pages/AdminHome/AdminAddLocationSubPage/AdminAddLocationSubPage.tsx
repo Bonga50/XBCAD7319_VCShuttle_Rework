@@ -14,7 +14,7 @@ const AdminAddLocationSubPage: React.FC = () => {
                         <IonButtons slot="start">
                             <IonMenuButton ></IonMenuButton>
                         </IonButtons>
-                        <IonTitle>Page Title</IonTitle>
+                        <IonTitle>Add Location</IonTitle>
                     </IonToolbar>
                 </IonHeader>
                 <IonContent className="ion-padding">
