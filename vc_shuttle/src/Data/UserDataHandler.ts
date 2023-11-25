@@ -71,6 +71,7 @@ export class UserDataHandler {
     this.userList.push(data);
     this.getUsersfromDatabse()
   }
+  
   getLoggedUser(): string | null {
     return localStorage.getItem('username');
   }

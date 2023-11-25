@@ -24,7 +24,7 @@ const AdminHomePage: React.FC = () => {
                     </IonToolbar>
                 </IonHeader>
                 <IonContent className="ion-padding">
-                    <p>Bookings</p>
+                    <p>Bookings x Date </p>
                     <BookingGraphComponent />
                     <br />
                     

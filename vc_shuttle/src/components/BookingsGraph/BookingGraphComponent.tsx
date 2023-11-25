@@ -1,13 +1,30 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { LineChart, Line, Tooltip, YAxis, XAxis, CartesianGrid } from 'recharts';
 import { useResizeDetector } from 'react-resize-detector';
+import { BookDataHandler } from '../../Data/BookDataHandler';
 
 
 const BookingGraphComponent: React.FC = () => {
 
     //making graph responsive 
     const { width, height, ref } = useResizeDetector();
+    const bookdataHandler = BookDataHandler.getInstance();
+    const [mdata, setData] = useState<{ name: string; uv: number; }[]>([]);
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const bookings = await bookdataHandler.getAllBookings();
+            console.log(bookings)
+            const countMap = await bookdataHandler.countBookingsByDate(bookings);
+            console.log(countMap)
+            const graphData = Array.from(countMap, ([name, uv]) => ({ name, uv }));
+            setData(graphData);
+        };
+
+        fetchData();
+    }, []);
 
     const data = [
         { name: 'Page A', uv: 400, pv: 2400, amt: 2400 },
@@ -19,7 +36,7 @@ const BookingGraphComponent: React.FC = () => {
     return (
         <div ref={ref} style={{ width: '100%', height: '100%' }}>
             {width && height && (
-                <LineChart width={width} height={height} data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+                <LineChart width={width} height={height} data={mdata} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
                     <Line type="monotone" dataKey="uv" stroke="#8884d8" />
                     <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
                     <XAxis dataKey="name" />
