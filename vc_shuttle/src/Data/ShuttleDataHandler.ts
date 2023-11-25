@@ -96,7 +96,7 @@ export class ShuttleDataHandler {
     });
   }
   
-  public addShuttles(shuttle:Shuttle){
+  public addShuttlesToDataBase(shuttle:Shuttle){
 
     fetch("https://localhost:3000/api/shuttle/AddShuttle", {
       method: "POST",

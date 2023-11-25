@@ -58,5 +58,7 @@ export class ScheduleDataHandler {
       .then((response) => response.json())
       .then((data) => console.log(data))
       .catch((error) => console.error("Error:", error));
+
+      this.getSchedulesFromDatabase();
   }
 }

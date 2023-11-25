@@ -11,16 +11,20 @@ const AdminAddSuttleForm: React.FC = () => {
     const shuttleDataHandler =  ShuttleDataHandler.getInstance();
     
     const handleSubmit = () => {
-        const shuttleID = shuttleDataHandler.generateRandomShuttleID(); // Generate a random ID
-        const shuttle: Shuttle = {
-          shuttleID,
-          shuttleName,
-          driverID,
-          numberOfseats: numberOfSeats,
-          status,
-        };
-        console.log(shuttle);
+      const shuttleID = shuttleDataHandler.generateRandomShuttleID(); // Generate a random ID
+      const shuttle: Shuttle = {
+        shuttleID,
+        shuttleName,
+        driverID,
+        numberOfseats: numberOfSeats,
+        status,
       };
+      shuttleDataHandler.addShuttlesToDataBase(shuttle)
+      
+        
+      
+    };
+      
     
 
     return (

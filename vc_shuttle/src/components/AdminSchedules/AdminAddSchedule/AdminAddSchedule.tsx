@@ -11,21 +11,27 @@ import {
   IonToolbar
 } from "@ionic/react";
 import React, { useState } from "react";
+import { ScheduleDataHandler } from "../../../Data/ScheduleDataHandler";
+import { Schedule } from "../../../models/Schedule";
 
 const AdminAddSchedule: React.FC = () => {
   const [scheduleID, setScheduleID] = useState<number>(0);
   const [scheduleName, setScheduleName] = useState<string>("");
   const [startTime, setStartTime] = useState<string>("");
   const [endTime, setEndTime] = useState<string>("");
+  const dataHandler =  ScheduleDataHandler.getInstance();
 
   const handleSubmit = () => {
     // Handle form submission here
-    console.log({
+    const newSchedule: Schedule = {
       scheduleID,
       scheduleName,
       startTime: new Date(startTime),
       endTime: new Date(endTime)
-    });
+    };
+
+    dataHandler.addSchedulesToDataBAse(newSchedule)
+      .then(() => console.log('Schedule added successfully'))
   };
 
   return (
