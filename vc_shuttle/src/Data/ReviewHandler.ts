@@ -1,15 +1,13 @@
 import { Reviews } from "../models/Reviews";
 
 export class ReviewHandler {
-    reviews: Reviews[];
     private static instance: ReviewHandler;
+    private reviews: Reviews[] = [];
+    private isFetching: boolean = false;
 
-    constructor() {
-        this.reviews = [
-            {reviewId: 1, username: "Review 1", stars: 5 , shuttle: 5, description: "Great product!"},
-            {reviewId: 2, username: "Review 2",stars: 3, shuttle: 4, description: "Good service."},
-            {reviewId: 3, username: "Review 3", stars: 2, shuttle: 3, description: "Average experience."}]
-        };
+    private constructor() {
+        // Private constructor to enforce singleton pattern
+    }
 
     public static getInstance(): ReviewHandler {
         if (!ReviewHandler.instance) {
@@ -19,15 +17,45 @@ export class ReviewHandler {
         return ReviewHandler.instance;
     }
 
-    getReviews(): Reviews[] {
+    private async fetchReviewsFromBackend(): Promise<void> {
+        try {
+            const response = await fetch('https://localhost:3000/api/reviewsRoute/getReviews');
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            this.reviews = data;
+        } catch (error) {
+            console.error("Error fetching reviews from backend:", error);
+            throw error;
+        } finally {
+            this.isFetching = false;
+        }
+    }
+
+    async getReviews(): Promise<Reviews[]> {
+        if (this.isFetching) {
+            // Another fetch is in progress, wait for it to complete
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+
+        if (this.reviews.length === 0) {
+            this.isFetching = true;
+            await this.fetchReviewsFromBackend();
+        }
+
         return this.reviews;
     }
 
-    getReviewByID(id: number): Reviews | undefined {
-        return this.reviews.find((review) => review.reviewId === id);
+    async getReviewByID(id: number): Promise<Reviews | undefined> {
+        const reviews = await this.getReviews();
+        return reviews.find((review) => review.reviewId === id);
     }
 
-    getReviewByUsername(searchTerm: string): Reviews[] {
-        return this.reviews.filter(review => review.username.toLowerCase().includes(searchTerm.toLowerCase()));
+    async getReviewByUsername(searchTerm: string): Promise<Reviews[]> {
+        const reviews = await this.getReviews();
+        return reviews.filter(review => review.username.toLowerCase().includes(searchTerm.toLowerCase()));
     }
 }
