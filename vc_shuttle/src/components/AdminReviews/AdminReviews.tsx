@@ -5,20 +5,20 @@ import { Reviews } from '../../models/Reviews';
 
 const ReviewForms: React.FC = () => {
   const [searchUsername, setSearchUsername] = useState('');
-  const [review, setReview] = useState<Reviews | null>(null);
+  const [reviews, setReviews] = useState<Reviews[]>([]);
 
   const reviewHandler = ReviewHandler.getInstance(); 
 
   const handleSearch = () => {
-    const foundReview = reviewHandler.getReviewByUsername(searchUsername);
-    setReview(foundReview || null);
+    const foundReviews = reviewHandler.getReviewByUsername(searchUsername);
+    setReviews(foundReviews);
   };
   
 
   return (
     <div>
       <IonItem>
-        <IonLabel position="stacked">Search Username</IonLabel>
+        <IonLabel position="stacked" style={{ fontSize: 25 }}>Search Username</IonLabel>
         <IonInput
           label=""
           value={searchUsername}
@@ -28,14 +28,14 @@ const ReviewForms: React.FC = () => {
       <IonButton expand="full" onClick={handleSearch}>
         Search
       </IonButton>
-      {review && (
+      {reviews.map((review) => (
         <div key={review.reviewId}>
           <h2>{review.username}</h2>
           <p>Stars: {review.stars}</p>
           <p>Shuttle: {review.shuttle}</p>
           <p>Description: {review.description}</p>
         </div>
-      )}
+      ))}
     </div>
   );
 };

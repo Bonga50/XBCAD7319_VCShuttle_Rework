@@ -27,7 +27,7 @@ export class ReviewHandler {
         return this.reviews.find((review) => review.reviewId === id);
     }
 
-    getReviewByUsername(username: string): Reviews | undefined{
-        return this.reviews.find((review)=> review.username === username)
+    getReviewByUsername(searchTerm: string): Reviews[] {
+        return this.reviews.filter(review => review.username.toLowerCase().includes(searchTerm.toLowerCase()));
     }
 }
