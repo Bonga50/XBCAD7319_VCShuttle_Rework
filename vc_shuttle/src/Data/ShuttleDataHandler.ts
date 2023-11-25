@@ -16,10 +16,20 @@ export class ShuttleDataHandler {
       return ShuttleDataHandler.instance;
     }
   
-    getShuttles(): Shuttle[] {
-      
-      return this.shuttles;
+    getShuttles(searchTerm: string = ''): Promise<Shuttle[]> {
+      return new Promise((resolve, reject) => {
+        const interval = setInterval(() => {
+          if (this.shuttles.length > 0) {
+            clearInterval(interval);
+            const filteredShuttles = this.shuttles.filter((shuttle) => 
+              searchTerm.trim() === '' || (shuttle.shuttleName && shuttle.shuttleName.includes(searchTerm))
+            );
+            resolve(filteredShuttles);
+          }
+        }, 1000);
+      });
     }
+    
   
     addShuttle(shuttle: Shuttle): void {
       this.shuttles.push(shuttle);
