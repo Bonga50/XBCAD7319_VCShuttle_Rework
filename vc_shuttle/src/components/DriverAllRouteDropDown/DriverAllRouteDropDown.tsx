@@ -14,7 +14,6 @@ const DriverAllRouteDropDown: React.FC<DriverRouteDropDownProps> = ({shuttleId, 
     const [driverRoute, setDriverRoute] = useState<DriverRoute[]>([]);
 
     useEffect(() => {
-       dataHandler.fetchDriverRoutes();
       setDriverRoute(dataHandler.getRoutesByShuttleID(shuttleId));
     }, []);
 
