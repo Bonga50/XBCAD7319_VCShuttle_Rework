@@ -3,6 +3,7 @@ import { Booking } from "./../models/Booking";
 export class BookDataHandler {
   private static instance: BookDataHandler;
   private bookings: Booking[];
+
   constructor() {
     this.fetchBookings();
     this.bookings = [];
@@ -26,6 +27,22 @@ export class BookDataHandler {
       }, 1000);
     });
   }
+  getAllBookings(searchTerm: string): Promise<Booking[]> {
+    return new Promise((resolve, reject) => {
+      const interval = setInterval(() => {
+        if (this.bookings.length > 0) {
+          clearInterval(interval);
+          const filteredBookings = this.bookings.filter((booking) => 
+          searchTerm.trim() === '' || (booking.userId && booking.userId.includes(searchTerm))
+        );
+          resolve(filteredBookings);
+        }
+      }, 1000);
+    });
+  }
+  
+
+
 
   getActiveBookings(userId: string): Promise<Booking[]> {
     return new Promise((resolve, reject) => {
@@ -89,6 +106,14 @@ export class BookDataHandler {
 
   getBookingsByTripId(tripId: string): Booking[] {
     return this.bookings.filter((booking) => booking.tripId === tripId);
+  }
+
+  getBookingsByUserID(searchTerm:string):Booking[]{
+
+    const filteredBookings = this.bookings.filter((booking) => 
+    booking.userId.includes(searchTerm) ||
+    booking.bookingid.includes(searchTerm));
+    return filteredBookings;
   }
 
   getActiveBookingsCount(shuttleID: Number): number {

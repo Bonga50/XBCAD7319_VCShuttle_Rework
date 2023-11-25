@@ -47,18 +47,25 @@ export class ShuttleDataHandler {
       this.shuttles = this.shuttles.filter(shuttle => shuttle.shuttleID !== shuttleID);
     }
 
-    getShuttlesByIDs(ids: Set<number>): Shuttle[] {
-      console.log("Parsed IDs"+ids);
-      let result: Shuttle[] = [];
-      ids.forEach(id => {
-          let shuttle = this.shuttles.find(shuttle => shuttle.shuttleID === id);
-          if (shuttle) {
-              result.push(shuttle);
-          }
+    getShuttlesByIDs(ids: Set<number>): Promise<Shuttle[]> {
+      return new Promise((resolve, reject) => {
+          const interval = setInterval(() => {
+              if (this.shuttles.length > 0) {
+                  clearInterval(interval);
+                  let result: Shuttle[] = [];
+                  ids.forEach(id => {
+                      let shuttle = this.shuttles.find(shuttle => shuttle.shuttleID === id);
+                      if (shuttle) {
+                          result.push(shuttle);
+                      }
+                  });
+                  resolve(result);
+              }
+          }, 1000);
       });
-      console.log("Results"+result);
-      return result;
   }
+  
+
   setSelectedShuttle(shuttleId:number){ localStorage.setItem('shuttleId', shuttleId.toString());}
   getSelectedShuttle(): number {
     const shuttleId = localStorage.getItem('shuttleId');
