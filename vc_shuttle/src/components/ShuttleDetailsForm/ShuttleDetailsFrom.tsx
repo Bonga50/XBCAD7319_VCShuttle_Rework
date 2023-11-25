@@ -18,6 +18,8 @@ import { BookDataHandler } from "../../Data/BookDataHandler";
 import { ScheduleDataHandler } from "../../Data/ScheduleDataHandler";
 import { Schedule } from "../../models/Schedule";
 import './ShuttleDetailsForm.css';
+import { MapHandler } from "../../Data/MapHandler";
+import { useHistory } from 'react-router';
 
 interface ContainerProps {
   trip: DriverRoute | undefined;
@@ -37,6 +39,16 @@ const ShuttleDetailsForm: React.FC<ContainerProps> = ({
   const routedataHandler = DriverRouteHandler.getInstance();
   const locationdataHandler = LocationHandler.getInstance();
   const scheduledataHandler = ScheduleDataHandler.getInstance();
+  const mapHandler = MapHandler.getInstance();
+
+  
+  const history = useHistory();
+  const handleTrackLocation = () => {
+    if(startLocation && endLocation) {
+      mapHandler.setStartEndLocation(startLocation, endLocation);
+  }
+  history.push('/StudentMap');
+}
 
   useEffect(() => {
     console.log("Trip" + trip);
@@ -93,7 +105,7 @@ const ShuttleDetailsForm: React.FC<ContainerProps> = ({
         <IonCardSubtitle className="ion-padding">
             Shuttle : {trip? trip.shuttleID: "N/A"}
         </IonCardSubtitle>
-        <IonButton routerLink="/StudentMap" className="ion-padding">
+        <IonButton onClick={handleTrackLocation} className="ion-padding">
           Track
         </IonButton>
       </IonCard>
