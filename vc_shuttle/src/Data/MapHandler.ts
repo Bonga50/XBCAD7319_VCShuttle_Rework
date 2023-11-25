@@ -31,8 +31,8 @@ export class MapHandler {
         return `${hours} hours, ${minutes} minutes, and ${secs} seconds`;
     }
 
-     setStartEndLocation(startLocation:Locations,endLocation:Locations){}
-     getStartEndLocation(){}
+    // const setStartEndLocation(startLocation:Locations,endLocation:Locations){}
+    // const getStartEndLocation(){}
 
     async getTimeToGetToDestanation(startLocation:Locations,endLocation:Locations):Promise<number> {
         const directionsRequest = `https://api.mapbox.com/directions/v5/mapbox/driving-traffic/${startLocation.longitude},${startLocation.latitude};${endLocation.longitude},${endLocation.latitude}?access_token=${mapboxgl.accessToken}&geometries=geojson`;

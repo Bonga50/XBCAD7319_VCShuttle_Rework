@@ -83,15 +83,10 @@ const AdminViewBookingDetails: React.FC<ContainerProps>  = ({booking}: {booking:
           </IonLabel>
           <br/>
 
-          <IonButton expand="full" onClick={handleEdit}>
-            Edit
-          </IonButton>
           <IonButton expand="full" onClick={handleDelete}>
             Delete
           </IonButton>
-          <IonButton expand="full" onClick={handleClose}>
-            Close
-          </IonButton>
+         
         </IonContent>
       </IonModal>
     );
