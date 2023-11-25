@@ -4,6 +4,7 @@ import { Booking } from '../../models/Booking';
 import { BookDataHandler } from '../../Data/BookDataHandler';
 import { UserDataHandler } from '../../Data/UserDataHandler';
 import { DriverRouteHandler } from '../../Data/DriverRoutehandler';
+import { LocationHandler } from '../../Data/LocationHandler';
 
 interface ContainerProps { }
 const BookingListForm: React.FC<ContainerProps> = () => {
@@ -11,14 +12,20 @@ const BookingListForm: React.FC<ContainerProps> = () => {
     const [bookings,setBookings] = useState<Booking[]>([]);
     const dataHandler = BookDataHandler.getInstance();
     const userDataHandler = UserDataHandler.getInstance();
+    const bookDataHandler = BookDataHandler.getInstance();
+    const locationDataHandler = LocationHandler.getInstance();
+
     const routeDataHandler = DriverRouteHandler.getInstance();
 
-      
 
     useEffect(() => {
-        setBookings(dataHandler.getActiveBookings());
-        dataHandler.getBookingsByUserId(userDataHandler.getLoggedUser()!!);
-        
+        dataHandler.fetchBookings();
+        const fetchBook = async () => {
+          const activeBook = await dataHandler.getActiveBookings(userDataHandler.getLoggedUser()!!)
+          setBookings(activeBook);
+        }
+
+        fetchBook();
       }, []);
     return (
       <div className="ion-padding">
@@ -29,7 +36,8 @@ const BookingListForm: React.FC<ContainerProps> = () => {
                 {booking.bookingid}
               </IonLabel>
               <IonLabel>
-                {booking.startLocation} to {booking.endLocation}
+                {locationDataHandler.getLocationByID(booking.startLocation)?.locationName}
+                 - {locationDataHandler.getLocationByID(booking.endLocation)?.locationName}
               </IonLabel>
             </IonItem>
           ))}

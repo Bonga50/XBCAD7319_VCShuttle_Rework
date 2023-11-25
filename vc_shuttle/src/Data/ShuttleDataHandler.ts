@@ -4,9 +4,8 @@ export class ShuttleDataHandler {
     private static instance: ShuttleDataHandler;
 
     constructor() {
-      this.shuttles = [
-       
-      ];
+      this.shuttles = [];
+      this.getShuttlesFromDatabse();
     }
 
     public static getInstance(): ShuttleDataHandler {
@@ -18,6 +17,7 @@ export class ShuttleDataHandler {
     }
   
     getShuttles(): Shuttle[] {
+      
       return this.shuttles;
     }
   
@@ -61,7 +61,7 @@ export class ShuttleDataHandler {
   }
 
   async getShuttlesFromDatabse():Promise<void>{
-    fetch(`https://localhost:3000/api/schedule/getSchedule`)
+    fetch(`https://localhost:3000/api/shuttle/getShuttle`)
     .then((response) => response.json())
     .then((data) => {
       // Assuming the data is an array of bookings
@@ -73,4 +73,20 @@ export class ShuttleDataHandler {
     });
   }
   
+  public addShuttles(shuttle:Shuttle){
+
+    fetch("https://localhost:3000/api/shuttle/AddShuttle", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(shuttle),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error("Error:", error));
+
+      this.getShuttlesFromDatabse();
   }
+  }
+  

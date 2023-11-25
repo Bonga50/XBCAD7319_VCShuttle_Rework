@@ -23,11 +23,10 @@ const StudentBookingListForm: React.FC<ContainerProps> = () => {
     useEffect(() => {
       
       const fetchBooking = async () => {
-        setBookings(await dataHandler.getBookings());
+        setBookings(await dataHandler.getBookings(userdataHandler.getLoggedUser()!!));
       }
       fetchBooking();
         setActiveBookings(dataHandler.getBookingsByUserId(userdataHandler.getLoggedUser()!!));
-       
       }, []);
     
       

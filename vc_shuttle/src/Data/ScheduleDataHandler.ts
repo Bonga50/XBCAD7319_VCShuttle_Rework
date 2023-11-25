@@ -5,6 +5,7 @@ export class ScheduleDataHandler {
 
   constructor() {
     this.schedules = [];
+    this.getSchedulesFromDatabase()
   }
 
   public static getInstance(): ScheduleDataHandler {
@@ -15,8 +16,15 @@ export class ScheduleDataHandler {
     return ScheduleDataHandler.instance;
   }
 
-  getSchedules(): Schedule[] {
-    return this.schedules;
+  getSchedules(): Promise<Schedule[]> {
+    return new Promise((resolve, reject) => {
+        const interval = setInterval(() => {
+          if (this.schedules.length > 0) {
+            clearInterval(interval);
+            resolve(this.schedules);
+          }
+        }, 1000);
+      });
   }
 
   getScheduleByID(id: number): Schedule | undefined {

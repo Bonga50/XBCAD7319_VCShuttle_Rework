@@ -26,6 +26,8 @@ import LoctionDropDownForm from "../../components/LocationDropDown/LocationDropd
 import DriverRouteDropDown from "../../components/DriverRouterDropDown/DriverRouterDropDown";
 import "./StudentHomePage.css";
 import StudentReviews from "../../components/StudentReviews/StudentReviews";
+import { ShuttleDataHandler } from "../../Data/ShuttleDataHandler";
+import { ScheduleDataHandler } from "../../Data/ScheduleDataHandler";
 const StudentHome: React.FC = () => {
   const [selectedShuttle, setSelectedShuttle] = useState<number | null>(null);
   const [selectedRoute, setSelectedRoute] = useState<DriverRoute | null>(null);
@@ -42,8 +44,14 @@ const StudentHome: React.FC = () => {
 
   const routedataHandler = DriverRouteHandler.getInstance();
   const bookingdataHandler = BookDataHandler.getInstance();
+  const shuttledataHandler = ShuttleDataHandler.getInstance();
+  const scheduledataHandler = ScheduleDataHandler.getInstance();
+
+
+
 
   useEffect(() => {
+    bookingdataHandler.fetchBookings()
     if (selectedDriverRouteID) {
       console.log("Selected Route id " + selectedDriverRouteID);
       const foundRoute = routedataHandler.getByDriverRouteID(
@@ -121,6 +129,8 @@ const StudentHome: React.FC = () => {
             </IonButton>
             <StudentReviews/>
           </div>
+          <br/>
+          <IonLabel className="ion-padding">Todays Bookings</IonLabel>
           <BookingListForm />
         </IonContent>
       </IonPage>
