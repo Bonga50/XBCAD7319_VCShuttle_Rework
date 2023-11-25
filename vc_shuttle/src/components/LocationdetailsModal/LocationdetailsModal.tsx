@@ -64,8 +64,11 @@ const LocationDetails: React.FC<ViewLocationDetailsProps> = ({
             </IonHeader>
             <IonContent className="ion-padding">
                 <IonLabel>Location Name: {location ? location.locationName : 'N/A'}</IonLabel>
+                <br/>
                 <IonLabel>Latitude: {location ? location.latitude : 'N/A'}</IonLabel>
+                <br/>
                 <IonLabel>Longitude: {location ? location.longitude : 'N/A'}</IonLabel>
+                <br/>
                 <IonLabel>Description: {location ? location.description : 'N/A'}</IonLabel>
 
                 <IonButton expand="full" onClick={handleGoToLocations}>
