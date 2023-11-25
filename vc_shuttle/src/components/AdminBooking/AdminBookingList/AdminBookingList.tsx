@@ -21,7 +21,7 @@ const AdminBookingList: React.FC = () => {
 
     useEffect(() => {
       const fetchBooking = async () => {
-        setBookings(await dataHandler.());
+        setBookings();
       }
       fetchBooking();
         setActiveBookings(dataHandler.getActiveBookings());

@@ -45,6 +45,11 @@ export class UserDataHandler {
     this.loggedInUser = username;
     localStorage.setItem('username', username);
   }
+  
+  public logOutUser(): void {
+    this.loggedInUser = undefined;
+    localStorage.removeItem('username');
+  }
 
   public async getUsersfromDatabse(): Promise<User[]> {
     const response = await fetch('https://localhost:3000/api/user/getUser');
@@ -64,6 +69,7 @@ export class UserDataHandler {
     });
     const data = await response.json();
     this.userList.push(data);
+    this.getUsersfromDatabse()
   }
   getLoggedUser(): string | null {
     return localStorage.getItem('username');

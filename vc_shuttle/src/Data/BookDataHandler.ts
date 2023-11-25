@@ -130,4 +130,17 @@ export class BookDataHandler {
         console.error("Error:", error);
       });
   }
+
+  public getBookingsForToday(userId: string): Booking[] {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // set the time to 00:00:00
+  
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate()+1); // get the date for tomorrow
+  
+    return this.bookings.filter(booking => {
+      const bookingTime = new Date(booking.bookingTime);
+      return booking.userId === userId && bookingTime >= today && bookingTime < tomorrow;
+    });
+  }
 }

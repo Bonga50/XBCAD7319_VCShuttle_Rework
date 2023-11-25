@@ -33,7 +33,7 @@ const StudentBookingListForm: React.FC<ContainerProps> = () => {
 
     return (
       <div>
-        <IonText className="ion-padding">Active</IonText>
+        {/* <IonText className="ion-padding">Active</IonText>
         <IonList inset={true}>
         {activebookings.map((activebookings) => (
             <IonItem key={activebookings.bookingid}>
@@ -46,7 +46,7 @@ const StudentBookingListForm: React.FC<ContainerProps> = () => {
               </IonLabel>
             </IonItem>
           ))}
-        </IonList>
+        </IonList> */}
         <IonText className="ion-padding">All Bookings</IonText>
         <IonList inset={true}>
         {bookings.map((bookings) => (

@@ -2,6 +2,7 @@ import { IonContent, IonHeader, IonItem, IonList, IonPage, IonSelect, IonSelectO
 import React, { useEffect, useState } from 'react';
 import { DriverRouteHandler } from '../../Data/DriverRoutehandler';
 import { DriverRoute } from '../../models/DriverRoute';
+import { UserDataHandler } from '../../Data/UserDataHandler';
 
 interface DriverRouteDropDownProps  { 
     shuttleId: number;
@@ -10,18 +11,19 @@ interface DriverRouteDropDownProps  {
 const DriverAllRouteDropDown: React.FC<DriverRouteDropDownProps> = ({shuttleId, onDriverRouteSelect}) => {
 
     const dataHandler = DriverRouteHandler.getInstance();
+    const userDatahandler = UserDataHandler.getInstance();
   
     const [driverRoute, setDriverRoute] = useState<DriverRoute[]>([]);
 
     useEffect(() => {
-        console.log(shuttleId)
+        console.log("Myshuttle"+shuttleId)
         const fetchRoutes = async () => {
-            const routes = dataHandler.getRoutesByShuttleID(shuttleId);
-            setDriverRoute(await routes);
+            const routes = await dataHandler.getRoutesByShuttleID(shuttleId);
+            setDriverRoute( routes);
         };
     
         fetchRoutes();
-    }, [shuttleId]);
+    }, []);
     
 
     const handleDriverRouteChange = (e: CustomEvent) => {

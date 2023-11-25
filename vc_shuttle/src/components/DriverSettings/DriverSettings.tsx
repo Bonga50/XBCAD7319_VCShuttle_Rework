@@ -9,10 +9,13 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import React from "react";
+import { UserDataHandler } from "../../Data/UserDataHandler";
 
 const DriverSettings: React.FC = () => {
+  const userDataHandeler = UserDataHandler.getInstance();
   const handleLogout = () => {
     // Clear local storage
+    userDataHandeler.logOutUser()
     localStorage.clear();
 
     // You can add more logout logic here if needed

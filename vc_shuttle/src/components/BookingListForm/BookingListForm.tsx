@@ -33,7 +33,7 @@ const BookingListForm: React.FC<ContainerProps> = () => {
           {bookings.map((booking) => (
             <IonItem key={booking.bookingid}>
               <IonLabel>
-                {booking.bookingid}
+                Departing - { new Date(routeDataHandler.getByDriverRouteID(booking.tripId)!!.departureTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })  }
               </IonLabel>
               <IonLabel>
                 {locationDataHandler.getLocationByID(booking.startLocation)?.locationName}

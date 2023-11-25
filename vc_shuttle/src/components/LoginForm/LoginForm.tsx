@@ -5,6 +5,7 @@ import './LoginForm.css'
 import { User } from '../../models/User';
 import { UserDataHandler } from '../../Data/UserDataHandler';
 import { useHistory } from 'react-router-dom';
+import { ShuttleDataHandler } from '../../Data/ShuttleDataHandler';
 
 
 interface ContainerProps { }
@@ -13,7 +14,7 @@ const LoginForm: React.FC<ContainerProps> = () => {
     const [username, setUsername] = useState<string>();
     const [password, setPassword] = useState<string>();
     const data = UserDataHandler.getInstance();
-    
+    const shuttledata = ShuttleDataHandler.getInstance();
 
     const handleUsernameInputChange = (event: CustomEvent) => {
         setUsername(event.detail.value);
@@ -31,7 +32,7 @@ const LoginForm: React.FC<ContainerProps> = () => {
     //   };
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
+       // event.preventDefault();
         if (username === null){
             console.log("Invalid username or password")
         }else{
@@ -42,6 +43,9 @@ const LoginForm: React.FC<ContainerProps> = () => {
                 data.setLogedInUser(user.email)
                 console.log(user);
                 if(user?.role == "driver"){
+                    const shuttleid = shuttledata.getShuttleByDriverID(username!!)
+                    shuttledata.setSelectedShuttle(shuttleid?.shuttleID!!)
+                    console.log(shuttleid?.shuttleID!!)
                     history.push('/DriverHomePage'); // Redirect to admin page
                 }else if(user?.role=="user"){
                     history.push('/StudentHome');

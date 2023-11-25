@@ -69,27 +69,40 @@ export class DriverRouteHandler {
     driverName: string,
     schedule: Schedule
   ): DriverRoute[] {
+    console.log();
     const routes: DriverRoute[] = [];
     let tripDuration = duration + waitTime;
     let now = new Date();
     let currentYear = now.getFullYear();
     let currentMonth = now.getMonth();
     let currentDay = now.getDate();
-    let startTime = new Date(
+
+    let startTime = new Date(schedule.startTime);
+    let endTime = new Date(schedule.endTime);
+
+    let startHours = startTime.getHours();
+    let startMinutes = startTime.getMinutes();
+    let startSeconds = startTime.getSeconds();
+
+    let endHours = endTime.getHours();
+    let endMinutes = endTime.getMinutes();
+    let endSeconds = endTime.getSeconds();
+
+    startTime = new Date(
       currentYear,
       currentMonth,
       currentDay,
-      schedule.startTime.getHours(),
-      schedule.startTime.getMinutes(),
-      schedule.startTime.getSeconds()
+      startHours,
+      startMinutes,
+      startSeconds
     );
-    let endTime = new Date(
+    endTime = new Date(
       currentYear,
       currentMonth,
       currentDay,
-      schedule.endTime.getHours(),
-      schedule.endTime.getMinutes(),
-      schedule.endTime.getSeconds()
+      endHours,
+      endMinutes,
+      endSeconds
     );
 
     // If the session time is less than the current time, use the next day's date
@@ -139,15 +152,15 @@ export class DriverRouteHandler {
     startLocationID: number,
     endLocationID: number
   ): DriverRoute[] {
-     // Get the current date and time
-     let currentDate = new Date();
-     // Set the hours, minutes, seconds and milliseconds to 0
-     currentDate.setHours(0, 0, 0, 0);
+    // Get the current date and time
+    let currentDate = new Date();
+    // Set the hours, minutes, seconds and milliseconds to 0
+    currentDate.setHours(0, 0, 0, 0);
     console.log(this.mapRoutes);
     return this.mapRoutes.filter(
       (route) =>
         route.startLocationID === startLocationID &&
-        route.endLocationID === endLocationID&&
+        route.endLocationID === endLocationID &&
         new Date(route.departureTime) >= currentDate
     );
   }
@@ -209,8 +222,9 @@ export class DriverRouteHandler {
 
   //will get a trip by a specific id
   public getByDriverRouteID(driverRouteID: string): DriverRoute | undefined {
+    const now = new Date();
     return this.mapRoutes.find(
-      (route) => route.driverRouteID === driverRouteID
+      (route) => route.driverRouteID === driverRouteID && route.departureTime > now
     );
   }
 }

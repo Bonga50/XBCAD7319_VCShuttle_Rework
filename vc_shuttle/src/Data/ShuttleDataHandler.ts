@@ -59,6 +59,12 @@ export class ShuttleDataHandler {
       console.log("Results"+result);
       return result;
   }
+  setSelectedShuttle(shuttleId:number){ localStorage.setItem('shuttleId', shuttleId.toString());}
+  getSelectedShuttle(): number {
+    const shuttleId = localStorage.getItem('shuttleId');
+    console.log("Selected"+shuttleId)
+    return shuttleId ? parseInt(shuttleId) : 0; // Returns 0 if shuttleId is null or undefined
+  }
 
   async getShuttlesFromDatabse():Promise<void>{
     fetch(`https://localhost:3000/api/shuttle/getShuttle`)
