@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package com.iie.vcshuttle;
 
 import com.getcapacitor.BridgeActivity;
 

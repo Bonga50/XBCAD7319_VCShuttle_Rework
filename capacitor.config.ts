@@ -1,9 +1,9 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'vc_shuttle',
-  webDir: 'dist',
+  appId: 'com.iie.vcshuttle',
+  appName: 'android',
+  webDir: 'build',
   server: {
     androidScheme: 'https'
   }
