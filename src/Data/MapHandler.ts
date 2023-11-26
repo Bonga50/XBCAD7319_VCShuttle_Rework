@@ -31,6 +31,10 @@ export class MapHandler {
         return `${hours} hours, ${minutes} minutes, and ${secs} seconds`;
     }
 
+    setTravelEndLocation(endLocation:Locations){
+
+    }
+
      setStartEndLocation(startLocation:Locations,endLocation:Locations){
         localStorage.setItem('shuttleStop_StartLocation_Latitude', startLocation.latitude.toString());
         localStorage.setItem('shuttleStop_StartLocation_Longitude', startLocation.longitude.toString());

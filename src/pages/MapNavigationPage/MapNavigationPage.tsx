@@ -6,18 +6,12 @@ const MapNavigationPage: React.FC = () => {
 
     return (
         <IonPage>
-        <MapNavigation startLocation={{
+        <MapNavigation  endLocation={{
                 locationId: 0,
-                latitude: 0,
-                longitude: 0,
+                latitude:  -26.107862,
+                longitude: 28.057683,
                 description: '',
-                locationName: ''
-            }} endLocation={{
-                locationId: 0,
-                latitude: 0,
-                longitude: 0,
-                description: '',
-                locationName: ''
+                locationName: 'Gautrain Station Sandton'
             }}/>
         </IonPage>
     );

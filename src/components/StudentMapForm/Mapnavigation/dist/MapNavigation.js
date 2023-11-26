@@ -39,17 +39,11 @@ exports.__esModule = true;
 var react_1 = require("react");
 var mapbox_gl_1 = require("mapbox-gl");
 require("mapbox-gl/dist/mapbox-gl.css");
+require("./MapNavigation.css");
 mapbox_gl_1["default"].accessToken =
     "pk.eyJ1IjoidGhlcmVhbGJvbmdhIiwiYSI6ImNsbG0yMXF2dTJqZm0zZ21nbm43b3RyamYifQ.DeWMvQ5HgM53BMjgWqc2TQ";
 var MapNavigation = function (_a) {
-    // Define your marker locations for differnt stops
-    var markerLocations = [
-        { lat: -26.2041, lng: 28.0473 },
-        { lat: -26.2386, lng: 27.9082 },
-        { lat: -26.1754, lng: 28.0083 },
-        { lat: -26.1952, lng: 28.034 },
-        { lat: -26.2384, lng: 28.0176 },
-    ];
+    var endLocation = _a.endLocation;
     // This function gets the user's current location
     function getCurrentLocation() {
         return new Promise(function (resolve, reject) {
@@ -66,68 +60,53 @@ var MapNavigation = function (_a) {
         map.current = new mapbox_gl_1["default"].Map({
             container: mapContainer.current,
             style: "mapbox://styles/mapbox/streets-v11",
-            center: [-74.5, 40],
-            zoom: 9
+            center: [28.047038, -26.093444],
+            zoom: 15
         });
+        // Add a 'load' event listener to resize the map once it's loaded
         map.current.on("load", function () {
             map.current.resize();
-            map.current.addControl(new mapbox_gl_1["default"].NavigationControl(), "top-right");
-            var _loop_1 = function (location) {
-                var markerEl = document.createElement("div");
-                markerEl.className = "marker";
-                markerEl.style.backgroundImage =
-                    "url(../../src/resources/images/icons8_circle_48.png)";
-                markerEl.style.width = "48px";
-                markerEl.style.height = "48px";
-                var marker = new mapbox_gl_1["default"].Marker(markerEl)
-                    .setLngLat([location.lng, location.lat])
-                    .addTo(map.current);
-                // Set up a click event listener for the marker
-                markerEl.addEventListener("click", function () {
-                    // Update the end location to the clicked marker's location
-                    var endLocation = location;
-                    // Get the current location
-                    watchCurrentLocation(function (position) {
-                        var currentLocation = {
-                            lng: position.coords.longitude,
-                            lat: position.coords.latitude
-                        };
-                        // If a route is currently displayed on the map, remove it
-                        if (map.current.getLayer("route")) {
-                            map.current.removeLayer("route");
-                            map.current.removeSource("route");
-                        }
-                        // Generate a new route
-                        generateRoute(currentLocation, endLocation);
-                    });
-                });
-            };
-            // Add markers to the map
-            for (var _i = 0, markerLocations_1 = markerLocations; _i < markerLocations_1.length; _i++) {
-                var location = markerLocations_1[_i];
-                _loop_1(location);
-            }
+        });
+        // Add a 'resize' event listener to resize the map once it's loaded
+        map.current.on("resize", function () {
+            map.current.resize();
         });
     }, []);
+    react_1.useEffect(function () {
+        var fetchRoute = function () { return __awaiter(void 0, void 0, void 0, function () {
+            var position, startLocation;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, getCurrentLocation()];
+                    case 1:
+                        position = _a.sent();
+                        startLocation = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+                        generateRoute(startLocation, endLocation);
+                        return [2 /*return*/];
+                }
+            });
+        }); };
+        fetchRoute();
+        map.current.resize();
+    }, [endLocation]);
     var route = null;
     var _b = react_1.useState(-70.9), lng = _b[0], setLng = _b[1]; // Set your initial longitude
     var _c = react_1.useState(42.35), lat = _c[0], setLat = _c[1]; // Set your initial latitude
     var _d = react_1.useState(9), zoom = _d[0], setZoom = _d[1]; // Set your initial zoom level
-    var _e = react_1.useState(''), directions = _e[0], setDirections = _e[1];
+    var _e = react_1.useState(""), directions = _e[0], setDirections = _e[1];
     function generateRoute(start, end) {
         return __awaiter(this, void 0, Promise, function () {
-            var position, startLocation, directionsRequest;
+            var position, directionsRequest;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, getCurrentLocation()];
                     case 1:
                         position = _a.sent();
                         console.log(position);
-                        startLocation = {
-                            lng: position.coords.longitude,
-                            lat: position.coords.latitude
-                        };
-                        directionsRequest = "https://api.mapbox.com/directions/v5/mapbox/driving-traffic/" + start.lng + "," + start.lat + ";" + end.lng + "," + end.lat + "?access_token=" + mapbox_gl_1["default"].accessToken + "&geometries=geojson";
+                        directionsRequest = "https://api.mapbox.com/directions/v5/mapbox/driving-traffic/" + start.lng + "," + start.lat + ";" + end.longitude + "," + end.latitude + "?access_token=" + mapbox_gl_1["default"].accessToken + "&geometries=geojson";
                         console.log(directionsRequest);
                         fetch(directionsRequest)
                             .then(function (response) { return response.json(); })
@@ -161,18 +140,14 @@ var MapNavigation = function (_a) {
                                         "line-width": 8
                                     }
                                 });
-                                // Create directions overlay
-                                var steps = data.routes[0].legs[0].steps;
-                                var instructions = '';
-                                for (var _i = 0, steps_1 = steps; _i < steps_1.length; _i++) {
-                                    var step = steps_1[_i];
-                                    instructions += "<li>" + step.maneuver.instruction + "</li>";
-                                }
-                                setDirections(instructions);
-                                console.log(instructions);
-                                var directionsOverlay = document.createElement('div');
-                                directionsOverlay.innerHTML = "<ol>" + instructions + "</ol>";
-                                document.body.appendChild(directionsOverlay);
+                                // Add a marker at the start location
+                                new mapbox_gl_1["default"].Marker()
+                                    .setLngLat([start.lng, start.lat])
+                                    .addTo(map.current);
+                                // Add a red marker at the end location
+                                new mapbox_gl_1["default"].Marker({ color: "red" })
+                                    .setLngLat([end.longitude, end.latitude])
+                                    .addTo(map.current);
                             }
                             else {
                                 console.error("No route found", data);
@@ -185,7 +160,7 @@ var MapNavigation = function (_a) {
             });
         });
     }
-    return (react_1["default"].createElement("div", { id: "map" },
+    return (react_1["default"].createElement("div", null,
         react_1["default"].createElement("div", { className: "sidebar" },
             "Longitude: ",
             lng,
@@ -193,7 +168,6 @@ var MapNavigation = function (_a) {
             lat,
             " | Zoom: ",
             zoom),
-        react_1["default"].createElement("div", { ref: mapContainer, className: "map-container" }),
-        react_1["default"].createElement("div", { className: "directions", dangerouslySetInnerHTML: { __html: directions } })));
+        react_1["default"].createElement("div", { ref: mapContainer, className: "map-container" })));
 };
 exports["default"] = MapNavigation;

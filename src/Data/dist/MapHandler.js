@@ -59,8 +59,31 @@ var MapHandler = /** @class */ (function () {
         var secs = Math.floor(seconds % 60);
         return hours + " hours, " + minutes + " minutes, and " + secs + " seconds";
     };
+    MapHandler.prototype.setTravelEndLocation = function (endLocation) {
+    };
+    MapHandler.prototype.setStartEndLocation = function (startLocation, endLocation) {
+        localStorage.setItem('shuttleStop_StartLocation_Latitude', startLocation.latitude.toString());
+        localStorage.setItem('shuttleStop_StartLocation_Longitude', startLocation.longitude.toString());
+        localStorage.setItem('shuttleStop_StartLocation_LocName', startLocation.locationName);
+        localStorage.setItem('shuttleStop_EndLocation_Latitude', endLocation.latitude.toString());
+        localStorage.setItem('shuttleStop_EndLocation_Longitude', endLocation.longitude.toString());
+        localStorage.setItem('shuttleStop_EndLocation_LocName', endLocation.locationName);
+    };
+    MapHandler.prototype.getStartLocation = function () {
+        var latitude = parseFloat(localStorage.getItem('shuttleStop_StartLocation_Latitude') || '0');
+        var longitude = parseFloat(localStorage.getItem('shuttleStop_StartLocation_Longitude') || '0');
+        var locationName = localStorage.getItem('shuttleStop_StartLocation_LocName') || '';
+        return { latitude: latitude, longitude: longitude, locationName: locationName };
+    };
+    MapHandler.prototype.getEndLocation = function () {
+        var latitude = parseFloat(localStorage.getItem('shuttleStop_EndLocation_Latitude') || '0');
+        var longitude = parseFloat(localStorage.getItem('shuttleStop_EndLocation_Longitude') || '0');
+        var locationName = localStorage.getItem('shuttleStop_EndLocation_LocName') || '';
+        return { latitude: latitude, longitude: longitude, locationName: locationName };
+    };
+    // const getStartEndLocation(){}
     MapHandler.prototype.getTimeToGetToDestanation = function (startLocation, endLocation) {
-        return __awaiter(this, void 0, void 0, function () {
+        return __awaiter(this, void 0, Promise, function () {
             var directionsRequest, response, routes, duration, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -79,14 +102,50 @@ var MapHandler = /** @class */ (function () {
                         }
                         else {
                             console.log('No routes found');
-                            return [2 /*return*/, null];
+                            return [2 /*return*/, 0];
                         }
                         return [3 /*break*/, 4];
                     case 3:
                         error_1 = _a.sent();
                         console.error('Error fetching directions:', error_1);
-                        return [2 /*return*/, null];
+                        return [2 /*return*/, 0];
                     case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    MapHandler.prototype.getETATravelTimes = function (locations, locationName) {
+        return __awaiter(this, void 0, Promise, function () {
+            var travelTimes, startLocation, _i, locations_1, endLocation, travelTime, key;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        travelTimes = new Map();
+                        startLocation = locations.find(function (location) { return location.locationName === locationName; });
+                        if (!startLocation) {
+                            console.error('Start location not found');
+                            return [2 /*return*/, travelTimes];
+                        }
+                        _i = 0, locations_1 = locations;
+                        _a.label = 1;
+                    case 1:
+                        if (!(_i < locations_1.length)) return [3 /*break*/, 4];
+                        endLocation = locations_1[_i];
+                        // Skip if the start and end locations are the same
+                        if (startLocation.locationId === endLocation.locationId) {
+                            return [3 /*break*/, 3];
+                        }
+                        return [4 /*yield*/, this.getTimeToGetToDestanation(startLocation, endLocation)];
+                    case 2:
+                        travelTime = _a.sent();
+                        key = startLocation.locationId + "-" + endLocation.locationId;
+                        // Add the travel time to the map
+                        travelTimes.set(key, travelTime);
+                        _a.label = 3;
+                    case 3:
+                        _i++;
+                        return [3 /*break*/, 1];
+                    case 4: return [2 /*return*/, travelTimes];
                 }
             });
         });
