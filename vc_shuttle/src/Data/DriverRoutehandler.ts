@@ -155,13 +155,12 @@ export class DriverRouteHandler {
     // Get the current date and time
     let currentDate = new Date();
     // Set the hours, minutes, seconds and milliseconds to 0
-    currentDate.setHours(0, 0, 0, 0);
     console.log(this.mapRoutes);
     return this.mapRoutes.filter(
       (route) =>
         route.startLocationID === startLocationID &&
         route.endLocationID === endLocationID &&
-        new Date(route.departureTime) >= currentDate
+        new Date(route.departureTime) > currentDate
     );
   }
   /**
@@ -187,13 +186,12 @@ export class DriverRouteHandler {
     // Get the current date and time
     let currentDate = new Date();
     // Set the hours, minutes, seconds and milliseconds to 0
-    currentDate.setHours(0, 0, 0, 0);
     const routesForSession = this.mapRoutes.filter(
       (route) =>
         route.scheduleID === sessionID &&
         route.startLocationID === startLocation &&
         route.endLocationID === endLocation &&
-        new Date(route.departureTime) >= currentDate
+        new Date(route.departureTime) > currentDate
     );
     console.log("Available routes" + routesForSession.length);
     return routesForSession;
@@ -207,7 +205,6 @@ export class DriverRouteHandler {
           // Get the current date and time
           let currentDate = new Date();
           // Set the hours, minutes, seconds and milliseconds to 0
-          currentDate.setHours(0, 0, 0, 0);
           resolve(
             this.mapRoutes.filter(
               (route) =>
