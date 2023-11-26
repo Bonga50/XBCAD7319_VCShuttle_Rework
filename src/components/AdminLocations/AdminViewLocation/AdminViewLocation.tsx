@@ -24,17 +24,7 @@ const AdminViewLocation: React.FC<AdminViewLocationDetailsProps> = ({location}: 
         }
     }
 
-    const handleEdit = () => {
-        // Handle edit action here
-    };
 
-    const handleDelete = () => {
-        // Handle delete action here
-    };
-
-    const handleClose = () => {
-        // Handle close action here
-    };
     return (
         <IonModal ref={modal} trigger="open-AddLocationModal"  onWillDismiss={(ev) => onWillDismiss(ev)}>
             <IonHeader>
@@ -63,15 +53,7 @@ const AdminViewLocation: React.FC<AdminViewLocationDetailsProps> = ({location}: 
                 <br/>
                 <IonLabel>Description: {location ? location.description : 'N/A'}</IonLabel>
 
-                <IonButton expand="full" onClick={handleEdit}>
-                    Edit
-                </IonButton>
-                <IonButton expand="full" onClick={handleDelete}>
-                    Delete
-                </IonButton>
-                <IonButton expand="full" onClick={handleClose}>
-                    Close
-                </IonButton>
+                
             </IonContent>
         </IonModal>
     );

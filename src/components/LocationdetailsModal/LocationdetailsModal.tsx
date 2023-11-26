@@ -12,6 +12,8 @@ import {
 import React, { useRef, useState } from "react";
 import { Locations } from "../../models/Locations";
 import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-component-lib/interfaces";
+import { MapHandler } from "../../Data/MapHandler";
+import { useHistory } from "react-router";
 interface ViewLocationDetailsProps {
   location: Locations | undefined;
 }
@@ -24,10 +26,12 @@ const LocationDetails: React.FC<ViewLocationDetailsProps> = ({
 
     const modal = useRef<HTMLIonModalElement>(null);
     const input = useRef<HTMLIonInputElement>(null);
-
+    const mapdataHandler = MapHandler.getInstance();
     const [message, setMessage] = useState('This modal example uses triggers to automatically open a modal when the button is clicked.');
 
     function confirm() {
+        
+
         modal.current?.dismiss(input.current?.value, 'confirm');
     }
 
@@ -36,9 +40,12 @@ const LocationDetails: React.FC<ViewLocationDetailsProps> = ({
             setMessage(`Hello, ${ev.detail.data}!`);
         }
     }
-
+    const history = useHistory();
     const handleGoToLocations = () => {
-        // Handle go to location on map
+
+        mapdataHandler.setTravelEndLocation(location!!);
+        history.push('/MapNavigation');
+        
     };
 
   
@@ -54,12 +61,8 @@ const LocationDetails: React.FC<ViewLocationDetailsProps> = ({
                             Cancel
                         </IonButton>
                     </IonButtons>
-                    <IonTitle>Welcome</IonTitle>
-                    <IonButtons slot="end">
-                        <IonButton strong={true} onClick={() => confirm()}>
-                            Confirm
-                        </IonButton>
-                    </IonButtons>
+                    <IonTitle>{location?.locationName}</IonTitle>
+                    
                 </IonToolbar>
             </IonHeader>
             <IonContent className="ion-padding">

@@ -8,17 +8,7 @@ const AdminViewScheduleDetails: React.FC<AdminViewScheduleDetailsProps> = ({sche
 
     const modal = useRef<HTMLIonModalElement>(null);
 
-    const handleEdit = () => {
-        // Handle edit action here
-    };
-
-    const handleDelete = () => {
-        // Handle delete action here
-    };
-
-    const handleClose = () => {
-        // Handle close action here
-    };
+    
 
 
     return (
@@ -31,11 +21,7 @@ const AdminViewScheduleDetails: React.FC<AdminViewScheduleDetailsProps> = ({sche
                     </IonButton>
                 </IonButtons>
                 <IonTitle>Schedule Details</IonTitle>
-                <IonButtons slot="end">
-                    <IonButton strong={true} onClick={handleClose}>
-                        Close
-                    </IonButton>
-                </IonButtons>
+               
             </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">
@@ -47,12 +33,7 @@ const AdminViewScheduleDetails: React.FC<AdminViewScheduleDetailsProps> = ({sche
             <br/>
             <IonLabel>End Time: {schedule ? new Date(schedule.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })    : 'N/A'}</IonLabel>
             <br/>
-            <IonButton expand="full" onClick={handleEdit}>
-                Edit
-            </IonButton>
-            <IonButton expand="full" onClick={handleDelete}>
-                Delete
-            </IonButton>
+            
         </IonContent>
     </IonModal>
     );

@@ -32,7 +32,9 @@ export class MapHandler {
     }
 
     setTravelEndLocation(endLocation:Locations){
-
+        localStorage.setItem('travelStop_EndLocation_Latitude', endLocation.latitude.toString());
+        localStorage.setItem('travelStop_EndLocation_Longitude', endLocation.longitude.toString());
+        localStorage.setItem('travelStop_EndLocation_LocName', endLocation.locationName);
     }
 
      setStartEndLocation(startLocation:Locations,endLocation:Locations){
@@ -51,6 +53,13 @@ export class MapHandler {
         return { latitude, longitude, locationName };
       }
       
+      getTravelEndLocation(): myLocations{
+        const latitude = parseFloat(localStorage.getItem('travelStop_EndLocation_Latitude') || '0');
+        const longitude = parseFloat(localStorage.getItem('travelStop_EndLocation_Longitude') || '0');
+        const locationName = localStorage.getItem('travelStop_EndLocation_LocName') || '';
+        return { latitude, longitude, locationName };
+      }
+
       getEndLocation(): myLocations {
         const latitude = parseFloat(localStorage.getItem('shuttleStop_EndLocation_Latitude') || '0');
         const longitude = parseFloat(localStorage.getItem('shuttleStop_EndLocation_Longitude') || '0');

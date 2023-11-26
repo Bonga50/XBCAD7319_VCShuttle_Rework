@@ -27,17 +27,6 @@ const AdminViewBookingDetails: React.FC<ContainerProps>  = ({booking}: {booking:
         }
 
 
-    const handleEdit = () => {
-        // Handle edit action here
-    };
-
-    const handleDelete = () => {
-        // Handle delete action here
-    };
-
-    const handleClose = () => {
-        // Handle close action here
-    };
     return (
       <IonModal
         ref={modal}
@@ -83,10 +72,7 @@ const AdminViewBookingDetails: React.FC<ContainerProps>  = ({booking}: {booking:
           </IonLabel>
           <br/>
 
-          <IonButton expand="full" onClick={handleDelete}>
-            Delete
-          </IonButton>
-         
+        
         </IonContent>
       </IonModal>
     );

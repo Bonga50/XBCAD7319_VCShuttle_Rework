@@ -24,18 +24,6 @@ const AdminViewShuttleDetails: React.FC<ContainerProps> = ({shuttle}: {shuttle: 
         }
       }
 
-      
-    const handleEdit = () => {
-        // Handle edit action here
-    };
-
-    const handleDelete = () => {
-        // Handle delete action here
-    };
-
-    const handleClose = () => {
-        // Handle close action here
-    };
 
 
     return (
@@ -70,15 +58,7 @@ const AdminViewShuttleDetails: React.FC<ContainerProps> = ({shuttle}: {shuttle: 
           <br/>
           <IonLabel>Status: {shuttle ? shuttle.status : "N/A"}</IonLabel>
       
-          <IonButton expand="full" onClick={handleEdit}>
-            Edit
-          </IonButton>
-          <IonButton expand="full" onClick={handleDelete}>
-            Delete
-          </IonButton>
-          <IonButton expand="full" onClick={handleClose}>
-            Close
-          </IonButton>
+    
         </IonContent>
       </IonModal>
     );

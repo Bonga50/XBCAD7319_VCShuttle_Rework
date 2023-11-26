@@ -60,6 +60,9 @@ var MapHandler = /** @class */ (function () {
         return hours + " hours, " + minutes + " minutes, and " + secs + " seconds";
     };
     MapHandler.prototype.setTravelEndLocation = function (endLocation) {
+        localStorage.setItem('travelStop_EndLocation_Latitude', endLocation.latitude.toString());
+        localStorage.setItem('travelStop_EndLocation_Longitude', endLocation.longitude.toString());
+        localStorage.setItem('travelStop_EndLocation_LocName', endLocation.locationName);
     };
     MapHandler.prototype.setStartEndLocation = function (startLocation, endLocation) {
         localStorage.setItem('shuttleStop_StartLocation_Latitude', startLocation.latitude.toString());
@@ -73,6 +76,12 @@ var MapHandler = /** @class */ (function () {
         var latitude = parseFloat(localStorage.getItem('shuttleStop_StartLocation_Latitude') || '0');
         var longitude = parseFloat(localStorage.getItem('shuttleStop_StartLocation_Longitude') || '0');
         var locationName = localStorage.getItem('shuttleStop_StartLocation_LocName') || '';
+        return { latitude: latitude, longitude: longitude, locationName: locationName };
+    };
+    MapHandler.prototype.getTravelEndLocation = function () {
+        var latitude = parseFloat(localStorage.getItem('travelStop_EndLocation_Latitude') || '0');
+        var longitude = parseFloat(localStorage.getItem('travelStop_EndLocation_Longitude') || '0');
+        var locationName = localStorage.getItem('travelStop_EndLocation_LocName') || '';
         return { latitude: latitude, longitude: longitude, locationName: locationName };
     };
     MapHandler.prototype.getEndLocation = function () {
