@@ -33,6 +33,8 @@ const DriverSettings: React.FC = () => {
           <IonList>
             <IonItem routerLink="/DriverHomePage">Home</IonItem>
             <IonItem routerLink="/DriverCreateRoute">Trips</IonItem>
+            <IonItem routerLink="/DriverBookingPage">Bookings</IonItem>
+         
             <IonItem routerLink="/" onClick={handleLogout}>
               Logout
             </IonItem>{" "}

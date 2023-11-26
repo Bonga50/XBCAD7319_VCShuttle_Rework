@@ -29,7 +29,7 @@ const DriverRouteDropDown: React.FC<DriverRouteDropDownProps> = ({startLocation,
                     <IonSelect aria-label="Driver Route" placeholder="Driver Route" onIonChange={handleDriverRouteChange}>
                         {driverRoutes.map((route) => (
                         <IonSelectOption key={route.driverRouteID} value={route.driverRouteID}>
-                          {`Departure Time: ${new Date(route.departureTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}, Seats Booked: ${route.seatsBooked}`}
+                          {`Departure Time: ${new Date(route.departureTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`}
                         </IonSelectOption>
                         ))}
                     </IonSelect>

@@ -27,6 +27,35 @@ export class BookDataHandler {
       }, 1000);
     });
   }
+
+  getAllRecentBookingsByShuttleID(shuttleID: number, searchTerm: string = ""): Promise<Booking[]> {
+    return new Promise((resolve, reject) => {
+        const interval = setInterval(() => {
+            if (this.bookings.length > 0) {
+                clearInterval(interval);
+
+                // Get today's date at midnight
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                const filteredBookings = this.bookings.filter(
+                    (booking) =>
+                        // Check if the booking is for the specified shuttle
+                        booking.shuttleID === shuttleID &&
+                        // Check if the booking was made today
+                        new Date(booking.bookingTime) >= today &&
+                        // Check if the booking matches the search term
+                        (searchTerm.trim() === "" ||
+                            (booking.userId && booking.userId.includes(searchTerm)))
+                );
+
+                resolve(filteredBookings);
+            }
+        }, 1000);
+    });
+}
+
+
   getAllBookings(searchTerm: string = ""): Promise<Booking[]> {
     return new Promise((resolve, reject) => {
       const interval = setInterval(() => {
