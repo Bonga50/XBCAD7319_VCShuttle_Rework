@@ -76,6 +76,36 @@ export class MapHandler {
         }
     }
 
+    
+    async  getETATravelTimes(locations: Locations[], locationName: string): Promise<Map<string, number>> {
+        const travelTimes = new Map<string, number>();
+    
+        // Find the start location
+        const startLocation = locations.find(location => location.locationName === locationName);
+    
+        if (!startLocation) {
+            console.error('Start location not found');
+            return travelTimes;
+        }
+    
+        // Loop through all locations and get the travel time to each one
+        for (const endLocation of locations) {
+            // Skip if the start and end locations are the same
+            if (startLocation.locationId === endLocation.locationId) {
+                continue;
+            }
+    
+            const travelTime = await this.getTimeToGetToDestanation(startLocation, endLocation);
+    
+            // Create a key from the start and end location IDs
+            const key = `${startLocation.locationId}-${endLocation.locationId}`;
+    
+            // Add the travel time to the map
+            travelTimes.set(key, travelTime);
+        }
+    
+        return travelTimes;
+    }
 
 
 
