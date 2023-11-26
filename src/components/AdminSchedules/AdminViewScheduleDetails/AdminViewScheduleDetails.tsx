@@ -43,9 +43,9 @@ const AdminViewScheduleDetails: React.FC<AdminViewScheduleDetailsProps> = ({sche
             <br/>
             <IonLabel>Schedule Name: {schedule ? schedule.scheduleName : 'N/A'}</IonLabel>
             <br/>
-            <IonLabel>Start Time: {schedule ? schedule.startTime.toISOString() : 'N/A'}</IonLabel>
+            <IonLabel>Start Time: {schedule ? new Date(schedule.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A'}</IonLabel>
             <br/>
-            <IonLabel>End Time: {schedule ? schedule.endTime.toISOString() : 'N/A'}</IonLabel>
+            <IonLabel>End Time: {schedule ? new Date(schedule.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })    : 'N/A'}</IonLabel>
             <br/>
             <IonButton expand="full" onClick={handleEdit}>
                 Edit
