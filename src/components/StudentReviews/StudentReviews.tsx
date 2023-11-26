@@ -15,19 +15,35 @@ import React, { useRef, useState } from "react";
 import "./StudentReviews.css";
 import { OverlayEventDetail } from "@ionic/react/dist/types/components/react-component-lib/interfaces";
 import ShuttleDropDown from "../ShuttleDropDown/ShuttleDropDownForm";
+import { Reviews } from "../../models/Reviews";
+import { ReviewHandler } from "../../Data/ReviewHandler";
+import { UserDataHandler } from "../../Data/UserDataHandler";
 
 const StudentReviews: React.FC = () => {
   const modal = useRef<HTMLIonModalElement>(null);
   const input = useRef<HTMLIonInputElement>(null);
   const [rating, setRating] = useState(0);
   const [description, setDescription] = useState<string|null>();
-
+  const [selectedShuttle, setSelectedShuttle] = useState<number|null>();
+  const reviewdataHandler = ReviewHandler.getInstance();
+  const userdataHandler = UserDataHandler.getInstance();
   const handleStarClick = (starValue: number) => {
     setRating(starValue);
     console.log(`User selected ${starValue} stars`);
   };
 
   function confirm() {
+    if(description&&selectedShuttle){
+      const newReview:Reviews = {
+        description:description,
+        reviewId: reviewdataHandler.generateReviewID(),
+        shuttle : selectedShuttle,
+        stars:rating,
+        username:userdataHandler.getLoggedUser()!!
+       }
+       reviewdataHandler.addReviewsToDatabse(newReview);
+    }
+   
     modal.current?.dismiss(input.current?.value, "confirm");
   }
 
@@ -76,11 +92,13 @@ const StudentReviews: React.FC = () => {
               <input
                 className={`star star-${starValue}`}
                 id={`star-${starValue}`}
+                
                 type="radio"
                 name="star"
                 onClick={() => handleStarClick(starValue)}
               />
               <label
+              
                 className={`star star-${starValue}`}
                 htmlFor={`star-${starValue}`}
               />
@@ -90,9 +108,7 @@ const StudentReviews: React.FC = () => {
 
 <div className="ion-padding">
         <ShuttleDropDown
-          onShuttleSelect={function (shuttleID: number): void {
-            throw new Error("Function not implemented.");
-          }}
+          onShuttleSelect={setSelectedShuttle}
         />
 
         <IonItem>

@@ -1,5 +1,5 @@
 import { IonButton, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ReviewHandler } from '../../Data/ReviewHandler';
 import { Reviews } from '../../models/Reviews';
 
@@ -8,6 +8,15 @@ const ReviewForms: React.FC = () => {
   const [reviews, setReviews] = useState<Reviews[]>([]);
 
   const reviewHandler = ReviewHandler.getInstance(); 
+
+  useEffect(() => {
+
+    const fetchReviews= async () => {
+      const foundReviews = await reviewHandler.getReviewByUsername(searchUsername);
+    setReviews(foundReviews);
+  }
+  fetchReviews();
+  },[])
 
   const handleSearch = async () => {
     try {

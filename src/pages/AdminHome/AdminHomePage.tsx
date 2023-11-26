@@ -27,6 +27,7 @@ const AdminHomePage: React.FC = () => {
                     <p>Bookings x Date </p>
                     <BookingGraphComponent />
                     <br />
+                    <p>Estimated travel time for diver </p>
                     
                 </IonContent>
             </IonPage>
