@@ -10,8 +10,14 @@ import {
 import React from "react";
 import DriverBookingList from "../../../components/DriverBookingList/DriverBookingList";
 import DriverSettings from "../../../components/DriverSettings/DriverSettings";
+import { UserDataHandler } from "../../../Data/UserDataHandler";
+import { Redirect } from "react-router";
 
 const DriverBookingListPage: React.FC = () => {
+    const userdataHandler = UserDataHandler.getInstance();
+  if (userdataHandler.getLoggedRole() !== "driver") {
+    return <Redirect to="/" />;
+  }
   return (
     <>
       <IonPage id="main-Drivercontent">
