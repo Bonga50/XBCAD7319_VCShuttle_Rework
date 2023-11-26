@@ -57,20 +57,34 @@ var MapNavigation = function (_a) {
     var mapContainer = react_1.useRef(null);
     var map = react_1.useRef(null);
     react_1.useEffect(function () {
-        map.current = new mapbox_gl_1["default"].Map({
-            container: mapContainer.current,
-            style: "mapbox://styles/mapbox/streets-v11",
-            center: [28.047038, -26.093444],
-            zoom: 15
-        });
-        // Add a 'load' event listener to resize the map once it's loaded
-        map.current.on("load", function () {
-            map.current.resize();
-        });
-        // Add a 'resize' event listener to resize the map once it's loaded
-        map.current.on("resize", function () {
-            map.current.resize();
-        });
+        if (mapContainer.current) {
+            map.current = new mapbox_gl_1["default"].Map({
+                container: mapContainer.current,
+                style: "mapbox://styles/mapbox/streets-v11",
+                center: [28.047038, -26.093444],
+                zoom: 15
+            });
+            if (map.current) {
+                // Add a 'load' event listener to resize the map once it's loaded
+                map.current.on("load", function () {
+                    if (map.current) {
+                        map.current.resize();
+                    }
+                });
+                // Add a 'resize' event listener to resize the map once it's loaded
+                map.current.on("resize", function () {
+                    if (map.current) {
+                        map.current.resize();
+                    }
+                });
+            }
+            else {
+                console.error("Failed to initialize map: map.current is null");
+            }
+        }
+        else {
+            console.error("Failed to initialize map: mapContainer.current is null");
+        }
     }, []);
     react_1.useEffect(function () {
         var fetchRoute = function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -90,7 +104,9 @@ var MapNavigation = function (_a) {
             });
         }); };
         fetchRoute();
-        map.current.resize();
+        if (map.current) {
+            map.current.resize();
+        }
     }, [endLocation]);
     var route = null;
     var _b = react_1.useState(-70.9), lng = _b[0], setLng = _b[1]; // Set your initial longitude
@@ -116,38 +132,42 @@ var MapNavigation = function (_a) {
                                 // If a route was found
                                 if (route) {
                                     // If a route is currently displayed on the map, remove it
-                                    map.current.removeLayer("route");
-                                    map.current.removeSource("route");
+                                    if (map.current) {
+                                        map.current.removeLayer("route");
+                                        map.current.removeSource("route");
+                                    }
                                 }
                                 // Add a new layer to the map for the route
-                                map.current.addLayer({
-                                    id: "route",
-                                    type: "line",
-                                    source: {
-                                        type: "geojson",
-                                        data: {
-                                            type: "Feature",
-                                            properties: {},
-                                            geometry: data.routes[0].geometry
+                                if (map.current) {
+                                    map.current.addLayer({
+                                        id: "route",
+                                        type: "line",
+                                        source: {
+                                            type: "geojson",
+                                            data: {
+                                                type: "Feature",
+                                                properties: {},
+                                                geometry: data.routes[0].geometry
+                                            }
+                                        },
+                                        layout: {
+                                            "line-join": "round",
+                                            "line-cap": "round"
+                                        },
+                                        paint: {
+                                            "line-color": "#888",
+                                            "line-width": 8
                                         }
-                                    },
-                                    layout: {
-                                        "line-join": "round",
-                                        "line-cap": "round"
-                                    },
-                                    paint: {
-                                        "line-color": "#888",
-                                        "line-width": 8
-                                    }
-                                });
-                                // Add a marker at the start location
-                                new mapbox_gl_1["default"].Marker()
-                                    .setLngLat([start.lng, start.lat])
-                                    .addTo(map.current);
-                                // Add a red marker at the end location
-                                new mapbox_gl_1["default"].Marker({ color: "red" })
-                                    .setLngLat([end.longitude, end.latitude])
-                                    .addTo(map.current);
+                                    });
+                                    // Add a marker at the start location
+                                    new mapbox_gl_1["default"].Marker()
+                                        .setLngLat([start.lng, start.lat])
+                                        .addTo(map.current);
+                                    // Add a red marker at the end location
+                                    new mapbox_gl_1["default"].Marker({ color: "red" })
+                                        .setLngLat([end.longitude, end.latitude])
+                                        .addTo(map.current);
+                                }
                             }
                             else {
                                 console.error("No route found", data);

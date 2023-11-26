@@ -45,6 +45,7 @@ const LocationDetails: React.FC<ViewLocationDetailsProps> = ({
 
         mapdataHandler.setTravelEndLocation(location!!);
         history.push('/MapNavigation');
+        modal.current?.dismiss(input.current?.value, 'confirm');
         
     };
 

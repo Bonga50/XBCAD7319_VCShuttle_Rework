@@ -35,29 +35,43 @@ const MapNavigation: React.FC<ContainerProps> = ({ endLocation }) => {
     return navigator.geolocation.watchPosition(callback);
   }
 
-  const mapContainer = useRef(null);
-  const map = useRef(null);
+  const mapContainer = useRef<HTMLDivElement | null>(null);
+  const map = useRef<mapboxgl.Map | null>(null);
 
   useEffect(() => {
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/mapbox/streets-v11",
-      center: [28.047038, -26.093444],
-      zoom: 15
-    });
-    // Add a 'load' event listener to resize the map once it's loaded
-    map.current.on("load", () => {
-      map.current.resize();
-    });
-    // Add a 'resize' event listener to resize the map once it's loaded
-    map.current.on("resize", () => {
-      map.current.resize();
-    });
+    if (mapContainer.current ) {
+      map.current = new mapboxgl.Map({
+        container: mapContainer.current,
+        style: "mapbox://styles/mapbox/streets-v11",
+        center: [28.047038, -26.093444],
+        zoom: 15
+      });
+
+      if (map.current) {
+        // Add a 'load' event listener to resize the map once it's loaded
+        map.current.on("load", () => {
+          if (map.current) {
+          map.current.resize();
+          }
+        });
+      
+        // Add a 'resize' event listener to resize the map once it's loaded
+        map.current.on("resize", () => {
+          if (map.current) {
+            map.current.resize();
+            }
+        });
+      } else {
+        console.error("Failed to initialize map: map.current is null");
+      }
+    } else {
+      console.error("Failed to initialize map: mapContainer.current is null");
+    }
   }, []);
 
   useEffect(() => {
     const fetchRoute = async () => {
-      const position = await getCurrentLocation();
+      const position = await getCurrentLocation() as GeolocationPosition;
       const startLocation = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
@@ -66,7 +80,9 @@ const MapNavigation: React.FC<ContainerProps> = ({ endLocation }) => {
     };
 
     fetchRoute();
-    map.current.resize();
+    if (map.current) {
+      map.current.resize();
+      }
   }, [endLocation]);
 
   var route: any = null;
@@ -91,11 +107,14 @@ const MapNavigation: React.FC<ContainerProps> = ({ endLocation }) => {
           // If a route was found
           if (route) {
             // If a route is currently displayed on the map, remove it
+            if (map.current) {
             map.current.removeLayer("route");
             map.current.removeSource("route");
+            }
           }
 
           // Add a new layer to the map for the route
+          if (map.current) {
           map.current.addLayer({
             id: "route",
             type: "line",
@@ -116,6 +135,7 @@ const MapNavigation: React.FC<ContainerProps> = ({ endLocation }) => {
               "line-width": 8
             }
           });
+        
           // Add a marker at the start location
           new mapboxgl.Marker()
             .setLngLat([start.lng, start.lat])
@@ -124,6 +144,7 @@ const MapNavigation: React.FC<ContainerProps> = ({ endLocation }) => {
           new mapboxgl.Marker({ color: "red" })
             .setLngLat([end.longitude, end.latitude])
             .addTo(map.current);
+        }
         } else {
           console.error("No route found", data);
         }

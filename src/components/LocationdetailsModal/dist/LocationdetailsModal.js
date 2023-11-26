@@ -21,8 +21,10 @@ var LocationDetails = function (_a) {
     }
     var history = react_router_1.useHistory();
     var handleGoToLocations = function () {
+        var _a, _b;
         mapdataHandler.setTravelEndLocation(location);
         history.push('/MapNavigation');
+        (_a = modal.current) === null || _a === void 0 ? void 0 : _a.dismiss((_b = input.current) === null || _b === void 0 ? void 0 : _b.value, 'confirm');
     };
     return (react_2["default"].createElement("div", null,
         react_2["default"].createElement(react_1.IonModal, { ref: modal, trigger: "open-ShowLocationModal", onWillDismiss: function (ev) { return onWillDismiss(ev); } },
