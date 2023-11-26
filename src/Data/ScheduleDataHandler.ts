@@ -31,7 +31,7 @@ export class ScheduleDataHandler {
   }
 
   getScheduleByID(id: number): Schedule | undefined {
-    return this.schedules.find((schedule) => schedule.scheduleID === id);
+    return this.schedules.find((schedule) => schedule.scheduleID == id);
   }
 
   async getSchedulesFromDatabase(): Promise<void> {
