@@ -2,9 +2,14 @@ import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, Io
 import React from 'react';
 import AdminAddSuttleForm from '../../../components/AdminShuttles/AdminAddShuttleForm/AdminAddSuttleForm';
 import AdminSettingsList from '../../../components/AdminSettingsList/AdminSettingsListComp';
+import { Redirect } from 'react-router';
+import { UserDataHandler } from '../../../Data/UserDataHandler';
 
 const AdminAddShuttleSubPage: React.FC = () => {
-
+    const userdataHandler = UserDataHandler.getInstance();
+    if (userdataHandler.getLoggedRole() !== "admin") {
+      return <Redirect to="/" />;
+    }
     return (
         <>
         <IonPage id="main-content">

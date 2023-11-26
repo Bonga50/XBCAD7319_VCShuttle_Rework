@@ -18,8 +18,13 @@ import { DriverRoute } from "../../models/DriverRoute";
 import { ShuttleDataHandler } from "../../Data/ShuttleDataHandler";
 import { UserDataHandler } from "../../Data/UserDataHandler";
 import { BookDataHandler } from "../../Data/BookDataHandler";
+import { Redirect } from "react-router";
 
 const DriverHomePage: React.FC = () => {
+  const userdataHandler = UserDataHandler.getInstance();
+  if (userdataHandler.getLoggedRole() !== "driver") {
+    return <Redirect to="/" />;
+  }
   const [selectedDriverStatus, setDriverStatus] = useState<string>();
   const [selectedRoute, setSelectedRoute] = useState<DriverRoute | null>(null);
   const [selectedDriverRouteID, setSelectedDriverRouteID] = useState<

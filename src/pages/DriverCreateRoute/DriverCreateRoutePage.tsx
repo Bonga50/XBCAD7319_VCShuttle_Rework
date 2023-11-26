@@ -19,12 +19,16 @@ import { ScheduleDataHandler } from "../../Data/ScheduleDataHandler";
 import { LocationHandler } from "../../Data/LocationHandler";
 import DriverSettings from "../../components/DriverSettings/DriverSettings";
 import { UserDataHandler } from "../../Data/UserDataHandler";
-import { useHistory } from "react-router";
+import { Redirect, useHistory } from "react-router";
 import { BookDataHandler } from "../../Data/BookDataHandler";
 import { MapHandler } from "../../Data/MapHandler";
 import { ShuttleDataHandler } from "../../Data/ShuttleDataHandler";
 
 const DriverCreateRoutePage: React.FC = () => {
+  const userdataHandler = UserDataHandler.getInstance();
+    if (userdataHandler.getLoggedRole() !== "driver") {
+      return <Redirect to="/" />;
+    }
   const [selectedSchedule, setSelectedSchedule] = useState<number | null>(null);
   const [selectedStartLocation, setSelectedStartLocation] = useState<
     number | null

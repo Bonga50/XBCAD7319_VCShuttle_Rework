@@ -45,11 +45,14 @@ const LoginForm: React.FC<ContainerProps> = () => {
                 if(user?.role == "driver"){
                     const shuttleid = shuttledata.getShuttleByDriverID(username!!)
                     shuttledata.setSelectedShuttle(shuttleid?.shuttleID!!)
+                    data.setLoggedRole("driver")
                     console.log(shuttleid?.shuttleID!!)
                     history.push('/DriverHomePage'); // Redirect to admin page
                 }else if(user?.role=="user"){
+                    data.setLoggedRole("user")
                     history.push('/StudentHome');
                 }else if(user?.role=="admin"){
+                    data.setLoggedRole("admin")
                     history.push('/AdminHomePage');
                 }
             }

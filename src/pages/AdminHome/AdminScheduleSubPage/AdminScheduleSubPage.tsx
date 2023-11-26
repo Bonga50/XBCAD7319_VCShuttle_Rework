@@ -2,9 +2,14 @@ import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, Io
 import React from 'react';
 import AdminSettingsList from '../../../components/AdminSettingsList/AdminSettingsListComp';
 import AdminViewScheduleList from '../../../components/AdminSchedules/AdminViewScheduleList/AdminViewScheduleList';
+import { UserDataHandler } from '../../../Data/UserDataHandler';
+import { Redirect } from 'react-router';
 
 const AdminScheduleSubPage: React.FC = () => {
-
+    const userdataHandler = UserDataHandler.getInstance();
+    if (userdataHandler.getLoggedRole() !== "admin") {
+      return <Redirect to="/" />;
+    }
     return (
         <>
         <IonPage id="main-content">

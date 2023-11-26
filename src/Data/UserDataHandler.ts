@@ -44,6 +44,10 @@ export class UserDataHandler {
   setLogedInUser(username: string) {
     this.loggedInUser = username;
     localStorage.setItem('username', username);
+    
+  }
+  setLoggedRole(role:string){
+    localStorage.setItem('role', role);
   }
   
   public logOutUser(): void {
@@ -74,5 +78,8 @@ export class UserDataHandler {
   
   getLoggedUser(): string | null {
     return localStorage.getItem('username');
+  }
+  getLoggedRole(): string | null {
+    return localStorage.getItem('role');
   }
 }

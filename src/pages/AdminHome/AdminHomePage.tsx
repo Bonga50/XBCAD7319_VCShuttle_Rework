@@ -25,8 +25,13 @@ import AdminBookingSubPage from "./AdminBookingSubPage/AdminBookingSubPage";
 import { MapHandler } from "../../Data/MapHandler";
 import { LocationHandler } from "../../Data/LocationHandler";
 import SessionsGraph from "../../components/SessionsGraph/SessionsGraph";
+import { UserDataHandler } from "../../Data/UserDataHandler";
 
 const AdminHomePage: React.FC = () => {
+  const userdataHandler = UserDataHandler.getInstance();
+  if (userdataHandler.getLoggedRole() !== "admin") {
+    return <Redirect to="/" />;
+  }
   const [travelTimes, setTravelTimes] = useState<Map<string, number>>(
     new Map()
   );

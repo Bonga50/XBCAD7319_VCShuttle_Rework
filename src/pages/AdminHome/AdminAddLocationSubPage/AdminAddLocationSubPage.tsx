@@ -3,9 +3,14 @@ import React from 'react';
 import AdminSettingsList from '../../../components/AdminSettingsList/AdminSettingsListComp';
 import AdminLocationList from '../../../components/AdminLocations/AdminLocationList/AdminLocationList';
 import AdminAddLocation from '../../../components/AdminLocations/AdminAddLocation/AdminAddLocation';
+import { Redirect } from 'react-router';
+import { UserDataHandler } from '../../../Data/UserDataHandler';
 
 const AdminAddLocationSubPage: React.FC = () => {
-
+    const userdataHandler = UserDataHandler.getInstance();
+    if (userdataHandler.getLoggedRole() !== "admin") {
+      return <Redirect to="/" />;
+    }
     return (
         <>
             <IonPage id="main-content">
