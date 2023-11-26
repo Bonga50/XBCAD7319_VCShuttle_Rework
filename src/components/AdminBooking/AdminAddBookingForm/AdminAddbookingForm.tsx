@@ -61,7 +61,7 @@ const AdminAddBookingForm: React.FC = () => {
       <form onSubmit={handleSubmit}>
         <div className="ion-padding">
           <IonSearchbar className="ion-padding"></IonSearchbar>
-          <IonLabel>Student Numbe/email :</IonLabel>
+          <IonLabel>Student ID/email :</IonLabel>
           <IonInput 
             className='ion-padding'
             value={studentNumber}
